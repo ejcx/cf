@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	Default = &CredProvider{}
+	DefaultCredentialProvider = &CredProvider{}
 )
 
 type CredProvider struct {
