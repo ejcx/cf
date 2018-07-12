@@ -47,7 +47,6 @@ func (c *CredProvider) ConfigureEnvironment() error {
 	if keyOk || emailOk {
 		return nil
 	}
-
 	homedir := c.HomeDir
 
 	// Otherwise, we need to read the ~/.cf/credentials file in the users
