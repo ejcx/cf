@@ -22,7 +22,8 @@ func init() {
 }
 `
 
-	varTemplate = `{{ range .}}{{ .Name }} {{ .Type }}{{ end }}`
+	varTemplate = `{{ range .}}{{ .Name }} {{ .Type }}
+{{ end }}`
 
 	cmdTemplate = `var {{.VariableName}} = &cobra.Command{
   Use:   "{{- .Name -}}",
@@ -33,13 +34,20 @@ func init() {
   },{{ end}}
 }
 {{- $varName := .VariableName }}
-{{range .Subcommands}}{{$varName}}.AddCommand({{.}}){{end}}
-{{ if .TopLevel }}RootCmd.AddCommand({{.VariableName}}){{ end }}
+{{range .Subcommands}}{{$varName}}.AddCommand({{.}})
+{{end}}
+{{ if .TopLevel }}RootCmd.AddCommand({{.VariableName}})
+{{ end }}
 {{range .Option}}
   {{$varName}}.Flags().{{.TypeCap}}Var(&{{.ArgName}}, "{{.Name}}", {{.Default}}, "{{.Description}}")
-  {{if .Required}}{{$varName}}.MarkFlagRequired("{{.Name}}"){{end}}
+  {{if .Required}}{{$varName}}.MarkFlagRequired("{{.Name}}")
+{{end}}
 {{end}}
 `
+)
+
+var (
+	declaredVariables = make(map[string]bool)
 )
 
 type Option struct {
@@ -107,6 +115,8 @@ func (o Option) ToOptionTemplateValue() OptionTemplateValue {
 	defaultType := "\"\""
 	if o.Type == "int" {
 		defaultType = "0"
+	} else if o.Type == "bool" {
+		defaultType = "false"
 	}
 	return OptionTemplateValue{
 		TypeCap:     hyphenDelimToCamel(o.Type),
@@ -127,10 +137,14 @@ func (c *Command) ToVariables() (string, error) {
 	// We need to do a pass to convert the variable names from cmd flags
 	// to Go variable names.
 	for _, opt := range c.Option {
+		if _, ok := declaredVariables[opt.Name]; ok {
+			continue
+		}
 		options = append(options, Option{
 			Name: hyphenDelimToCamel(opt.Name),
 			Type: opt.Type,
 		})
+		declaredVariables[opt.Name] = true
 	}
 
 	tmpl, err := template.New("option").Parse(varTemplate)

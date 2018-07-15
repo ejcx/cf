@@ -4,9 +4,22 @@
   This is a meaty description of the zone api."""
   subcommands = [
     "list-zones",
+    "delete-zone",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
+
+[[command]]
+  name = "dns"
+  description = """
+  This is a meaty description of the dns api."""
+  subcommands = [
+    "list-dns-records",
+    "create-dns-record",
+    "delete-dns-record",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with dns records"
 
 [[command]]
   name = "list-zones"
@@ -19,3 +32,100 @@
   type = "string"
   description = "string for filtering by name"
   required = false
+
+[[command]]
+  name = "list-dns-records"
+  description = """
+  List DNS Records associated with a given zone-id"""
+  shortdescription = "Command for listing dns-records"
+  v4apiname = "DNSRecords"
+
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "zone id used for filtering"
+  required = true
+
+  [[command.option]]
+  name = "type"
+  type = "string"
+  description = "DNS Record type used for filter"
+  required = false
+
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "DNS Record name used for filter"
+  required = false
+
+  [[command.option]]
+  name = "content"
+  type = "string"
+  description = "DNS Record content used for filter"
+  required = false
+
+[[command]]
+  name = "create-dns-record"
+  description = """Create DNS record associated with a given zone."""
+  shortdescription = "Command DNS Record"
+  v4apiname = "CreateDNSRecord"
+
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* zone id associated with the new dns record"
+  required = true
+
+  [[command.option]]
+  name = "type"
+  type = "string"
+  description = "*Required:* valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only"
+  required = true
+
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "*Required:* DNS Record name (example: example.com), max length: 255"
+  required = true
+
+  [[command.option]]
+  name = "content"
+  type = "string"
+  description = "*Required:* DNS Record content used for filter"
+  required = true
+
+  [[command.option]]
+  name = "ttl"
+  type = "int"
+  description = "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647"
+  required = false
+
+[[command]]
+  name = "delete-dns-record"
+  description = """Delete DNS record associated with a given zone."""
+  shortdescription = "Delete DNS Record"
+  v4apiname = "DeleteDNSRecord"
+
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* zone id associated with the record you wish to delete"
+  required = true
+
+  [[command.option]]
+  name = "recordID"
+  type = "string"
+  description = "*Required:* record id associated with the dns record you wish to delete"
+  required = true
+
+[[command]]
+  name = "delete-zone"
+  description = """Delete a zone associated with your account."""
+  shortdescription = "Delete zone"
+  v4apiname = "DeleteZone"
+
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* zone id that will be deleted"
+  required = true

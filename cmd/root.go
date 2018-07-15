@@ -62,6 +62,42 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		} else {
 			resp, err = api.ListZones()
 		}
+	case "DNSRecords":
+		rec := cloudflare.DNSRecord{}
+		if Type != "" {
+			rec.Type = Type
+		}
+		if Name != "" {
+			rec.Name = Name
+		}
+		if Content != "" {
+			rec.Content = Content
+		}
+		resp, err = api.DNSRecords(ZoneID, rec)
+	case "CreateDNSRecord":
+		rec := cloudflare.DNSRecord{}
+		if Type != "" {
+			rec.Type = Type
+		}
+		if Name != "" {
+			rec.Name = Name
+		}
+		if Content != "" {
+			rec.Content = Content
+		}
+		if Ttl != 0 {
+			rec.TTL = Ttl
+		}
+		resp, err = api.CreateDNSRecord(ZoneID, rec)
+	case "DeleteDNSRecord":
+		err = api.DeleteDNSRecord(ZoneID, RecordID)
+		if err == nil {
+			resp = map[string]interface{}{
+				"Success": true,
+			}
+		}
+	case "DeleteZone":
+		resp, err = api.DeleteZone(ZoneID)
 	default:
 		break
 	}
