@@ -1,6 +1,7 @@
 package definitions
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -35,4 +36,16 @@ func TestRunTemplate(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Could not convert command to golang: %s", err)
 	}
+}
+
+func TestRunVarTemplate(t *testing.T) {
+	cmds, err := LoadDefinitions("definitions.toml")
+	if err != nil {
+		t.Fatalf("Could not load configuration file: %s", err)
+	}
+	s, err := cmds[1].ToVariables()
+	if err != nil {
+		t.Fatalf("Could not convert command to golang: %s", err)
+	}
+	fmt.Println(s)
 }

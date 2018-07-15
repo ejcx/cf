@@ -28,7 +28,7 @@ func Execute() {
 	}
 }
 
-func Main(cmd *cobra.Command, args []string) {
+func Main(cmd *cobra.Command, args []string, name string) {
 	err := lib.DefaultCredentialProvider.ConfigureEnvironment()
 	if err != nil {
 		log.Fatalf("No set of credentials to use: %s", err)
@@ -39,7 +39,7 @@ func Main(cmd *cobra.Command, args []string) {
 		log.Fatal("Could not initialize api object: %s", err)
 	}
 
-	r, err := root(cmd, args, api)
+	r, err := root(cmd, args, name, api)
 	if err != nil {
 		log.Fatal("Could not make cloudflare request: %s", err)
 	}
@@ -50,10 +50,20 @@ func Main(cmd *cobra.Command, args []string) {
 	fmt.Println(string(buf))
 }
 
-func root(cmd *cobra.Command, args []string, api *cloudflare.API) (interface{}, error) {
+func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (interface{}, error) {
 	var (
 		resp interface{}
 		err  error
 	)
+	switch name {
+	case "ListZones":
+		if ZoneNameFilter != "" {
+			resp, err = api.ListZones(ZoneNameFilter)
+		} else {
+			resp, err = api.ListZones()
+		}
+	default:
+		break
+	}
 	return resp, err
 }

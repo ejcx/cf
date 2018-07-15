@@ -1,15 +1,21 @@
 [[command]]
-name = "zone"
-description = """
-This is a meaty description of the zone api."""
-subcommands = [
-  "list-zones",
-]
-toplevel = true
-shortdescription = "Commands for interacting with zones"
+  name = "zone"
+  description = """
+  This is a meaty description of the zone api."""
+  subcommands = [
+    "list-zones",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with zones"
 
 [[command]]
-name = "list-zones"
-description = """
-This is a meaty description of the list-zones"""
-shortdescription = "Command for listing zones"
+  name = "list-zones"
+  description = """
+  This is a meaty description of the list-zones"""
+  shortdescription = "Command for listing zones"
+  v4apiname = "ListZones"
+  [[command.option]]
+  name = "zone-name-filter"
+  type = "string"
+  description = "string for filtering by name"
+  required = false

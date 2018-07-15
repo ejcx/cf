@@ -13,32 +13,59 @@ const (
 	goTemplate = `
 package cmd
 
+var (
+{{ .Variables }}
+)
+
 func init() {
 {{ .Commands }}
 }
 `
+
+	varTemplate = `{{ range .}}{{ .Name }} {{ .Type }}{{ end }}`
+
 	cmdTemplate = `var {{.VariableName}} = &cobra.Command{
   Use:   "{{- .Name -}}",
   Short: "{{- .ShortDescription -}}",
   Long: ` + "`" + `{{- .Description -}}` + "`" + `,
 {{ if .V4APIName}}Run: func(cmd *cobra.Command, args []string) {
-    Main(cmd, "{{- .V4APIName}}")
+    Main(cmd, args, "{{- .V4APIName}}")
   },{{ end}}
 }
 {{- $varName := .VariableName }}
 {{range .Subcommands}}{{$varName}}.AddCommand({{.}}){{end}}
 {{ if .TopLevel }}RootCmd.AddCommand({{.VariableName}}){{ end }}
+{{range .Option}}
+  {{$varName}}.Flags().{{.TypeCap}}Var(&{{.ArgName}}, "{{.Name}}", {{.Default}}, "{{.Description}}")
+  {{if .Required}}{{$varName}}.MarkFlagRequired("{{.Name}}"){{end}}
+{{end}}
 `
 )
+
+type Option struct {
+	Name        string
+	Type        string
+	Description string
+	Required    bool
+}
+
+type OptionTemplateValue struct {
+	TypeCap     string
+	ArgName     string
+	Name        string
+	Default     string
+	Description string
+	Required    bool
+}
 
 type Command struct {
 	Name             string
 	Description      string
 	ShortDescription string
 	V4APIName        string
-	// Options          map[string]string
-	Subcommands []string
-	TopLevel    bool
+	Option           []Option
+	Subcommands      []string
+	TopLevel         bool
 }
 
 type CommandTemplateValues struct {
@@ -47,16 +74,18 @@ type CommandTemplateValues struct {
 	V4APIName        string
 	Description      string
 	ShortDescription string
+	Option           []OptionTemplateValue
 
 	Subcommands []string
 	TopLevel    bool
 }
 
 type FileTemplateValues struct {
-	Commands string
+	Commands  string
+	Variables string
 }
 
-func fileText(commands string) (string, error) {
+func fileText(commands, variables string) (string, error) {
 	var (
 		buff bytes.Buffer
 	)
@@ -65,7 +94,8 @@ func fileText(commands string) (string, error) {
 		return "", err
 	}
 	err = tmpl.Execute(&buff, &FileTemplateValues{
-		Commands: commands,
+		Commands:  commands,
+		Variables: variables,
 	})
 	if err != nil {
 		return "", err
@@ -73,6 +103,46 @@ func fileText(commands string) (string, error) {
 	return buff.String(), nil
 }
 
+func (o Option) ToOptionTemplateValue() OptionTemplateValue {
+	defaultType := "\"\""
+	if o.Type == "int" {
+		defaultType = "0"
+	}
+	return OptionTemplateValue{
+		TypeCap:     hyphenDelimToCamel(o.Type),
+		ArgName:     hyphenDelimToCamel(o.Name),
+		Name:        o.Name,
+		Default:     defaultType,
+		Description: o.Description,
+		Required:    o.Required,
+	}
+}
+
+func (c *Command) ToVariables() (string, error) {
+	var (
+		buff    bytes.Buffer
+		options []Option
+	)
+
+	// We need to do a pass to convert the variable names from cmd flags
+	// to Go variable names.
+	for _, opt := range c.Option {
+		options = append(options, Option{
+			Name: hyphenDelimToCamel(opt.Name),
+			Type: opt.Type,
+		})
+	}
+
+	tmpl, err := template.New("option").Parse(varTemplate)
+	if err != nil {
+		return "", err
+	}
+	err = tmpl.Execute(&buff, options)
+	if err != nil {
+		return "", err
+	}
+	return buff.String(), nil
+}
 func (c *Command) ToGo() (string, error) {
 	var (
 		buff               bytes.Buffer
@@ -80,6 +150,12 @@ func (c *Command) ToGo() (string, error) {
 	)
 	for _, subcmd := range c.Subcommands {
 		subcommandVarNames = append(subcommandVarNames, hyphenDelimToCamel(subcmd))
+	}
+
+	// Convert the options to OptionTemplateValues
+	var optionTemplateValueList []OptionTemplateValue
+	for _, opt := range c.Option {
+		optionTemplateValueList = append(optionTemplateValueList, opt.ToOptionTemplateValue())
 	}
 
 	tmpl, err := template.New("command").Parse(cmdTemplate)
@@ -94,6 +170,7 @@ func (c *Command) ToGo() (string, error) {
 		V4APIName:        c.V4APIName,
 		ShortDescription: c.ShortDescription,
 		Description:      c.Description,
+		Option:           optionTemplateValueList,
 	})
 	if err != nil {
 		return "", err
@@ -103,14 +180,6 @@ func (c *Command) ToGo() (string, error) {
 
 func LoadDefinitions(fname string) ([]*Command, error) {
 	c := map[string][]*Command{}
-	// buf, err := ioutil.ReadFile(fname)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// err = hcl.Decode(&c, string(buf))
-	// if err != nil {
-	// 	return nil, err
-	// }
 	_, err := toml.DecodeFile(fname, &c)
 	if err != nil {
 		return nil, err
@@ -120,9 +189,6 @@ func LoadDefinitions(fname string) ([]*Command, error) {
 
 func hyphenDelimToCamel(s string) string {
 	parts := strings.Split(s, "-")
-	if len(parts) == 1 {
-		return s
-	}
 
 	// Capitalize the first letter of each part and return the
 	// concatenation of them.
@@ -138,6 +204,7 @@ func GenerateFile(fname string, outfile string) error {
 		return err
 	}
 	commandsGo := ""
+	variablesGo := ""
 	// Do two passes. First we want to generate all code that is
 	// not a top level command. Next we want to generate all top
 	// level commands. This is because of the variable ordering
@@ -151,7 +218,15 @@ func GenerateFile(fname string, outfile string) error {
 			commandsGo += s
 		}
 	}
+
+	// While we do this second pass, create all the variables while
+	// we are also creating all of the commands.
 	for _, cmd := range cmds {
+		v, err := cmd.ToVariables()
+		if err != nil {
+			return err
+		}
+		variablesGo += v
 		if cmd.TopLevel {
 			s, err := cmd.ToGo()
 			if err != nil {
@@ -161,7 +236,7 @@ func GenerateFile(fname string, outfile string) error {
 		}
 	}
 
-	t, err := fileText(commandsGo)
+	t, err := fileText(commandsGo, variablesGo)
 	if err != nil {
 		return err
 	}
