@@ -1,12 +1,11 @@
 package definitions
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestLoadConfiguration(t *testing.T) {
-	cmds, err := LoadDefinitions("definitions.hcl")
+	cmds, err := LoadDefinitions("definitions.toml")
 	if err != nil {
 		t.Fatalf("Could not load configuration file: %s", err)
 	}
@@ -24,18 +23,16 @@ func TestHyphenToCamel(t *testing.T) {
 }
 
 func TestRunTemplate(t *testing.T) {
-	cmds, err := LoadDefinitions()
+	cmds, err := LoadDefinitions("definitions.toml")
 	if err != nil {
 		t.Fatalf("Could not load configuration file: %s", err)
 	}
-	s, err := cmds[1].ToGo()
+	_, err = cmds[1].ToGo()
 	if err != nil {
 		t.Fatalf("Could not convert command to golang: %s", err)
 	}
-	fmt.Println(s)
-	s, err = cmds[0].ToGo()
+	_, err = cmds[0].ToGo()
 	if err != nil {
 		t.Fatalf("Could not convert command to golang: %s", err)
 	}
-	fmt.Println(s)
 }

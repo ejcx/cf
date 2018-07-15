@@ -49,3 +49,11 @@ func Main(cmd *cobra.Command, args []string) {
 	}
 	fmt.Println(string(buf))
 }
+
+func root(cmd *cobra.Command, args []string, api *cloudflare.API) (interface{}, error) {
+	var (
+		resp interface{}
+		err  error
+	)
+	return resp, err
+}

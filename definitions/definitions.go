@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/hashicorp/hcl"
+	"github.com/BurntSushi/toml"
 )
 
 const (
@@ -16,25 +16,13 @@ package cmd
 func init() {
 {{ .Commands }}
 }
-
-func root(c *cobra.Command, cmd string) {
-
-{{ .MegaSwitch }} 
-}
-`
-	switchTemplate = `switch cmd:
-{{ range .SwitchStatements }} 
-case "{{.CommandName}}":
-  api.{{.CommandName}}
-
-
 `
 	cmdTemplate = `var {{.VariableName}} = &cobra.Command{
   Use:   "{{- .Name -}}",
   Short: "{{- .ShortDescription -}}",
   Long: ` + "`" + `{{- .Description -}}` + "`" + `,
 {{ if .V4APIName}}Run: func(cmd *cobra.Command, args []string) {
-    root(cmd, "{{- .V4APIName}}")
+    Main(cmd, "{{- .V4APIName}}")
   },{{ end}}
 }
 {{- $varName := .VariableName }}
@@ -48,9 +36,9 @@ type Command struct {
 	Description      string
 	ShortDescription string
 	V4APIName        string
-	Options          map[string]string
-	Subcommands      []string
-	TopLevel         bool
+	// Options          map[string]string
+	Subcommands []string
+	TopLevel    bool
 }
 
 type CommandTemplateValues struct {
@@ -65,11 +53,10 @@ type CommandTemplateValues struct {
 }
 
 type FileTemplateValues struct {
-	Commands   string
-	MegaSwitch string
+	Commands string
 }
 
-func fileText(commands, switches string) (string, error) {
+func fileText(commands string) (string, error) {
 	var (
 		buff bytes.Buffer
 	)
@@ -78,8 +65,7 @@ func fileText(commands, switches string) (string, error) {
 		return "", err
 	}
 	err = tmpl.Execute(&buff, &FileTemplateValues{
-		Commands:   commands,
-		MegaSwitch: switches,
+		Commands: commands,
 	})
 	if err != nil {
 		return "", err
@@ -116,16 +102,20 @@ func (c *Command) ToGo() (string, error) {
 }
 
 func LoadDefinitions(fname string) ([]*Command, error) {
-	c := []*Command{}
-	buf, err := ioutil.ReadFile(fname)
+	c := map[string][]*Command{}
+	// buf, err := ioutil.ReadFile(fname)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// err = hcl.Decode(&c, string(buf))
+	// if err != nil {
+	// 	return nil, err
+	// }
+	_, err := toml.DecodeFile(fname, &c)
 	if err != nil {
 		return nil, err
 	}
-	err = hcl.Decode(&c, string(buf))
-	if err != nil {
-		return nil, err
-	}
-	return c, nil
+	return c["command"], nil
 }
 
 func hyphenDelimToCamel(s string) string {
@@ -171,7 +161,7 @@ func GenerateFile(fname string, outfile string) error {
 		}
 	}
 
-	t, err := fileText(commandsGo, "")
+	t, err := fileText(commandsGo)
 	if err != nil {
 		return err
 	}
