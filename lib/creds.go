@@ -63,6 +63,6 @@ func (c *CredProvider) ConfigureEnvironment() error {
 		return err
 	}
 	os.Setenv("CF_API_KEY", creds.Key)
-	os.Setenv("CF_EMAIL_KEY", creds.Email)
+	os.Setenv("CF_API_EMAIL", creds.Email)
 	return nil
 }
