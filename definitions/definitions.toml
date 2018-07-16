@@ -8,6 +8,7 @@
     "create-zone",
     "edit-zone-paused",
     "edit-zone-vanity-ns",
+    "list-available-rate-plans",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -54,6 +55,7 @@
   Commands for the management and description of railguns"""
   subcommands = [
     "list-railguns",
+    "connect-zone-railgun",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with th erailgun api"
@@ -522,3 +524,30 @@
   description = """Returns all Virtual DNS clusters associated with an account"""
   shortdescription = "List Virtual DNS clusters"
   v4apiname = "ListVirtualDns"
+
+[[command]]
+  name = "list-available-rate-plans"
+  description = """List all rate plans the zone can subscribe to."""
+  shortdescription = "List all available zone rate plans"
+  v4apiname = "AvailableZoneRatePlans"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zone ID associated with the rate plans"
+  required = true
+
+[[command]]
+  name = "connect-zone-railgun"
+  description = """Connect or disconnect a Railgun"""
+  shortdescription = "Connect or disconnect a Railgun"
+  v4apiname = "ConnectZoneRailgun"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zone ID to be associated with the railgun"
+  required = true
+  [[command.option]]
+  name = "railgunID"
+  type = "string"
+  description = "The railgun ID to be associated with the zone"
+  required = true

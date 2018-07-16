@@ -20,6 +20,7 @@ var (
 	Proxied        bool
 	Notes          string
 	Mode           string
+	RailgunID      string
 )
 
 func init() {
@@ -373,6 +374,33 @@ func init() {
 		},
 	}
 
+	var ListAvailableRatePlans = &cobra.Command{
+		Use:   "list-available-rate-plans",
+		Short: "List all available zone rate plans",
+		Long:  `List all rate plans the zone can subscribe to.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "AvailableZoneRatePlans")
+		},
+	}
+
+	ListAvailableRatePlans.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the rate plans")
+	ListAvailableRatePlans.MarkFlagRequired("zoneID")
+
+	var ConnectZoneRailgun = &cobra.Command{
+		Use:   "connect-zone-railgun",
+		Short: "Connect or disconnect a Railgun",
+		Long:  `Connect or disconnect a Railgun`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ConnectZoneRailgun")
+		},
+	}
+
+	ConnectZoneRailgun.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID to be associated with the railgun")
+	ConnectZoneRailgun.MarkFlagRequired("zoneID")
+
+	ConnectZoneRailgun.Flags().StringVar(&RailgunID, "railgunID", "", "The railgun ID to be associated with the zone")
+	ConnectZoneRailgun.MarkFlagRequired("railgunID")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -383,6 +411,7 @@ func init() {
 	Zone.AddCommand(CreateZone)
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
+	Zone.AddCommand(ListAvailableRatePlans)
 
 	RootCmd.AddCommand(Zone)
 
@@ -424,6 +453,7 @@ func init() {
 		Long:  `  Commands for the management and description of railguns`,
 	}
 	Railgun.AddCommand(ListRailguns)
+	Railgun.AddCommand(ConnectZoneRailgun)
 
 	RootCmd.AddCommand(Railgun)
 
