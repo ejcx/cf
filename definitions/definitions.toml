@@ -66,6 +66,8 @@
   This is a meaty description of the organizaiton api."""
   subcommands = [
     "list-organizations",
+    "list-organization-access-rules",
+
   ]
   toplevel = true
   shortdescription = "Commands for interacting with organizations api"
@@ -439,3 +441,29 @@
   description = """Returns all LoadBalancer Pools. Not specific to a zone"""
   shortdescription = "Show LoadBalancer Pools"
   v4apiname = "ListLoadBalancerPools"
+
+[[command]]
+  name = "list-organization-access-rules"
+  description = """Returns all Organizations associated with your account"""
+  shortdescription = "List Organization Access Rules"
+  v4apiname = "ListOrganizationAccessRules"
+  [[command.option]]
+  name = "organizationID"
+  type = "string"
+  description = "*Required* The Organization ID"
+  required = true
+  [[command.option]]
+  name = "notes"
+  type = "string"
+  description = "Matching any string within previously created access rules with the notes"
+  required = false
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "valid values: block, challenge, whitelist, js_challenge"
+  required = false
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "Requested page within paginated list of results"
+  required = false

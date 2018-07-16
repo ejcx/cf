@@ -18,6 +18,8 @@ var (
 	Paused         bool
 	VanityNS       string
 	Proxied        bool
+	Notes          string
+	Mode           string
 )
 
 func init() {
@@ -320,6 +322,24 @@ func init() {
 		},
 	}
 
+	var ListOrganizationAccessRules = &cobra.Command{
+		Use:   "list-organization-access-rules",
+		Short: "List Organization Access Rules",
+		Long:  `Returns all Organizations associated with your account`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListOrganizationAccessRules")
+		},
+	}
+
+	ListOrganizationAccessRules.Flags().StringVar(&OrganizationID, "organizationID", "", "*Required* The Organization ID")
+	ListOrganizationAccessRules.MarkFlagRequired("organizationID")
+
+	ListOrganizationAccessRules.Flags().StringVar(&Notes, "notes", "", "Matching any string within previously created access rules with the notes")
+
+	ListOrganizationAccessRules.Flags().StringVar(&Mode, "mode", "", "valid values: block, challenge, whitelist, js_challenge")
+
+	ListOrganizationAccessRules.Flags().IntVar(&Page, "page", 0, "Requested page within paginated list of results")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -382,6 +402,7 @@ func init() {
 		Long:  `  This is a meaty description of the organizaiton api.`,
 	}
 	Organization.AddCommand(ListOrganizations)
+	Organization.AddCommand(ListOrganizationAccessRules)
 
 	RootCmd.AddCommand(Organization)
 

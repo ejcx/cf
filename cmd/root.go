@@ -127,8 +127,17 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListLoadBalancerMonitors()
 	case "ListLoadBalancerPools":
 		resp, err = api.ListLoadBalancerPools()
-	case "ListOrganizationsBalancers":
+	case "ListOrganizations":
 		resp, _, err = api.ListOrganizations()
+	case "ListOrganizationAccessRules":
+		ar := cloudflare.AccessRule{}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		if Mode != "" {
+			ar.Mode = Mode
+		}
+		resp, err = api.ListOrganizationAccessRules(OrganizationID, ar, Page)
 	case "ListPageRules":
 		resp, err = api.ListPageRules(ZoneID)
 	case "ListCustomCerts":
