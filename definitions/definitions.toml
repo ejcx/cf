@@ -18,6 +18,7 @@
   This is a meaty description of the dns api."""
   subcommands = [
     "list-dns-records",
+    "edit-dns-record",
     "show-dns-record",
     "create-dns-record",
     "delete-dns-record",
@@ -166,6 +167,12 @@
   name = "ttl"
   type = "int"
   description = "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647"
+  required = false
+
+  [[command.option]]
+  name = "not-proxied"
+  type = "bool"
+  description = "Whether the record is receiving the performance and security benefits of Cloudflare"
   required = false
 
   [[command.option]]
@@ -379,3 +386,44 @@
   type = "string"
   required = true
   description = "*Required:* Comma delimited list of vanity nameservers"
+
+[[command]]
+  name = "edit-dns-record"
+  description = """Edit an individual dns record's proxied status."""
+  shortdescription = "Edit proxy status for dns record"
+  v4apiname = "EditDNSRecord"
+  [[command.option]]
+  name = "proxied"
+  type = "bool"
+  description = "Set this flag is you wish to proxy through Cloudflare, otherwise do not set"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  required = true
+  description = "*Required:* The zone ID associated with the dns record"
+  [[command.option]]
+  name = "recordID"
+  type = "string"
+  required = true
+  description = "*Required:* The record ID that indicates the dns record"
+  [[command.option]]
+  name = "type"
+  type = "string"
+  description = "*Required:* valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "*Required:* DNS Record name (example: example.com), max length: 255"
+  required = true
+  [[command.option]]
+  name = "content"
+  type = "string"
+  description = "*Required:* DNS Record content used for filter"
+  required = true
+  [[command.option]]
+  name = "ttl"
+  type = "int"
+  description = "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647"
+  required = false
+

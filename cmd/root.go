@@ -75,6 +75,15 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			rec.Content = Content
 		}
 		resp, err = api.DNSRecords(ZoneID, rec)
+	case "EditDNSRecord":
+		rec := cloudflare.DNSRecord{
+			Type:    Type,
+			Name:    Name,
+			Content: Content,
+			Proxied: Proxied,
+			TTL:     Ttl,
+		}
+		err = api.UpdateDNSRecord(ZoneID, RecordID, rec)
 	case "CreateDNSRecord":
 		rec := cloudflare.DNSRecord{}
 		if Type != "" {
@@ -91,6 +100,10 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 		if Ttl != 0 {
 			rec.TTL = Ttl
+		}
+		rec.Proxied = true
+		if NotProxied {
+			rec.Proxied = false
 		}
 		resp, err = api.CreateDNSRecord(ZoneID, rec)
 	case "DeleteDNSRecord":

@@ -9,6 +9,7 @@ var (
 	Name           string
 	Content        string
 	Ttl            int
+	NotProxied     bool
 	Priority       int
 	RecordID       string
 	OrganizationID string
@@ -16,6 +17,7 @@ var (
 	PackageID      string
 	Paused         bool
 	VanityNS       string
+	Proxied        bool
 )
 
 func init() {
@@ -70,6 +72,8 @@ func init() {
 	CreateDnsRecord.MarkFlagRequired("content")
 
 	CreateDnsRecord.Flags().IntVar(&Ttl, "ttl", 0, "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647")
+
+	CreateDnsRecord.Flags().BoolVar(&NotProxied, "not-proxied", false, "Whether the record is receiving the performance and security benefits of Cloudflare")
 
 	CreateDnsRecord.Flags().IntVar(&Priority, "priority", 0, "Used with some records like MX and SRV to determine priority. If you do not supply a priority for an MX record, a default value of 0 will be set. min value:0 max value:65535.")
 
@@ -270,6 +274,34 @@ func init() {
 	EditZoneVanityNs.Flags().StringVar(&VanityNS, "vanityNS", "", "*Required:* Comma delimited list of vanity nameservers")
 	EditZoneVanityNs.MarkFlagRequired("vanityNS")
 
+	var EditDnsRecord = &cobra.Command{
+		Use:   "edit-dns-record",
+		Short: "Edit proxy status for dns record",
+		Long:  `Edit an individual dns record's proxied status.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "EditDNSRecord")
+		},
+	}
+
+	EditDnsRecord.Flags().BoolVar(&Proxied, "proxied", false, "Set this flag is you wish to proxy through Cloudflare, otherwise do not set")
+
+	EditDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the dns record")
+	EditDnsRecord.MarkFlagRequired("zoneID")
+
+	EditDnsRecord.Flags().StringVar(&RecordID, "recordID", "", "*Required:* The record ID that indicates the dns record")
+	EditDnsRecord.MarkFlagRequired("recordID")
+
+	EditDnsRecord.Flags().StringVar(&Type, "type", "", "*Required:* valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only")
+	EditDnsRecord.MarkFlagRequired("type")
+
+	EditDnsRecord.Flags().StringVar(&Name, "name", "", "*Required:* DNS Record name (example: example.com), max length: 255")
+	EditDnsRecord.MarkFlagRequired("name")
+
+	EditDnsRecord.Flags().StringVar(&Content, "content", "", "*Required:* DNS Record content used for filter")
+	EditDnsRecord.MarkFlagRequired("content")
+
+	EditDnsRecord.Flags().IntVar(&Ttl, "ttl", 0, "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -289,6 +321,7 @@ func init() {
 		Long:  `  This is a meaty description of the dns api.`,
 	}
 	Dns.AddCommand(ListDnsRecords)
+	Dns.AddCommand(EditDnsRecord)
 	Dns.AddCommand(ShowDnsRecord)
 	Dns.AddCommand(CreateDnsRecord)
 	Dns.AddCommand(DeleteDnsRecord)
