@@ -42,7 +42,7 @@ func Main(cmd *cobra.Command, args []string, name string) {
 
 	r, err := root(cmd, args, name, api)
 	if err != nil {
-		log.Fatal("Could not make cloudflare request: %s", err)
+		log.Fatalf("Could not make cloudflare request: %s", err)
 	}
 	buf, err := json.MarshalIndent(r, " ", "    ")
 	if err != nil {
@@ -85,6 +85,9 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 		if Content != "" {
 			rec.Content = Content
+		}
+		if Priority > 0 {
+			rec.Priority = Priority
 		}
 		if Ttl != 0 {
 			rec.TTL = Ttl

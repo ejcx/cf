@@ -9,6 +9,7 @@ var (
 	Name           string
 	Content        string
 	Ttl            int
+	Priority       int
 	RecordID       string
 	OrganizationID string
 	Page           int
@@ -69,6 +70,8 @@ func init() {
 	CreateDnsRecord.MarkFlagRequired("content")
 
 	CreateDnsRecord.Flags().IntVar(&Ttl, "ttl", 0, "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647")
+
+	CreateDnsRecord.Flags().IntVar(&Priority, "priority", 0, "Used with some records like MX and SRV to determine priority. If you do not supply a priority for an MX record, a default value of 0 will be set. min value:0 max value:65535.")
 
 	var DeleteDnsRecord = &cobra.Command{
 		Use:   "delete-dns-record",
