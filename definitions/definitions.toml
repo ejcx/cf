@@ -48,6 +48,16 @@
   shortdescription = "Commands for interacting with pagerules api"
 
 [[command]]
+  name = "railgun"
+  description = """
+  Commands for the management and description of railguns"""
+  subcommands = [
+    "list-railguns",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with th erailgun api"
+
+[[command]]
   name = "firewall"
   description = """
   This is a meaty description of the firewall apis."""
@@ -67,10 +77,21 @@
   subcommands = [
     "list-organizations",
     "list-organization-access-rules",
-
   ]
   toplevel = true
   shortdescription = "Commands for interacting with organizations api"
+
+[[command]]
+  name = "access"
+  description = """
+  Commands to interact with Cloudflare Access API"""
+  subcommands = [
+    # Comment out user access rules because it doesn't work properly
+    # "list-user-access-rules",
+    "list-organization-access-rules",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with the cloudflare access API"
 
 [[command]]
   name = "ratelimit"
@@ -452,6 +473,33 @@
   type = "string"
   description = "*Required* The Organization ID"
   required = true
+  [[command.option]]
+  name = "notes"
+  type = "string"
+  description = "Matching any string within previously created access rules with the notes"
+  required = false
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "valid values: block, challenge, whitelist, js_challenge"
+  required = false
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "Requested page within paginated list of results"
+  required = false
+
+[[command]]
+  name = "list-railguns"
+  description = """Returns all Railguns associated with your account"""
+  shortdescription = "List Railguns associated with the account"
+  v4apiname = "ListRailguns"
+
+[[command]]
+  name = "list-user-access-rules"
+  description = """Returns all access rules associated with your account"""
+  shortdescription = "List User Access Rules"
+  v4apiname = "ListOrganizationAccessRules"
   [[command.option]]
   name = "notes"
   type = "string"

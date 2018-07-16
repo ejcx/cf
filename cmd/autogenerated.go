@@ -340,6 +340,30 @@ func init() {
 
 	ListOrganizationAccessRules.Flags().IntVar(&Page, "page", 0, "Requested page within paginated list of results")
 
+	var ListRailguns = &cobra.Command{
+		Use:   "list-railguns",
+		Short: "List Railguns associated with the account",
+		Long:  `Returns all Railguns associated with your account`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListRailguns")
+		},
+	}
+
+	var ListUserAccessRules = &cobra.Command{
+		Use:   "list-user-access-rules",
+		Short: "List User Access Rules",
+		Long:  `Returns all access rules associated with your account`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListOrganizationAccessRules")
+		},
+	}
+
+	ListUserAccessRules.Flags().StringVar(&Notes, "notes", "", "Matching any string within previously created access rules with the notes")
+
+	ListUserAccessRules.Flags().StringVar(&Mode, "mode", "", "valid values: block, challenge, whitelist, js_challenge")
+
+	ListUserAccessRules.Flags().IntVar(&Page, "page", 0, "Requested page within paginated list of results")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -384,6 +408,15 @@ func init() {
 
 	RootCmd.AddCommand(Pagerules)
 
+	var Railgun = &cobra.Command{
+		Use:   "railgun",
+		Short: "Commands for interacting with th erailgun api",
+		Long:  `  Commands for the management and description of railguns`,
+	}
+	Railgun.AddCommand(ListRailguns)
+
+	RootCmd.AddCommand(Railgun)
+
 	var Firewall = &cobra.Command{
 		Use:   "firewall",
 		Short: "Commands for interacting with firewall",
@@ -405,6 +438,16 @@ func init() {
 	Organization.AddCommand(ListOrganizationAccessRules)
 
 	RootCmd.AddCommand(Organization)
+
+	var Access = &cobra.Command{
+		Use:   "access",
+		Short: "Commands for interacting with the cloudflare access API",
+		Long:  `  Commands to interact with Cloudflare Access API`,
+	}
+	Access.AddCommand(ListUserAccessRules)
+	Access.AddCommand(ListOrganizationAccessRules)
+
+	RootCmd.AddCommand(Access)
 
 	var Ratelimit = &cobra.Command{
 		Use:   "ratelimit",

@@ -138,6 +138,15 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			ar.Mode = Mode
 		}
 		resp, err = api.ListOrganizationAccessRules(OrganizationID, ar, Page)
+	case "ListUserAccessRules":
+		ar := cloudflare.AccessRule{}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		if Mode != "" {
+			ar.Mode = Mode
+		}
+		resp, err = api.ListUserAccessRules(ar, Page)
 	case "ListPageRules":
 		resp, err = api.ListPageRules(ZoneID)
 	case "ListCustomCerts":
@@ -146,6 +155,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListWAFPackages(ZoneID)
 	case "ListWAFRules":
 		resp, err = api.ListWAFRules(ZoneID, PackageID)
+	case "ListRailguns":
+		resp, err = api.ListRailguns(cloudflare.RailgunListOptions{})
 	case "EditZonePaused":
 		z := cloudflare.ZoneOptions{
 			Paused: &Paused,
