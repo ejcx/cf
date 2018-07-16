@@ -6,6 +6,7 @@
     "list-zones",
     "delete-zone",
     "create-zone",
+    "edit-zone",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -50,7 +51,9 @@
   This is a meaty description of the firewall apis."""
   subcommands = [
     "list-user-agent-rules",
+    "list-zone-lockdowns",
     "list-waf-packages",
+    "list-waf-rules",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with firewall"
@@ -295,7 +298,7 @@
   [[command.option]]
   name = "page"
   type = "int"
-  description = "*Required:* Pagination for user-agent rules"
+  description = "Pagination for user-agent rules"
 
 [[command]]
   name = "list-waf-packages"
@@ -307,3 +310,49 @@
   type = "string"
   description = "*Required:* The zone ID associated with the WAF packages."
   required = true
+
+[[command]]
+  name = "list-waf-rules"
+  description = """Return the WAF Rules associated with a given zone."""
+  shortdescription = "List WAF Rules"
+  v4apiname = "ListWAFRules"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the WAF configuration."
+  required = true
+  [[command.option]]
+  name = "packageID"
+  type = "string"
+  description = "*Required:* The package ID associated with the displayed WAF rules."
+  required = true
+
+[[command]]
+  name = "list-zone-lockdowns"
+  description = """Return the lockdowns associated with a given lockdown."""
+  shortdescription = "List Zone Lockdowns"
+  v4apiname = "ListZoneLockdowns"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the WAF configuration."
+  required = true
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "Pagination for zone lockdowns."
+
+[[command]]
+  name = "edit-zone"
+  description = """Edit a given zone's properties."""
+  shortdescription = "Edit a given zone"
+  v4apiname = "EditZone"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the zone being updated"
+  required = true
+  [[command.option]]
+  name = "paused"
+  type = "bool"
+  description = "Set to pause the zone while editing the zone"

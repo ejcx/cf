@@ -112,6 +112,23 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListSSL(ZoneID)
 	case "ListWAFPackages":
 		resp, err = api.ListWAFPackages(ZoneID)
+	case "ListWAFRules":
+		resp, err = api.ListWAFRules(ZoneID, PackageID)
+	case "EditZone":
+		paused := false
+		if Paused {
+			paused = true
+		}
+		z := cloudflare.ZoneOptions{
+			Paused: &paused,
+		}
+		resp, err = api.EditZone(ZoneID, z)
+	case "ListZoneLockdowns":
+		page := 1
+		if Page != 0 {
+			page = Page
+		}
+		resp, err = api.ListZoneLockdowns(ZoneID, page)
 	case "ListUserAgentRules":
 		page := 1
 		if Page != 0 {

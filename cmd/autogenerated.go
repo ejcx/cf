@@ -12,6 +12,8 @@ var (
 	RecordID       string
 	OrganizationID string
 	Page           int
+	PackageID      string
+	Paused         bool
 )
 
 func init() {
@@ -192,7 +194,7 @@ func init() {
 	ListUserAgentRules.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the user-agent rule.")
 	ListUserAgentRules.MarkFlagRequired("zoneID")
 
-	ListUserAgentRules.Flags().IntVar(&Page, "page", 0, "*Required:* Pagination for user-agent rules")
+	ListUserAgentRules.Flags().IntVar(&Page, "page", 0, "Pagination for user-agent rules")
 
 	var ListWafPackages = &cobra.Command{
 		Use:   "list-waf-packages",
@@ -206,6 +208,49 @@ func init() {
 	ListWafPackages.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the WAF packages.")
 	ListWafPackages.MarkFlagRequired("zoneID")
 
+	var ListWafRules = &cobra.Command{
+		Use:   "list-waf-rules",
+		Short: "List WAF Rules",
+		Long:  `Return the WAF Rules associated with a given zone.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListWAFRules")
+		},
+	}
+
+	ListWafRules.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the WAF configuration.")
+	ListWafRules.MarkFlagRequired("zoneID")
+
+	ListWafRules.Flags().StringVar(&PackageID, "packageID", "", "*Required:* The package ID associated with the displayed WAF rules.")
+	ListWafRules.MarkFlagRequired("packageID")
+
+	var ListZoneLockdowns = &cobra.Command{
+		Use:   "list-zone-lockdowns",
+		Short: "List Zone Lockdowns",
+		Long:  `Return the lockdowns associated with a given lockdown.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListZoneLockdowns")
+		},
+	}
+
+	ListZoneLockdowns.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the WAF configuration.")
+	ListZoneLockdowns.MarkFlagRequired("zoneID")
+
+	ListZoneLockdowns.Flags().IntVar(&Page, "page", 0, "Pagination for zone lockdowns.")
+
+	var EditZone = &cobra.Command{
+		Use:   "edit-zone",
+		Short: "Edit a given zone",
+		Long:  `Edit a given zone's properties.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "EditZone")
+		},
+	}
+
+	EditZone.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the zone being updated")
+	EditZone.MarkFlagRequired("zoneID")
+
+	EditZone.Flags().BoolVar(&Paused, "paused", false, "Set to pause the zone while editing the zone")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -214,6 +259,7 @@ func init() {
 	Zone.AddCommand(ListZones)
 	Zone.AddCommand(DeleteZone)
 	Zone.AddCommand(CreateZone)
+	Zone.AddCommand(EditZone)
 
 	RootCmd.AddCommand(Zone)
 
@@ -253,7 +299,9 @@ func init() {
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
 	Firewall.AddCommand(ListUserAgentRules)
+	Firewall.AddCommand(ListZoneLockdowns)
 	Firewall.AddCommand(ListWafPackages)
+	Firewall.AddCommand(ListWafRules)
 
 	RootCmd.AddCommand(Firewall)
 
