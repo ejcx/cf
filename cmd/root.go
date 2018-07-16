@@ -153,6 +153,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListSSL(ZoneID)
 	case "ListWAFPackages":
 		resp, err = api.ListWAFPackages(ZoneID)
+	case "ListVirtualDns":
+		resp, err = api.ListVirtualDNS()
 	case "ListWAFRules":
 		resp, err = api.ListWAFRules(ZoneID, PackageID)
 	case "ListRailguns":

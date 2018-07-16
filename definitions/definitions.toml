@@ -18,6 +18,7 @@
   This is a meaty description of the dns api."""
   subcommands = [
     "list-dns-records",
+    "list-virtual-dns",
     "edit-dns-record",
     "show-dns-record",
     "create-dns-record",
@@ -515,3 +516,9 @@
   type = "int"
   description = "Requested page within paginated list of results"
   required = false
+
+[[command]]
+  name = "list-virtual-dns"
+  description = """Returns all Virtual DNS clusters associated with an account"""
+  shortdescription = "List Virtual DNS clusters"
+  v4apiname = "ListVirtualDns"

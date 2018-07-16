@@ -364,6 +364,15 @@ func init() {
 
 	ListUserAccessRules.Flags().IntVar(&Page, "page", 0, "Requested page within paginated list of results")
 
+	var ListVirtualDns = &cobra.Command{
+		Use:   "list-virtual-dns",
+		Short: "List Virtual DNS clusters",
+		Long:  `Returns all Virtual DNS clusters associated with an account`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListVirtualDns")
+		},
+	}
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -383,6 +392,7 @@ func init() {
 		Long:  `  This is a meaty description of the dns api.`,
 	}
 	Dns.AddCommand(ListDnsRecords)
+	Dns.AddCommand(ListVirtualDns)
 	Dns.AddCommand(EditDnsRecord)
 	Dns.AddCommand(ShowDnsRecord)
 	Dns.AddCommand(CreateDnsRecord)
@@ -444,7 +454,6 @@ func init() {
 		Short: "Commands for interacting with the cloudflare access API",
 		Long:  `  Commands to interact with Cloudflare Access API`,
 	}
-	Access.AddCommand(ListUserAccessRules)
 	Access.AddCommand(ListOrganizationAccessRules)
 
 	RootCmd.AddCommand(Access)
