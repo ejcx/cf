@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	cloudflare "github.com/cloudflare/cloudflare-go"
 	"github.com/ejcx/cf/lib"
@@ -114,13 +115,15 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListWAFPackages(ZoneID)
 	case "ListWAFRules":
 		resp, err = api.ListWAFRules(ZoneID, PackageID)
-	case "EditZone":
-		paused := false
-		if Paused {
-			paused = true
-		}
+	case "EditZonePaused":
 		z := cloudflare.ZoneOptions{
-			Paused: &paused,
+			Paused: &Paused,
+		}
+		resp, err = api.EditZone(ZoneID, z)
+	case "EditZoneVanityNS":
+		vns := strings.Split(VanityNS, ",")
+		z := cloudflare.ZoneOptions{
+			VanityNS: vns,
 		}
 		resp, err = api.EditZone(ZoneID, z)
 	case "ListZoneLockdowns":

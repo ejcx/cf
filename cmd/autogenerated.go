@@ -14,6 +14,7 @@ var (
 	Page           int
 	PackageID      string
 	Paused         bool
+	VanityNS       string
 )
 
 func init() {
@@ -237,19 +238,34 @@ func init() {
 
 	ListZoneLockdowns.Flags().IntVar(&Page, "page", 0, "Pagination for zone lockdowns.")
 
-	var EditZone = &cobra.Command{
-		Use:   "edit-zone",
+	var EditZonePaused = &cobra.Command{
+		Use:   "edit-zone-paused",
 		Short: "Edit a given zone",
 		Long:  `Edit a given zone's properties.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			Main(cmd, args, "EditZone")
+			Main(cmd, args, "EditZonePaused")
 		},
 	}
 
-	EditZone.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the zone being updated")
-	EditZone.MarkFlagRequired("zoneID")
+	EditZonePaused.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the zone being updated")
+	EditZonePaused.MarkFlagRequired("zoneID")
 
-	EditZone.Flags().BoolVar(&Paused, "paused", false, "Set to pause the zone while editing the zone")
+	EditZonePaused.Flags().BoolVar(&Paused, "paused", false, "*Required:* Set to pause the zone while editing the zone")
+
+	var EditZoneVanityNs = &cobra.Command{
+		Use:   "edit-zone-vanity-ns",
+		Short: "Edit a given zone",
+		Long:  `Edit a given zone's properties.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "EditZoneVanityNS")
+		},
+	}
+
+	EditZoneVanityNs.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the zone being updated")
+	EditZoneVanityNs.MarkFlagRequired("zoneID")
+
+	EditZoneVanityNs.Flags().StringVar(&VanityNS, "vanityNS", "", "*Required:* Comma delimited list of vanity nameservers")
+	EditZoneVanityNs.MarkFlagRequired("vanityNS")
 
 	var Zone = &cobra.Command{
 		Use:   "zone",
@@ -259,7 +275,8 @@ func init() {
 	Zone.AddCommand(ListZones)
 	Zone.AddCommand(DeleteZone)
 	Zone.AddCommand(CreateZone)
-	Zone.AddCommand(EditZone)
+	Zone.AddCommand(EditZonePaused)
+	Zone.AddCommand(EditZoneVanityNs)
 
 	RootCmd.AddCommand(Zone)
 

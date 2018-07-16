@@ -6,7 +6,8 @@
     "list-zones",
     "delete-zone",
     "create-zone",
-    "edit-zone",
+    "edit-zone-paused",
+    "edit-zone-vanity-ns",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -343,10 +344,10 @@
   description = "Pagination for zone lockdowns."
 
 [[command]]
-  name = "edit-zone"
+  name = "edit-zone-paused"
   description = """Edit a given zone's properties."""
   shortdescription = "Edit a given zone"
-  v4apiname = "EditZone"
+  v4apiname = "EditZonePaused"
   [[command.option]]
   name = "zoneID"
   type = "string"
@@ -355,4 +356,20 @@
   [[command.option]]
   name = "paused"
   type = "bool"
-  description = "Set to pause the zone while editing the zone"
+  description = "*Required:* Set to pause the zone while editing the zone"
+
+[[command]]
+  name = "edit-zone-vanity-ns"
+  description = """Edit a given zone's properties."""
+  shortdescription = "Edit a given zone"
+  v4apiname = "EditZoneVanityNS"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the zone being updated"
+  required = true
+  [[command.option]]
+  name = "vanityNS"
+  type = "string"
+  required = true
+  description = "*Required:* Comma delimited list of vanity nameservers"
