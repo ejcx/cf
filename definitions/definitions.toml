@@ -86,6 +86,8 @@
   This is a meaty description of the loadbalancer api."""
   subcommands = [
     "list-loadbalancers",
+    "list-loadbalancer-monitors",
+    "list-loadbalancer-pools",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with loadbalancer api"
@@ -427,3 +429,13 @@
   description = "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647"
   required = false
 
+[[command]]
+  name = "list-loadbalancer-monitors"
+  description = """Returns all LoadBalancer Monitors. Not specific to a zone"""
+  shortdescription = "Show LoadBalancer Monitors"
+  v4apiname = "ListLoadBalancerMonitors"
+[[command]]
+  name = "list-loadbalancer-pools"
+  description = """Returns all LoadBalancer Pools. Not specific to a zone"""
+  shortdescription = "Show LoadBalancer Pools"
+  v4apiname = "ListLoadBalancerPools"

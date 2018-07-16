@@ -48,7 +48,9 @@ func Main(cmd *cobra.Command, args []string, name string) {
 	if err != nil {
 		log.Fatal("Could not make print resp: %s", err)
 	}
-	fmt.Println(string(buf))
+	if string(buf) != "null" {
+		fmt.Println(string(buf))
+	}
 }
 
 func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (interface{}, error) {
@@ -121,6 +123,10 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListAllRateLimits(ZoneID)
 	case "ListLoadBalancers":
 		resp, err = api.ListLoadBalancers(ZoneID)
+	case "ListLoadBalancerMonitors":
+		resp, err = api.ListLoadBalancerMonitors()
+	case "ListLoadBalancerPools":
+		resp, err = api.ListLoadBalancerPools()
 	case "ListOrganizationsBalancers":
 		resp, _, err = api.ListOrganizations()
 	case "ListPageRules":

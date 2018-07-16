@@ -302,6 +302,24 @@ func init() {
 
 	EditDnsRecord.Flags().IntVar(&Ttl, "ttl", 0, "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647")
 
+	var ListLoadbalancerMonitors = &cobra.Command{
+		Use:   "list-loadbalancer-monitors",
+		Short: "Show LoadBalancer Monitors",
+		Long:  `Returns all LoadBalancer Monitors. Not specific to a zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListLoadBalancerMonitors")
+		},
+	}
+
+	var ListLoadbalancerPools = &cobra.Command{
+		Use:   "list-loadbalancer-pools",
+		Short: "Show LoadBalancer Pools",
+		Long:  `Returns all LoadBalancer Pools. Not specific to a zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListLoadBalancerPools")
+		},
+	}
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -382,6 +400,8 @@ func init() {
 		Long:  `  This is a meaty description of the loadbalancer api.`,
 	}
 	Loadbalancer.AddCommand(ListLoadbalancers)
+	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
+	Loadbalancer.AddCommand(ListLoadbalancerPools)
 
 	RootCmd.AddCommand(Loadbalancer)
 
