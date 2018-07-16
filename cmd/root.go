@@ -98,6 +98,32 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 	case "DeleteZone":
 		resp, err = api.DeleteZone(ZoneID)
+	case "DNSRecord":
+		resp, err = api.DNSRecord(ZoneID, RecordID)
+	case "ListAllRateLimits":
+		resp, err = api.ListAllRateLimits(ZoneID)
+	case "ListLoadBalancers":
+		resp, err = api.ListLoadBalancers(ZoneID)
+	case "ListOrganizationsBalancers":
+		resp, _, err = api.ListOrganizations()
+	case "ListPageRules":
+		resp, err = api.ListPageRules(ZoneID)
+	case "ListCustomCerts":
+		resp, err = api.ListSSL(ZoneID)
+	case "ListWAFPackages":
+		resp, err = api.ListWAFPackages(ZoneID)
+	case "ListUserAgentRules":
+		page := 1
+		if Page != 0 {
+			page = Page
+		}
+		resp, err = api.ListUserAgentRules(ZoneID, page)
+	case "CreateZone":
+		org := cloudflare.Organization{}
+		if OrganizationID != "" {
+			org.ID = OrganizationID
+		}
+		resp, err = api.CreateZone(Name, false, org)
 	default:
 		break
 	}

@@ -5,6 +5,7 @@
   subcommands = [
     "list-zones",
     "delete-zone",
+    "create-zone",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -15,11 +16,74 @@
   This is a meaty description of the dns api."""
   subcommands = [
     "list-dns-records",
+    "show-dns-record",
     "create-dns-record",
     "delete-dns-record",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with dns records"
+
+[[command]]
+  name = "ssl"
+  description = """
+  This is a meaty description of the ssl api."""
+  subcommands = [
+    "list-custom-certs",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with ssl configuration"
+
+
+[[command]]
+  name = "pagerules"
+  description = """
+  This is a meaty description of the pagerules api."""
+  subcommands = [
+    "list-page-rules",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with pagerules api"
+
+[[command]]
+  name = "firewall"
+  description = """
+  This is a meaty description of the firewall apis."""
+  subcommands = [
+    "list-user-agent-rules",
+    "list-waf-packages",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with firewall"
+
+[[command]]
+  name = "organization"
+  description = """
+  This is a meaty description of the organizaiton api."""
+  subcommands = [
+    "list-organizations",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with organizations api"
+
+[[command]]
+  name = "ratelimit"
+  description = """
+  This is a meaty description of the ratelimit api."""
+  subcommands = [
+    "list-ratelimits",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with ratelimit api"
+
+[[command]]
+  name = "loadbalancer"
+  description = """
+  This is a meaty description of the loadbalancer api."""
+  subcommands = [
+    "list-loadbalancers",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with loadbalancer api"
 
 [[command]]
   name = "list-zones"
@@ -128,4 +192,118 @@
   name = "zoneID"
   type = "string"
   description = "*Required:* zone id that will be deleted"
+  required = true
+
+[[command]]
+  name = "create-zone"
+  description = """Create a zone associated with your account."""
+  shortdescription = "Create zone"
+  v4apiname = "CreateZone"
+
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "*Required:* the zone name that will be added to your account"
+  required = true
+
+  [[command.option]]
+  name = "organizationID"
+  type = "string"
+  description = "The organizationID associated with the zone"
+  required = false
+
+[[command]]
+  name = "show-dns-record"
+  description = """Show a single DNS record associated with a zone ID and record ID."""
+  shortdescription = "Show DNS Record"
+  v4apiname = "DNSRecord"
+
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the DNS Record"
+  required = true
+
+  [[command.option]]
+  name = "recordID"
+  type = "string"
+  description = "*Reqiured:* The recordID associated with the DNS Record"
+  required = true
+
+[[command]]
+  name = "list-ratelimits"
+  description = """Returns all Rate Limits for a zone"""
+  shortdescription = "Show Ratelimits"
+  v4apiname = "ListAllRateLimits"
+
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the Ratelimits"
+  required = true
+
+[[command]]
+  name = "list-loadbalancers"
+  description = """Returns all LoadBalancers for a zone"""
+  shortdescription = "Show LoadBalancers"
+  v4apiname = "ListLoadBalancers"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the Ratelimits"
+  required = true
+
+[[command]]
+  name = "list-organizations"
+  description = """Returns all Organizations associated with your account"""
+  shortdescription = "Show Organizations"
+  v4apiname = "ListOrganizations"
+
+[[command]]
+  name = "list-page-rules"
+  description = """Returns all page rules associated with a given zone ID"""
+  shortdescription = "Show Page Rules"
+  v4apiname = "ListPageRules"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the pagerules"
+  required = true
+
+[[command]]
+  name = "list-custom-certs"
+  description = """Returns all custom certs for a given zone ID"""
+  shortdescription = "Show Custom Certs"
+  v4apiname = "ListCustomCerts"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the custom certs"
+  required = true
+
+[[command]]
+  name = "list-user-agent-rules"
+  description = """Returns all User-Agent rules for a specific zone ID"""
+  shortdescription = "List User-Agent rules"
+  v4apiname = "ListUserAgentRules"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the user-agent rule."
+  required = true
+
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "*Required:* Pagination for user-agent rules"
+
+[[command]]
+  name = "list-waf-packages"
+  description = """Return the WAF Packages associated with a given zone."""
+  shortdescription = "List WAF Packages"
+  v4apiname = "ListWAFPackages"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "*Required:* The zone ID associated with the WAF packages."
   required = true
