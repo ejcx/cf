@@ -597,6 +597,11 @@
   description = "The HTTP method to use for the health check. default value: GET"
   required = false
   [[command.option]]
+  name = "header"
+  type = "string"
+  description = "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Example: {\"Host\": [\"example.com\"],\"X-App-ID\": [\"abc123\"]}"
+  required = false
+  [[command.option]]
   name = "timeout"
   type = "int"
   description = "The timeout (in seconds) before marking the health check as failed. default value: 5"
