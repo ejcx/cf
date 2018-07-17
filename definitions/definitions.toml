@@ -115,6 +115,8 @@
     "list-loadbalancers",
     "list-loadbalancer-monitors",
     "list-loadbalancer-pools",
+    "create-loadbalancer-monitor",
+    "create-loadbalancer",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with loadbalancer api"
@@ -578,3 +580,90 @@
   type = "string"
   description = "The type of SSL certificate valid values: dv only"
   required = true
+
+[[command]]
+  name = "create-loadbalancer-monitor"
+  description = """Create a configured monitor"""
+  shortdescription = "Create a configured monitor"
+  v4apiname = "CreateLoadBalancerMonitor"
+  [[command.option]]
+  name = "expectedCodes"
+  type = "string"
+  description = "The expected http response code in the healthcheck"
+  required = true
+  [[command.option]]
+  name = "method"
+  type = "string"
+  description = "The HTTP method to use for the health check. default value: GET"
+  required = false
+  [[command.option]]
+  name = "timeout"
+  type = "int"
+  description = "The timeout (in seconds) before marking the health check as failed. default value: 5"
+  required = true
+  [[command.option]]
+  name = "path"
+  type = "string"
+  description = "The endpoint path to health check against. default value: /"
+  required = true
+  [[command.option]]
+  name = "interval"
+  type = "int"
+  description = "The interval between each health check. Shorter intervals may improve failover time, but will increase load. default value 60"
+  required = true
+  [[command.option]]
+  name = "retries"
+  type = "int"
+  description = "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. default value 2"
+  required = true
+  [[command.option]]
+  name = "expectedBody"
+  type = "string"
+  description = "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy."
+  required = false
+  [[command.option]]
+  name = "type"
+  type = "string"
+  description = "The protocol to use for the healthcheck. Currently supported protocols are 'HTTP' and 'HTTPS'. default value: http"
+  required = true
+  [[command.option]]
+  name = "description"
+  type = "string"
+  description = "Object description"
+  required = true
+
+[[command]]
+  name = "create-loadbalancer"
+  description = """Create a configured monitor"""
+  shortdescription = "Create a configured monitor"
+  v4apiname = "CreateLoadBalancer"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zoneID associated with the loadbalancer"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balancer will take precedence and the DNS record will not be used."
+  required = true
+  [[command.option]]
+  name = "fallbackPool"
+  type = "string"
+  description = "The pool ID to use when all other pools are detected as unhealthy. max length: 32"
+  required = true
+  [[command.option]]
+  name = "defaultPools"
+  type = "string"
+  description = "A comma separated list of pool IDs ordered by their failover priority. Pools defined here are used by default, or when region_pools are not configured for a given region."
+  required = true
+  [[command.option]]
+  name = "proxied"
+  type = "bool"
+  description = "Whether the hostname should be gray clouded (false) or orange clouded (true). default value: false"
+  required = false
+  [[command.option]]
+  name = "ttl"
+  type = "int"
+  description = "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers."
+  required = false

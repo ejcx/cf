@@ -155,6 +155,42 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListWAFPackages(ZoneID)
 	case "ListVirtualDns":
 		resp, err = api.ListVirtualDNS()
+	case "CreateLoadBalancer":
+		d := strings.Split(DefaultPools, ",")
+		l := cloudflare.LoadBalancer{
+			Name:         Name,
+			FallbackPool: FallbackPool,
+			DefaultPools: d,
+			Proxied:      Proxied,
+		}
+		if Ttl > 0 {
+			l.TTL = Ttl
+		}
+		api.CreateLoadBalancer(ZoneID, l)
+	case "CreateLoadBalancerMonitor":
+		l := cloudflare.LoadBalancerMonitor{ExpectedCodes: ExpectedCodes}
+		if Method != "" {
+			l.Method = Method
+		}
+		if Timeout > 0 {
+			l.Timeout = Timeout
+		}
+		if Path != "" {
+			l.Path = Path
+		}
+		if Interval > 0 {
+			l.Interval = Interval
+		}
+		if Retries > 0 {
+			l.Retries = Retries
+		}
+		if Type != "" {
+			l.Type = Type
+		}
+		if Description != "" {
+			l.Description = Description
+		}
+		resp, err = api.CreateLoadBalancerMonitor(l)
 	case "ListWAFRules":
 		resp, err = api.ListWAFRules(ZoneID, PackageID)
 	case "ListRailguns":

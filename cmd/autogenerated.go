@@ -23,6 +23,15 @@ var (
 	RailgunID      string
 	Hostname       string
 	Method         string
+	ExpectedCodes  string
+	Timeout        int
+	Path           string
+	Interval       int
+	Retries        int
+	ExpectedBody   string
+	Description    string
+	FallbackPool   string
+	DefaultPools   string
 )
 
 func init() {
@@ -424,6 +433,65 @@ func init() {
 	CreateCustomHostname.Flags().StringVar(&Type, "type", "", "The type of SSL certificate valid values: dv only")
 	CreateCustomHostname.MarkFlagRequired("type")
 
+	var CreateLoadbalancerMonitor = &cobra.Command{
+		Use:   "create-loadbalancer-monitor",
+		Short: "Create a configured monitor",
+		Long:  `Create a configured monitor`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateLoadBalancerMonitor")
+		},
+	}
+
+	CreateLoadbalancerMonitor.Flags().StringVar(&ExpectedCodes, "expectedCodes", "", "The expected http response code in the healthcheck")
+	CreateLoadbalancerMonitor.MarkFlagRequired("expectedCodes")
+
+	CreateLoadbalancerMonitor.Flags().StringVar(&Method, "method", "", "The HTTP method to use for the health check. default value: GET")
+
+	CreateLoadbalancerMonitor.Flags().IntVar(&Timeout, "timeout", 0, "The timeout (in seconds) before marking the health check as failed. default value: 5")
+	CreateLoadbalancerMonitor.MarkFlagRequired("timeout")
+
+	CreateLoadbalancerMonitor.Flags().StringVar(&Path, "path", "", "The endpoint path to health check against. default value: /")
+	CreateLoadbalancerMonitor.MarkFlagRequired("path")
+
+	CreateLoadbalancerMonitor.Flags().IntVar(&Interval, "interval", 0, "The interval between each health check. Shorter intervals may improve failover time, but will increase load. default value 60")
+	CreateLoadbalancerMonitor.MarkFlagRequired("interval")
+
+	CreateLoadbalancerMonitor.Flags().IntVar(&Retries, "retries", 0, "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. default value 2")
+	CreateLoadbalancerMonitor.MarkFlagRequired("retries")
+
+	CreateLoadbalancerMonitor.Flags().StringVar(&ExpectedBody, "expectedBody", "", "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.")
+
+	CreateLoadbalancerMonitor.Flags().StringVar(&Type, "type", "", "The protocol to use for the healthcheck. Currently supported protocols are 'HTTP' and 'HTTPS'. default value: http")
+	CreateLoadbalancerMonitor.MarkFlagRequired("type")
+
+	CreateLoadbalancerMonitor.Flags().StringVar(&Description, "description", "", "Object description")
+	CreateLoadbalancerMonitor.MarkFlagRequired("description")
+
+	var CreateLoadbalancer = &cobra.Command{
+		Use:   "create-loadbalancer",
+		Short: "Create a configured monitor",
+		Long:  `Create a configured monitor`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateLoadBalancer")
+		},
+	}
+
+	CreateLoadbalancer.Flags().StringVar(&ZoneID, "zoneID", "", "The zoneID associated with the loadbalancer")
+	CreateLoadbalancer.MarkFlagRequired("zoneID")
+
+	CreateLoadbalancer.Flags().StringVar(&Name, "name", "", "The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balancer will take precedence and the DNS record will not be used.")
+	CreateLoadbalancer.MarkFlagRequired("name")
+
+	CreateLoadbalancer.Flags().StringVar(&FallbackPool, "fallbackPool", "", "The pool ID to use when all other pools are detected as unhealthy. max length: 32")
+	CreateLoadbalancer.MarkFlagRequired("fallbackPool")
+
+	CreateLoadbalancer.Flags().StringVar(&DefaultPools, "defaultPools", "", "A comma separated list of pool IDs ordered by their failover priority. Pools defined here are used by default, or when region_pools are not configured for a given region.")
+	CreateLoadbalancer.MarkFlagRequired("defaultPools")
+
+	CreateLoadbalancer.Flags().BoolVar(&Proxied, "proxied", false, "Whether the hostname should be gray clouded (false) or orange clouded (true). default value: false")
+
+	CreateLoadbalancer.Flags().IntVar(&Ttl, "ttl", 0, "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers.")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -529,6 +597,8 @@ func init() {
 	Loadbalancer.AddCommand(ListLoadbalancers)
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)
+	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
+	Loadbalancer.AddCommand(CreateLoadbalancer)
 
 	RootCmd.AddCommand(Loadbalancer)
 
