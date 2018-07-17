@@ -21,6 +21,8 @@ var (
 	Notes          string
 	Mode           string
 	RailgunID      string
+	Hostname       string
+	Method         string
 )
 
 func init() {
@@ -401,6 +403,27 @@ func init() {
 	ConnectZoneRailgun.Flags().StringVar(&RailgunID, "railgunID", "", "The railgun ID to be associated with the zone")
 	ConnectZoneRailgun.MarkFlagRequired("railgunID")
 
+	var CreateCustomHostname = &cobra.Command{
+		Use:   "create-custom-hostname",
+		Short: "Create a custom hostname for an associated zone.",
+		Long:  `Add a new custom hostname and request that an SSL certificate be issued for it. One of three validation methods—http, cname, email—should be used, with 'http' recommended if the CNAME is already in place (or will be soon). Specifying 'email' will send an email to the WHOIS contacts on file for the base domain plus hostmaster, postmaster, webmaster, admin, administrator. Specifying 'cname' will return a CNAME that needs to be placed. If http is used and the domain is not already pointing to the Managed CNAME host, the PATCH method must be used once it is (to complete validation).`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateCustomHostname")
+		},
+	}
+
+	CreateCustomHostname.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the custom hostname")
+	CreateCustomHostname.MarkFlagRequired("zoneID")
+
+	CreateCustomHostname.Flags().StringVar(&Hostname, "hostname", "", "The custom hostname that will point to your hostname via CNAME.")
+	CreateCustomHostname.MarkFlagRequired("hostname")
+
+	CreateCustomHostname.Flags().StringVar(&Method, "method", "", "The SSL Verification method. valid values: http, email, cname.")
+	CreateCustomHostname.MarkFlagRequired("method")
+
+	CreateCustomHostname.Flags().StringVar(&Type, "type", "", "The type of SSL certificate valid values: dv only")
+	CreateCustomHostname.MarkFlagRequired("type")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -412,6 +435,7 @@ func init() {
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
 	Zone.AddCommand(ListAvailableRatePlans)
+	Zone.AddCommand(CreateCustomHostname)
 
 	RootCmd.AddCommand(Zone)
 

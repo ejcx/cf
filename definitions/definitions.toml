@@ -9,6 +9,7 @@
     "edit-zone-paused",
     "edit-zone-vanity-ns",
     "list-available-rate-plans",
+    "create-custom-hostname",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -550,4 +551,30 @@
   name = "railgunID"
   type = "string"
   description = "The railgun ID to be associated with the zone"
+  required = true
+
+[[command]]
+  name = "create-custom-hostname"
+  description = """Add a new custom hostname and request that an SSL certificate be issued for it. One of three validation methods—http, cname, email—should be used, with 'http' recommended if the CNAME is already in place (or will be soon). Specifying 'email' will send an email to the WHOIS contacts on file for the base domain plus hostmaster, postmaster, webmaster, admin, administrator. Specifying 'cname' will return a CNAME that needs to be placed. If http is used and the domain is not already pointing to the Managed CNAME host, the PATCH method must be used once it is (to complete validation)."""
+  shortdescription = "Create a custom hostname for an associated zone."
+  v4apiname = "CreateCustomHostname"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zone ID associated with the custom hostname"
+  required = true
+  [[command.option]]
+  name = "hostname"
+  type = "string"
+  description = "The custom hostname that will point to your hostname via CNAME."
+  required = true
+  [[command.option]]
+  name = "method"
+  type = "string"
+  description = "The SSL Verification method. valid values: http, email, cname."
+  required = true
+  [[command.option]]
+  name = "type"
+  type = "string"
+  description = "The type of SSL certificate valid values: dv only"
   required = true

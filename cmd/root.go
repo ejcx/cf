@@ -163,6 +163,14 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.AvailableZoneRatePlans(ZoneID)
 	case "ConnectZoneRailgun":
 		resp, err = api.ConnectZoneRailgun(ZoneID, RailgunID)
+	case "CreateCustomHostname":
+		resp, err = api.CreateCustomHostname(ZoneID, cloudflare.CustomHostname{
+			Hostname: Hostname,
+			SSL: cloudflare.CustomHostnameSSL{
+				Method: Method,
+				Type:   Type,
+			},
+		})
 	case "EditZonePaused":
 		z := cloudflare.ZoneOptions{
 			Paused: &Paused,
