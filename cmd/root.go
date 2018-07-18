@@ -215,7 +215,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.PurgeEverything(ZoneId)
 	case "ConnectZoneRailgun":
 		resp, err = api.ConnectZoneRailgun(ZoneId, RailgunId)
-	case "GetIdByName":
+	case "GetIDByName":
 		resp, err = api.ZoneIDByName(ZoneName)
 	case "ListZoneRailguns":
 		resp, err = api.ZoneRailguns(ZoneId)
@@ -227,6 +227,10 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.UserBillingProfile()
 	case "VirtualDNS":
 		resp, err = api.VirtualDNS(VirtualDnsId)
+	case "PageRule":
+		resp, err = api.PageRule(ZoneId, PageruleId)
+	case "LoadBalancerDetails":
+		resp, err = api.LoadBalancerDetails(ZoneId, LoadbalancerId)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneId, cloudflare.CustomHostname{
 			Hostname: Hostname,

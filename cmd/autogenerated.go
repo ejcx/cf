@@ -35,6 +35,8 @@ var (
 	DefaultPools   string
 	ZoneName       string
 	VirtualDnsId   string
+	PageruleId     string
+	LoadbalancerId string
 )
 
 func init() {
@@ -183,8 +185,8 @@ func init() {
 		},
 	}
 
-	var ListPageRules = &cobra.Command{
-		Use:   "list-page-rules",
+	var ListPagerules = &cobra.Command{
+		Use:   "list-pagerules",
 		Short: "Show Page Rules",
 		Long:  `Returns all page rules associated with a given zone ID`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -192,8 +194,8 @@ func init() {
 		},
 	}
 
-	ListPageRules.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the pagerules")
-	ListPageRules.MarkFlagRequired("zone-id")
+	ListPagerules.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the pagerules")
+	ListPagerules.MarkFlagRequired("zone-id")
 
 	var ListCustomCerts = &cobra.Command{
 		Use:   "list-custom-certs",
@@ -608,6 +610,36 @@ func init() {
 	GetVirtualDnsDetails.Flags().StringVar(&VirtualDnsId, "virtual-dns-id", "", "The virtualDNS ID you wish to fetch the details of.")
 	GetVirtualDnsDetails.MarkFlagRequired("virtual-dns-id")
 
+	var GetPageruleDetails = &cobra.Command{
+		Use:   "get-pagerule-details",
+		Short: "Get page rule details",
+		Long:  `Get the details of a specific page rule`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "PageRule")
+		},
+	}
+
+	GetPageruleDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the page rule")
+	GetPageruleDetails.MarkFlagRequired("zone-id")
+
+	GetPageruleDetails.Flags().StringVar(&PageruleId, "pagerule-id", "", "The pagerule ID you wish to fetch the details of.")
+	GetPageruleDetails.MarkFlagRequired("pagerule-id")
+
+	var GetLoadbalancerDetails = &cobra.Command{
+		Use:   "get-loadbalancer-details",
+		Short: "Get loadbalancer details",
+		Long:  `Get loadbalancer details.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "LoadBalancerDetails")
+		},
+	}
+
+	GetLoadbalancerDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the page rule")
+	GetLoadbalancerDetails.MarkFlagRequired("zone-id")
+
+	GetLoadbalancerDetails.Flags().StringVar(&LoadbalancerId, "loadbalancer-id", "", "The loadbalancer id that you wish to view the details of.")
+	GetLoadbalancerDetails.MarkFlagRequired("loadbalancer-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -667,7 +699,8 @@ func init() {
 		Short: "Commands for interacting with pagerules api",
 		Long:  `  This is a meaty description of the pagerules api.`,
 	}
-	Pagerules.AddCommand(ListPageRules)
+	Pagerules.AddCommand(ListPagerules)
+	Pagerules.AddCommand(GetPageruleDetails)
 
 	RootCmd.AddCommand(Pagerules)
 
@@ -730,6 +763,7 @@ func init() {
 	}
 	Loadbalancer.AddCommand(CreateLoadbalancer)
 	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
+	Loadbalancer.AddCommand(GetLoadbalancerDetails)
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)
 	Loadbalancer.AddCommand(ListLoadbalancers)

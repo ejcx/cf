@@ -62,7 +62,8 @@
   description = """
   This is a meaty description of the pagerules api."""
   subcommands = [
-    "list-page-rules",
+    "list-pagerules",
+    "get-pagerule-details",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with pagerules api"
@@ -133,6 +134,7 @@
   subcommands = [
     "create-loadbalancer",
     "create-loadbalancer-monitor",
+    "get-loadbalancer-details",
     "list-loadbalancer-monitors",
     "list-loadbalancer-pools",
     "list-loadbalancers",
@@ -327,7 +329,7 @@
   v4apiname = "ListOrganizations"
 
 [[command]]
-  name = "list-page-rules"
+  name = "list-pagerules"
   description = """Returns all page rules associated with a given zone ID"""
   shortdescription = "Show Page Rules"
   v4apiname = "ListPageRules"
@@ -785,4 +787,36 @@
   name = "virtual-dns-id"
   type = "string"
   description = "The virtualDNS ID you wish to fetch the details of."
+  required = true
+
+[[command]]
+  name = "get-pagerule-details"
+  description = """Get the details of a specific page rule"""
+  shortdescription = "Get page rule details"
+  v4apiname = "PageRule"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the page rule"
+  required = true
+  [[command.option]]
+  name = "pagerule-id"
+  type = "string"
+  description = "The pagerule ID you wish to fetch the details of."
+  required = true
+
+[[command]]
+  name = "get-loadbalancer-details"
+  description = """Get loadbalancer details."""
+  shortdescription = "Get loadbalancer details"
+  v4apiname = "LoadBalancerDetails"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the page rule"
+  required = true
+  [[command.option]]
+  name = "loadbalancer-id"
+  type = "string"
+  description = "The loadbalancer id that you wish to view the details of."
   required = true
