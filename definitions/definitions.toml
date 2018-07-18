@@ -173,25 +173,25 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* zone id associated with the new dns record"
+  description = "The zone id associated with the new dns record"
   required = true
 
   [[command.option]]
   name = "type"
   type = "string"
-  description = "*Required:* valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only"
+  description = "valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only"
   required = true
 
   [[command.option]]
   name = "name"
   type = "string"
-  description = "*Required:* DNS Record name (example: example.com), max length: 255"
+  description = "DNS Record name (example: example.com), max length: 255"
   required = true
 
   [[command.option]]
   name = "content"
   type = "string"
-  description = "*Required:* DNS Record content used for filter"
+  description = "DNS Record content used for filter"
   required = true
 
   [[command.option]]
@@ -221,13 +221,13 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* zone id associated with the record you wish to delete"
+  description = "The zone id associated with the record you wish to delete"
   required = true
 
   [[command.option]]
   name = "recordID"
   type = "string"
-  description = "*Required:* record id associated with the dns record you wish to delete"
+  description = "The record id associated with the dns record you wish to delete"
   required = true
 
 [[command]]
@@ -239,7 +239,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* zone id that will be deleted"
+  description = "The zone id that will be deleted"
   required = true
 
 [[command]]
@@ -251,7 +251,7 @@
   [[command.option]]
   name = "name"
   type = "string"
-  description = "*Required:* the zone name that will be added to your account"
+  description = "The zone name that will be added to your account"
   required = true
 
   [[command.option]]
@@ -269,7 +269,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the DNS Record"
+  description = "The zone ID associated with the DNS Record"
   required = true
 
   [[command.option]]
@@ -287,7 +287,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the Ratelimits"
+  description = "The zone ID associated with the Ratelimits"
   required = true
 
 [[command]]
@@ -298,7 +298,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the Ratelimits"
+  description = "The zone ID associated with the Ratelimits"
   required = true
 
 [[command]]
@@ -315,7 +315,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the pagerules"
+  description = "The zone ID associated with the pagerules"
   required = true
 
 [[command]]
@@ -326,7 +326,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the custom certs"
+  description = "The zone ID associated with the custom certs"
   required = true
 
 [[command]]
@@ -337,7 +337,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the user-agent rule."
+  description = "The zone ID associated with the user-agent rule."
   required = true
 
   [[command.option]]
@@ -353,7 +353,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the WAF packages."
+  description = "The zone ID associated with the WAF packages."
   required = true
 
 [[command]]
@@ -364,12 +364,12 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the WAF configuration."
+  description = "The zone ID associated with the WAF configuration."
   required = true
   [[command.option]]
   name = "packageID"
   type = "string"
-  description = "*Required:* The package ID associated with the displayed WAF rules."
+  description = "The package ID associated with the displayed WAF rules."
   required = true
 
 [[command]]
@@ -380,7 +380,7 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the WAF configuration."
+  description = "The zone ID associated with the WAF configuration."
   required = true
   [[command.option]]
   name = "page"
@@ -395,12 +395,12 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the zone being updated"
+  description = "The zone ID associated with the zone being updated"
   required = true
   [[command.option]]
   name = "paused"
   type = "bool"
-  description = "*Required:* Set to pause the zone while editing the zone"
+  description = "Set to pause the zone while editing the zone"
 
 [[command]]
   name = "edit-zone-vanity-ns"
@@ -410,13 +410,13 @@
   [[command.option]]
   name = "zoneID"
   type = "string"
-  description = "*Required:* The zone ID associated with the zone being updated"
+  description = "The zone ID associated with the zone being updated"
   required = true
   [[command.option]]
   name = "vanityNS"
   type = "string"
   required = true
-  description = "*Required:* Comma delimited list of vanity nameservers"
+  description = "Comma delimited list of vanity nameservers"
 
 [[command]]
   name = "edit-dns-record"
@@ -431,26 +431,26 @@
   name = "zoneID"
   type = "string"
   required = true
-  description = "*Required:* The zone ID associated with the dns record"
+  description = "The zone ID associated with the dns record"
   [[command.option]]
   name = "recordID"
   type = "string"
   required = true
-  description = "*Required:* The record ID that indicates the dns record"
+  description = "The record ID that indicates the dns record"
   [[command.option]]
   name = "type"
   type = "string"
-  description = "*Required:* valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only"
+  description = "valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only"
   required = true
   [[command.option]]
   name = "name"
   type = "string"
-  description = "*Required:* DNS Record name (example: example.com), max length: 255"
+  description = "DNS Record name (example: example.com), max length: 255"
   required = true
   [[command.option]]
   name = "content"
   type = "string"
-  description = "*Required:* DNS Record content used for filter"
+  description = "DNS Record content used for filter"
   required = true
   [[command.option]]
   name = "ttl"
@@ -477,7 +477,7 @@
   [[command.option]]
   name = "organizationID"
   type = "string"
-  description = "*Required* The Organization ID"
+  description = "The Organization ID"
   required = true
   [[command.option]]
   name = "notes"
@@ -599,7 +599,7 @@
   [[command.option]]
   name = "header"
   type = "string"
-  description = "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Example: {\"Host\": [\"example.com\"],\"X-App-ID\": [\"abc123\"]}"
+  description = "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Example: {\\\"Host\\\": [\\\"example.com\\\"],\\\"X-App-ID\\\": [\\\"abc123\\\"]}"
   required = false
   [[command.option]]
   name = "timeout"

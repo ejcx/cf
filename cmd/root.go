@@ -175,8 +175,13 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		if Timeout > 0 {
 			l.Timeout = Timeout
 		}
-		if Header > 0 {
-			l.Header = Header
+		if Header != "" {
+			h := make(map[string][]string)
+			err = json.Unmarshal([]byte(Header), &h)
+			if err != nil {
+				return nil, err
+			}
+			l.Header = h
 		}
 		if Path != "" {
 			l.Path = Path

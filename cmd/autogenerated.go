@@ -24,6 +24,7 @@ var (
 	Hostname       string
 	Method         string
 	ExpectedCodes  string
+	Header         string
 	Timeout        int
 	Path           string
 	Interval       int
@@ -73,16 +74,16 @@ func init() {
 		},
 	}
 
-	CreateDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* zone id associated with the new dns record")
+	CreateDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "The zone id associated with the new dns record")
 	CreateDnsRecord.MarkFlagRequired("zoneID")
 
-	CreateDnsRecord.Flags().StringVar(&Type, "type", "", "*Required:* valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only")
+	CreateDnsRecord.Flags().StringVar(&Type, "type", "", "valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only")
 	CreateDnsRecord.MarkFlagRequired("type")
 
-	CreateDnsRecord.Flags().StringVar(&Name, "name", "", "*Required:* DNS Record name (example: example.com), max length: 255")
+	CreateDnsRecord.Flags().StringVar(&Name, "name", "", "DNS Record name (example: example.com), max length: 255")
 	CreateDnsRecord.MarkFlagRequired("name")
 
-	CreateDnsRecord.Flags().StringVar(&Content, "content", "", "*Required:* DNS Record content used for filter")
+	CreateDnsRecord.Flags().StringVar(&Content, "content", "", "DNS Record content used for filter")
 	CreateDnsRecord.MarkFlagRequired("content")
 
 	CreateDnsRecord.Flags().IntVar(&Ttl, "ttl", 0, "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647")
@@ -100,10 +101,10 @@ func init() {
 		},
 	}
 
-	DeleteDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* zone id associated with the record you wish to delete")
+	DeleteDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "The zone id associated with the record you wish to delete")
 	DeleteDnsRecord.MarkFlagRequired("zoneID")
 
-	DeleteDnsRecord.Flags().StringVar(&RecordID, "recordID", "", "*Required:* record id associated with the dns record you wish to delete")
+	DeleteDnsRecord.Flags().StringVar(&RecordID, "recordID", "", "The record id associated with the dns record you wish to delete")
 	DeleteDnsRecord.MarkFlagRequired("recordID")
 
 	var DeleteZone = &cobra.Command{
@@ -115,7 +116,7 @@ func init() {
 		},
 	}
 
-	DeleteZone.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* zone id that will be deleted")
+	DeleteZone.Flags().StringVar(&ZoneID, "zoneID", "", "The zone id that will be deleted")
 	DeleteZone.MarkFlagRequired("zoneID")
 
 	var CreateZone = &cobra.Command{
@@ -127,7 +128,7 @@ func init() {
 		},
 	}
 
-	CreateZone.Flags().StringVar(&Name, "name", "", "*Required:* the zone name that will be added to your account")
+	CreateZone.Flags().StringVar(&Name, "name", "", "The zone name that will be added to your account")
 	CreateZone.MarkFlagRequired("name")
 
 	CreateZone.Flags().StringVar(&OrganizationID, "organizationID", "", "The organizationID associated with the zone")
@@ -141,7 +142,7 @@ func init() {
 		},
 	}
 
-	ShowDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the DNS Record")
+	ShowDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the DNS Record")
 	ShowDnsRecord.MarkFlagRequired("zoneID")
 
 	ShowDnsRecord.Flags().StringVar(&RecordID, "recordID", "", "*Reqiured:* The recordID associated with the DNS Record")
@@ -156,7 +157,7 @@ func init() {
 		},
 	}
 
-	ListRatelimits.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the Ratelimits")
+	ListRatelimits.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the Ratelimits")
 	ListRatelimits.MarkFlagRequired("zoneID")
 
 	var ListLoadbalancers = &cobra.Command{
@@ -168,7 +169,7 @@ func init() {
 		},
 	}
 
-	ListLoadbalancers.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the Ratelimits")
+	ListLoadbalancers.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the Ratelimits")
 	ListLoadbalancers.MarkFlagRequired("zoneID")
 
 	var ListOrganizations = &cobra.Command{
@@ -189,7 +190,7 @@ func init() {
 		},
 	}
 
-	ListPageRules.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the pagerules")
+	ListPageRules.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the pagerules")
 	ListPageRules.MarkFlagRequired("zoneID")
 
 	var ListCustomCerts = &cobra.Command{
@@ -201,7 +202,7 @@ func init() {
 		},
 	}
 
-	ListCustomCerts.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the custom certs")
+	ListCustomCerts.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the custom certs")
 	ListCustomCerts.MarkFlagRequired("zoneID")
 
 	var ListUserAgentRules = &cobra.Command{
@@ -213,7 +214,7 @@ func init() {
 		},
 	}
 
-	ListUserAgentRules.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the user-agent rule.")
+	ListUserAgentRules.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the user-agent rule.")
 	ListUserAgentRules.MarkFlagRequired("zoneID")
 
 	ListUserAgentRules.Flags().IntVar(&Page, "page", 0, "Pagination for user-agent rules")
@@ -227,7 +228,7 @@ func init() {
 		},
 	}
 
-	ListWafPackages.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the WAF packages.")
+	ListWafPackages.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the WAF packages.")
 	ListWafPackages.MarkFlagRequired("zoneID")
 
 	var ListWafRules = &cobra.Command{
@@ -239,10 +240,10 @@ func init() {
 		},
 	}
 
-	ListWafRules.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the WAF configuration.")
+	ListWafRules.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the WAF configuration.")
 	ListWafRules.MarkFlagRequired("zoneID")
 
-	ListWafRules.Flags().StringVar(&PackageID, "packageID", "", "*Required:* The package ID associated with the displayed WAF rules.")
+	ListWafRules.Flags().StringVar(&PackageID, "packageID", "", "The package ID associated with the displayed WAF rules.")
 	ListWafRules.MarkFlagRequired("packageID")
 
 	var ListZoneLockdowns = &cobra.Command{
@@ -254,7 +255,7 @@ func init() {
 		},
 	}
 
-	ListZoneLockdowns.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the WAF configuration.")
+	ListZoneLockdowns.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the WAF configuration.")
 	ListZoneLockdowns.MarkFlagRequired("zoneID")
 
 	ListZoneLockdowns.Flags().IntVar(&Page, "page", 0, "Pagination for zone lockdowns.")
@@ -268,10 +269,10 @@ func init() {
 		},
 	}
 
-	EditZonePaused.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the zone being updated")
+	EditZonePaused.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the zone being updated")
 	EditZonePaused.MarkFlagRequired("zoneID")
 
-	EditZonePaused.Flags().BoolVar(&Paused, "paused", false, "*Required:* Set to pause the zone while editing the zone")
+	EditZonePaused.Flags().BoolVar(&Paused, "paused", false, "Set to pause the zone while editing the zone")
 
 	var EditZoneVanityNs = &cobra.Command{
 		Use:   "edit-zone-vanity-ns",
@@ -282,10 +283,10 @@ func init() {
 		},
 	}
 
-	EditZoneVanityNs.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the zone being updated")
+	EditZoneVanityNs.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the zone being updated")
 	EditZoneVanityNs.MarkFlagRequired("zoneID")
 
-	EditZoneVanityNs.Flags().StringVar(&VanityNS, "vanityNS", "", "*Required:* Comma delimited list of vanity nameservers")
+	EditZoneVanityNs.Flags().StringVar(&VanityNS, "vanityNS", "", "Comma delimited list of vanity nameservers")
 	EditZoneVanityNs.MarkFlagRequired("vanityNS")
 
 	var EditDnsRecord = &cobra.Command{
@@ -299,19 +300,19 @@ func init() {
 
 	EditDnsRecord.Flags().BoolVar(&Proxied, "proxied", false, "Set this flag is you wish to proxy through Cloudflare, otherwise do not set")
 
-	EditDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "*Required:* The zone ID associated with the dns record")
+	EditDnsRecord.Flags().StringVar(&ZoneID, "zoneID", "", "The zone ID associated with the dns record")
 	EditDnsRecord.MarkFlagRequired("zoneID")
 
-	EditDnsRecord.Flags().StringVar(&RecordID, "recordID", "", "*Required:* The record ID that indicates the dns record")
+	EditDnsRecord.Flags().StringVar(&RecordID, "recordID", "", "The record ID that indicates the dns record")
 	EditDnsRecord.MarkFlagRequired("recordID")
 
-	EditDnsRecord.Flags().StringVar(&Type, "type", "", "*Required:* valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only")
+	EditDnsRecord.Flags().StringVar(&Type, "type", "", "valid values: A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF, CERT, DNSKEY, DS, NAPTR, SMIMEA, SSHFP, TLSA, URI read only")
 	EditDnsRecord.MarkFlagRequired("type")
 
-	EditDnsRecord.Flags().StringVar(&Name, "name", "", "*Required:* DNS Record name (example: example.com), max length: 255")
+	EditDnsRecord.Flags().StringVar(&Name, "name", "", "DNS Record name (example: example.com), max length: 255")
 	EditDnsRecord.MarkFlagRequired("name")
 
-	EditDnsRecord.Flags().StringVar(&Content, "content", "", "*Required:* DNS Record content used for filter")
+	EditDnsRecord.Flags().StringVar(&Content, "content", "", "DNS Record content used for filter")
 	EditDnsRecord.MarkFlagRequired("content")
 
 	EditDnsRecord.Flags().IntVar(&Ttl, "ttl", 0, "Time to live for DNS record. Value of 1 is 'automatic', min value:120 max value:2147483647")
@@ -343,7 +344,7 @@ func init() {
 		},
 	}
 
-	ListOrganizationAccessRules.Flags().StringVar(&OrganizationID, "organizationID", "", "*Required* The Organization ID")
+	ListOrganizationAccessRules.Flags().StringVar(&OrganizationID, "organizationID", "", "The Organization ID")
 	ListOrganizationAccessRules.MarkFlagRequired("organizationID")
 
 	ListOrganizationAccessRules.Flags().StringVar(&Notes, "notes", "", "Matching any string within previously created access rules with the notes")
@@ -446,6 +447,8 @@ func init() {
 	CreateLoadbalancerMonitor.MarkFlagRequired("expectedCodes")
 
 	CreateLoadbalancerMonitor.Flags().StringVar(&Method, "method", "", "The HTTP method to use for the health check. default value: GET")
+
+	CreateLoadbalancerMonitor.Flags().StringVar(&Header, "header", "", "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Example: {\"Host\": [\"example.com\"],\"X-App-ID\": [\"abc123\"]}")
 
 	CreateLoadbalancerMonitor.Flags().IntVar(&Timeout, "timeout", 0, "The timeout (in seconds) before marking the health check as failed. default value: 5")
 	CreateLoadbalancerMonitor.MarkFlagRequired("timeout")
