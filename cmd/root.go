@@ -155,6 +155,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListWAFPackages(ZoneID)
 	case "ListVirtualDns":
 		resp, err = api.ListVirtualDNS()
+	case "ZoneSettings":
+		resp, err = api.ZoneSettings(ZoneID)
 	case "CreateLoadBalancer":
 		d := strings.Split(DefaultPools, ",")
 		l := cloudflare.LoadBalancer{
@@ -205,8 +207,20 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListRailguns(cloudflare.RailgunListOptions{})
 	case "AvailableZoneRatePlans":
 		resp, err = api.AvailableZoneRatePlans(ZoneID)
+	case "ActivationCheck":
+		resp, err = api.ZoneActivationCheck(ZoneID)
+	case "ZoneDetails":
+		resp, err = api.ZoneDetails(ZoneID)
+	case "PurgeEverything":
+		resp, err = api.PurgeEverything(ZoneID)
 	case "ConnectZoneRailgun":
 		resp, err = api.ConnectZoneRailgun(ZoneID, RailgunID)
+	case "GetIDByName":
+		resp, err = api.ZoneIDByName(ZoneName)
+	case "ListZoneRailguns":
+		resp, err = api.ZoneRailguns(ZoneID)
+	case "ZoneSSLSettings":
+		resp, err = api.ZoneSSLSettings(ZoneID)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneID, cloudflare.CustomHostname{
 			Hostname: Hostname,

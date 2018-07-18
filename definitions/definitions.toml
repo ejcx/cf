@@ -3,13 +3,17 @@
   description = """
   This is a meaty description of the zone api."""
   subcommands = [
-    "list-zones",
-    "delete-zone",
+    "activation-check",
+    "create-custom-hostname",
     "create-zone",
+    "delete-zone",
     "edit-zone-paused",
     "edit-zone-vanity-ns",
+    "get-id-by-name",
+    "get-zone-settings",
     "list-available-rate-plans",
-    "create-custom-hostname",
+    "list-zones",
+    "zone-details",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -35,6 +39,7 @@
   This is a meaty description of the ssl api."""
   subcommands = [
     "list-custom-certs",
+    "list-zone-ssl-settings",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with ssl configuration"
@@ -51,15 +56,17 @@
   shortdescription = "Commands for interacting with pagerules api"
 
 [[command]]
-  name = "railgun"
+  name = "cache"
   description = """
-  Commands for the management and description of railguns"""
+  Commands for the management and description of cache technologies."""
   subcommands = [
     "list-railguns",
+    "list-zone-railguns",
     "connect-zone-railgun",
+    "purge-everything",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with th erailgun api"
+  shortdescription = "Commands for interacting with caching and railgun APIs"
 
 [[command]]
   name = "firewall"
@@ -502,6 +509,12 @@
   v4apiname = "ListRailguns"
 
 [[command]]
+  name = "list-zone-railguns"
+  description = """Returns all Railguns associated with a given zone"""
+  shortdescription = "List all Railguns associated with a zone"
+  v4apiname = "ListZoneRailguns"
+
+[[command]]
   name = "list-user-access-rules"
   description = """Returns all access rules associated with your account"""
   shortdescription = "List User Access Rules"
@@ -672,3 +685,69 @@
   type = "int"
   description = "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers."
   required = false
+
+[[command]]
+  name = "purge-everything"
+  description = """Purge all items in this zones cache."""
+  shortdescription = "Purge Everything"
+  v4apiname = "PurgeEverything"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zoneID that will be purged."
+  required = true
+
+[[command]]
+  name = "activation-check"
+  description = """Initiates another zone activation check for newly-created zones"""
+  shortdescription = "Initiate another zone activation check"
+  v4apiname = "ActivationCheck"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zoneID associated with the activation check"
+  required = true
+
+[[command]]
+  name = "zone-details"
+  description = """Fetches information about a zone."""
+  shortdescription = "Fetches information about a zone."
+  v4apiname = "ZoneDetails"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zoneID that will be purged."
+  required = true
+
+[[command]]
+  name = "get-id-by-name"
+  description = """Get the zone id by the zone name."""
+  shortdescription = "Get the zone id by name"
+  v4apiname = "GetIDByName"
+  [[command.option]]
+  name = "zoneName"
+  type = "string"
+  description = "The zoneName that you want the ID of"
+  required = true
+
+[[command]]
+  name = "list-zone-ssl-settings"
+  description = """Get the ssl settings associated with a zone."""
+  shortdescription = "Fetch zone ssl settings"
+  v4apiname = "ZoneSSLSettings"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zoneID you wish to fetch the SSL settings for"
+  required = true
+
+[[command]]
+  name = "get-zone-settings"
+  description = """Get zone specific settings."""
+  shortdescription = "Get zone specific settings"
+  v4apiname = "ZoneSettings"
+  [[command.option]]
+  name = "zoneID"
+  type = "string"
+  description = "The zoneID you wish to fetch the zone settings for"
+  required = true

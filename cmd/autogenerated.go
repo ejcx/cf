@@ -33,6 +33,7 @@ var (
 	Description    string
 	FallbackPool   string
 	DefaultPools   string
+	ZoneName       string
 )
 
 func init() {
@@ -362,6 +363,15 @@ func init() {
 		},
 	}
 
+	var ListZoneRailguns = &cobra.Command{
+		Use:   "list-zone-railguns",
+		Short: "List all Railguns associated with a zone",
+		Long:  `Returns all Railguns associated with a given zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListZoneRailguns")
+		},
+	}
+
 	var ListUserAccessRules = &cobra.Command{
 		Use:   "list-user-access-rules",
 		Short: "List User Access Rules",
@@ -495,18 +505,94 @@ func init() {
 
 	CreateLoadbalancer.Flags().IntVar(&Ttl, "ttl", 0, "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers.")
 
+	var PurgeEverything = &cobra.Command{
+		Use:   "purge-everything",
+		Short: "Purge Everything",
+		Long:  `Purge all items in this zones cache.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "PurgeEverything")
+		},
+	}
+
+	PurgeEverything.Flags().StringVar(&ZoneID, "zoneID", "", "The zoneID that will be purged.")
+	PurgeEverything.MarkFlagRequired("zoneID")
+
+	var ActivationCheck = &cobra.Command{
+		Use:   "activation-check",
+		Short: "Initiate another zone activation check",
+		Long:  `Initiates another zone activation check for newly-created zones`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ActivationCheck")
+		},
+	}
+
+	ActivationCheck.Flags().StringVar(&ZoneID, "zoneID", "", "The zoneID associated with the activation check")
+	ActivationCheck.MarkFlagRequired("zoneID")
+
+	var ZoneDetails = &cobra.Command{
+		Use:   "zone-details",
+		Short: "Fetches information about a zone.",
+		Long:  `Fetches information about a zone.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneDetails")
+		},
+	}
+
+	ZoneDetails.Flags().StringVar(&ZoneID, "zoneID", "", "The zoneID that will be purged.")
+	ZoneDetails.MarkFlagRequired("zoneID")
+
+	var GetIdByName = &cobra.Command{
+		Use:   "get-id-by-name",
+		Short: "Get the zone id by name",
+		Long:  `Get the zone id by the zone name.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "GetIDByName")
+		},
+	}
+
+	GetIdByName.Flags().StringVar(&ZoneName, "zoneName", "", "The zoneName that you want the ID of")
+	GetIdByName.MarkFlagRequired("zoneName")
+
+	var ListZoneSslSettings = &cobra.Command{
+		Use:   "list-zone-ssl-settings",
+		Short: "Fetch zone ssl settings",
+		Long:  `Get the ssl settings associated with a zone.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneSSLSettings")
+		},
+	}
+
+	ListZoneSslSettings.Flags().StringVar(&ZoneID, "zoneID", "", "The zoneID you wish to fetch the SSL settings for")
+	ListZoneSslSettings.MarkFlagRequired("zoneID")
+
+	var GetZoneSettings = &cobra.Command{
+		Use:   "get-zone-settings",
+		Short: "Get zone specific settings",
+		Long:  `Get zone specific settings.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneSettings")
+		},
+	}
+
+	GetZoneSettings.Flags().StringVar(&ZoneID, "zoneID", "", "The zoneID you wish to fetch the zone settings for")
+	GetZoneSettings.MarkFlagRequired("zoneID")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
 		Long:  `  This is a meaty description of the zone api.`,
 	}
-	Zone.AddCommand(ListZones)
-	Zone.AddCommand(DeleteZone)
+	Zone.AddCommand(ActivationCheck)
+	Zone.AddCommand(CreateCustomHostname)
 	Zone.AddCommand(CreateZone)
+	Zone.AddCommand(DeleteZone)
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
+	Zone.AddCommand(GetIdByName)
+	Zone.AddCommand(GetZoneSettings)
 	Zone.AddCommand(ListAvailableRatePlans)
-	Zone.AddCommand(CreateCustomHostname)
+	Zone.AddCommand(ListZones)
+	Zone.AddCommand(ZoneDetails)
 
 	RootCmd.AddCommand(Zone)
 
@@ -530,6 +616,7 @@ func init() {
 		Long:  `  This is a meaty description of the ssl api.`,
 	}
 	Ssl.AddCommand(ListCustomCerts)
+	Ssl.AddCommand(ListZoneSslSettings)
 
 	RootCmd.AddCommand(Ssl)
 
@@ -542,15 +629,17 @@ func init() {
 
 	RootCmd.AddCommand(Pagerules)
 
-	var Railgun = &cobra.Command{
-		Use:   "railgun",
-		Short: "Commands for interacting with th erailgun api",
-		Long:  `  Commands for the management and description of railguns`,
+	var Cache = &cobra.Command{
+		Use:   "cache",
+		Short: "Commands for interacting with caching and railgun APIs",
+		Long:  `  Commands for the management and description of cache technologies.`,
 	}
-	Railgun.AddCommand(ListRailguns)
-	Railgun.AddCommand(ConnectZoneRailgun)
+	Cache.AddCommand(ListRailguns)
+	Cache.AddCommand(ListZoneRailguns)
+	Cache.AddCommand(ConnectZoneRailgun)
+	Cache.AddCommand(PurgeEverything)
 
-	RootCmd.AddCommand(Railgun)
+	RootCmd.AddCommand(Cache)
 
 	var Firewall = &cobra.Command{
 		Use:   "firewall",
