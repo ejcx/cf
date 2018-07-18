@@ -160,7 +160,7 @@
   v4apiname = "DNSRecords"
 
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "zone id used for filtering"
   required = true
@@ -190,7 +190,7 @@
   v4apiname = "CreateDNSRecord"
 
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone id associated with the new dns record"
   required = true
@@ -238,13 +238,13 @@
   v4apiname = "DeleteDNSRecord"
 
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone id associated with the record you wish to delete"
   required = true
 
   [[command.option]]
-  name = "recordID"
+  name = "record-id"
   type = "string"
   description = "The record id associated with the dns record you wish to delete"
   required = true
@@ -256,7 +256,7 @@
   v4apiname = "DeleteZone"
 
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone id that will be deleted"
   required = true
@@ -274,7 +274,7 @@
   required = true
 
   [[command.option]]
-  name = "organizationID"
+  name = "organization-id"
   type = "string"
   description = "The organizationID associated with the zone"
   required = false
@@ -286,13 +286,13 @@
   v4apiname = "DNSRecord"
 
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the DNS Record"
   required = true
 
   [[command.option]]
-  name = "recordID"
+  name = "record-id"
   type = "string"
   description = "*Reqiured:* The recordID associated with the DNS Record"
   required = true
@@ -304,7 +304,7 @@
   v4apiname = "ListAllRateLimits"
 
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the Ratelimits"
   required = true
@@ -315,7 +315,7 @@
   shortdescription = "Show LoadBalancers"
   v4apiname = "ListLoadBalancers"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the Ratelimits"
   required = true
@@ -332,7 +332,7 @@
   shortdescription = "Show Page Rules"
   v4apiname = "ListPageRules"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the pagerules"
   required = true
@@ -343,7 +343,7 @@
   shortdescription = "Show Custom Certs"
   v4apiname = "ListCustomCerts"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the custom certs"
   required = true
@@ -354,7 +354,7 @@
   shortdescription = "List User-Agent rules"
   v4apiname = "ListUserAgentRules"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the user-agent rule."
   required = true
@@ -370,7 +370,7 @@
   shortdescription = "List WAF Packages"
   v4apiname = "ListWAFPackages"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the WAF packages."
   required = true
@@ -381,12 +381,12 @@
   shortdescription = "List WAF Rules"
   v4apiname = "ListWAFRules"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the WAF configuration."
   required = true
   [[command.option]]
-  name = "packageID"
+  name = "package-id"
   type = "string"
   description = "The package ID associated with the displayed WAF rules."
   required = true
@@ -397,7 +397,7 @@
   shortdescription = "List Zone Lockdowns"
   v4apiname = "ListZoneLockdowns"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the WAF configuration."
   required = true
@@ -412,7 +412,7 @@
   shortdescription = "Edit a given zone"
   v4apiname = "EditZonePaused"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the zone being updated"
   required = true
@@ -427,7 +427,7 @@
   shortdescription = "Edit a given zone"
   v4apiname = "EditZoneVanityNS"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the zone being updated"
   required = true
@@ -447,12 +447,12 @@
   type = "bool"
   description = "Set this flag is you wish to proxy through Cloudflare, otherwise do not set"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   required = true
   description = "The zone ID associated with the dns record"
   [[command.option]]
-  name = "recordID"
+  name = "record-id"
   type = "string"
   required = true
   description = "The record ID that indicates the dns record"
@@ -494,7 +494,7 @@
   shortdescription = "List Organization Access Rules"
   v4apiname = "ListOrganizationAccessRules"
   [[command.option]]
-  name = "organizationID"
+  name = "organization-id"
   type = "string"
   description = "The Organization ID"
   required = true
@@ -559,7 +559,7 @@
   shortdescription = "List all available zone rate plans"
   v4apiname = "AvailableZoneRatePlans"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the rate plans"
   required = true
@@ -570,12 +570,12 @@
   shortdescription = "Connect or disconnect a Railgun"
   v4apiname = "ConnectZoneRailgun"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID to be associated with the railgun"
   required = true
   [[command.option]]
-  name = "railgunID"
+  name = "railgun-id"
   type = "string"
   description = "The railgun ID to be associated with the zone"
   required = true
@@ -586,7 +586,7 @@
   shortdescription = "Create a custom hostname for an associated zone."
   v4apiname = "CreateCustomHostname"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zone ID associated with the custom hostname"
   required = true
@@ -612,7 +612,7 @@
   shortdescription = "Create a configured monitor"
   v4apiname = "CreateLoadBalancerMonitor"
   [[command.option]]
-  name = "expectedCodes"
+  name = "expected-codes"
   type = "string"
   description = "The expected http response code in the healthcheck"
   required = true
@@ -647,7 +647,7 @@
   description = "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. default value 2"
   required = true
   [[command.option]]
-  name = "expectedBody"
+  name = "expected-body"
   type = "string"
   description = "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy."
   required = false
@@ -668,7 +668,7 @@
   shortdescription = "Create a configured monitor"
   v4apiname = "CreateLoadBalancer"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zoneID associated with the loadbalancer"
   required = true
@@ -678,12 +678,12 @@
   description = "The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balancer will take precedence and the DNS record will not be used."
   required = true
   [[command.option]]
-  name = "fallbackPool"
+  name = "fallback-pool"
   type = "string"
   description = "The pool ID to use when all other pools are detected as unhealthy. max length: 32"
   required = true
   [[command.option]]
-  name = "defaultPools"
+  name = "default-pools"
   type = "string"
   description = "A comma separated list of pool IDs ordered by their failover priority. Pools defined here are used by default, or when region_pools are not configured for a given region."
   required = true
@@ -704,7 +704,7 @@
   shortdescription = "Purge Everything"
   v4apiname = "PurgeEverything"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zoneID that will be purged."
   required = true
@@ -715,7 +715,7 @@
   shortdescription = "Initiate another zone activation check"
   v4apiname = "ActivationCheck"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zoneID associated with the activation check"
   required = true
@@ -726,7 +726,7 @@
   shortdescription = "Fetches information about a zone."
   v4apiname = "ZoneDetails"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zoneID that will be purged."
   required = true
@@ -737,7 +737,7 @@
   shortdescription = "Get the zone id by name"
   v4apiname = "GetIDByName"
   [[command.option]]
-  name = "zoneName"
+  name = "zone-name"
   type = "string"
   description = "The zoneName that you want the ID of"
   required = true
@@ -748,7 +748,7 @@
   shortdescription = "Fetch zone ssl settings"
   v4apiname = "ZoneSSLSettings"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zoneID you wish to fetch the SSL settings for"
   required = true
@@ -759,7 +759,7 @@
   shortdescription = "Get zone specific settings"
   v4apiname = "ZoneSettings"
   [[command.option]]
-  name = "zoneID"
+  name = "zone-id"
   type = "string"
   description = "The zoneID you wish to fetch the zone settings for"
   required = true
@@ -782,7 +782,7 @@
   shortdescription = "Get virtual dns details"
   v4apiname = "VirtualDNS"
   [[command.option]]
-  name = "virtualDNSID"
+  name = "virtual-dns-id"
   type = "string"
   description = "The virtualDNS ID you wish to fetch the details of."
   required = true

@@ -76,7 +76,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		if Content != "" {
 			rec.Content = Content
 		}
-		resp, err = api.DNSRecords(ZoneID, rec)
+		resp, err = api.DNSRecords(ZoneId, rec)
 	case "EditDNSRecord":
 		rec := cloudflare.DNSRecord{
 			Type:    Type,
@@ -85,7 +85,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			Proxied: Proxied,
 			TTL:     Ttl,
 		}
-		err = api.UpdateDNSRecord(ZoneID, RecordID, rec)
+		err = api.UpdateDNSRecord(ZoneId, RecordId, rec)
 	case "CreateDNSRecord":
 		rec := cloudflare.DNSRecord{}
 		if Type != "" {
@@ -107,22 +107,22 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		if NotProxied {
 			rec.Proxied = false
 		}
-		resp, err = api.CreateDNSRecord(ZoneID, rec)
+		resp, err = api.CreateDNSRecord(ZoneId, rec)
 	case "DeleteDNSRecord":
-		err = api.DeleteDNSRecord(ZoneID, RecordID)
+		err = api.DeleteDNSRecord(ZoneId, RecordId)
 		if err == nil {
 			resp = map[string]interface{}{
 				"Success": true,
 			}
 		}
 	case "DeleteZone":
-		resp, err = api.DeleteZone(ZoneID)
+		resp, err = api.DeleteZone(ZoneId)
 	case "DNSRecord":
-		resp, err = api.DNSRecord(ZoneID, RecordID)
+		resp, err = api.DNSRecord(ZoneId, RecordId)
 	case "ListAllRateLimits":
-		resp, err = api.ListAllRateLimits(ZoneID)
+		resp, err = api.ListAllRateLimits(ZoneId)
 	case "ListLoadBalancers":
-		resp, err = api.ListLoadBalancers(ZoneID)
+		resp, err = api.ListLoadBalancers(ZoneId)
 	case "ListLoadBalancerMonitors":
 		resp, err = api.ListLoadBalancerMonitors()
 	case "ListLoadBalancerPools":
@@ -137,7 +137,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		if Mode != "" {
 			ar.Mode = Mode
 		}
-		resp, err = api.ListOrganizationAccessRules(OrganizationID, ar, Page)
+		resp, err = api.ListOrganizationAccessRules(OrganizationId, ar, Page)
 	case "ListUserAccessRules":
 		ar := cloudflare.AccessRule{}
 		if Notes != "" {
@@ -148,15 +148,15 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 		resp, err = api.ListUserAccessRules(ar, Page)
 	case "ListPageRules":
-		resp, err = api.ListPageRules(ZoneID)
+		resp, err = api.ListPageRules(ZoneId)
 	case "ListCustomCerts":
-		resp, err = api.ListSSL(ZoneID)
+		resp, err = api.ListSSL(ZoneId)
 	case "ListWAFPackages":
-		resp, err = api.ListWAFPackages(ZoneID)
+		resp, err = api.ListWAFPackages(ZoneId)
 	case "ListVirtualDns":
 		resp, err = api.ListVirtualDNS()
 	case "ZoneSettings":
-		resp, err = api.ZoneSettings(ZoneID)
+		resp, err = api.ZoneSettings(ZoneId)
 	case "CreateLoadBalancer":
 		d := strings.Split(DefaultPools, ",")
 		l := cloudflare.LoadBalancer{
@@ -168,7 +168,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		if Ttl > 0 {
 			l.TTL = Ttl
 		}
-		api.CreateLoadBalancer(ZoneID, l)
+		api.CreateLoadBalancer(ZoneId, l)
 	case "CreateLoadBalancerMonitor":
 		l := cloudflare.LoadBalancerMonitor{ExpectedCodes: ExpectedCodes}
 		if Method != "" {
@@ -202,33 +202,33 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 		resp, err = api.CreateLoadBalancerMonitor(l)
 	case "ListWAFRules":
-		resp, err = api.ListWAFRules(ZoneID, PackageID)
+		resp, err = api.ListWAFRules(ZoneId, PackageId)
 	case "ListRailguns":
 		resp, err = api.ListRailguns(cloudflare.RailgunListOptions{})
 	case "AvailableZoneRatePlans":
-		resp, err = api.AvailableZoneRatePlans(ZoneID)
+		resp, err = api.AvailableZoneRatePlans(ZoneId)
 	case "ActivationCheck":
-		resp, err = api.ZoneActivationCheck(ZoneID)
+		resp, err = api.ZoneActivationCheck(ZoneId)
 	case "ZoneDetails":
-		resp, err = api.ZoneDetails(ZoneID)
+		resp, err = api.ZoneDetails(ZoneId)
 	case "PurgeEverything":
-		resp, err = api.PurgeEverything(ZoneID)
+		resp, err = api.PurgeEverything(ZoneId)
 	case "ConnectZoneRailgun":
-		resp, err = api.ConnectZoneRailgun(ZoneID, RailgunID)
-	case "GetIDByName":
+		resp, err = api.ConnectZoneRailgun(ZoneId, RailgunId)
+	case "GetIdByName":
 		resp, err = api.ZoneIDByName(ZoneName)
 	case "ListZoneRailguns":
-		resp, err = api.ZoneRailguns(ZoneID)
+		resp, err = api.ZoneRailguns(ZoneId)
 	case "ZoneSSLSettings":
-		resp, err = api.ZoneSSLSettings(ZoneID)
+		resp, err = api.ZoneSSLSettings(ZoneId)
 	case "UserDetails":
 		resp, err = api.UserDetails()
 	case "UserBillingProfile":
 		resp, err = api.UserBillingProfile()
 	case "VirtualDNS":
-		resp, err = api.VirtualDNS(VirtualDNSID)
+		resp, err = api.VirtualDNS(VirtualDnsId)
 	case "CreateCustomHostname":
-		resp, err = api.CreateCustomHostname(ZoneID, cloudflare.CustomHostname{
+		resp, err = api.CreateCustomHostname(ZoneId, cloudflare.CustomHostname{
 			Hostname: Hostname,
 			SSL: cloudflare.CustomHostnameSSL{
 				Method: Method,
@@ -239,29 +239,29 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		z := cloudflare.ZoneOptions{
 			Paused: &Paused,
 		}
-		resp, err = api.EditZone(ZoneID, z)
+		resp, err = api.EditZone(ZoneId, z)
 	case "EditZoneVanityNS":
 		vns := strings.Split(VanityNS, ",")
 		z := cloudflare.ZoneOptions{
 			VanityNS: vns,
 		}
-		resp, err = api.EditZone(ZoneID, z)
+		resp, err = api.EditZone(ZoneId, z)
 	case "ListZoneLockdowns":
 		page := 1
 		if Page != 0 {
 			page = Page
 		}
-		resp, err = api.ListZoneLockdowns(ZoneID, page)
+		resp, err = api.ListZoneLockdowns(ZoneId, page)
 	case "ListUserAgentRules":
 		page := 1
 		if Page != 0 {
 			page = Page
 		}
-		resp, err = api.ListUserAgentRules(ZoneID, page)
+		resp, err = api.ListUserAgentRules(ZoneId, page)
 	case "CreateZone":
 		org := cloudflare.Organization{}
-		if OrganizationID != "" {
-			org.ID = OrganizationID
+		if OrganizationId != "" {
+			org.ID = OrganizationId
 		}
 		resp, err = api.CreateZone(Name, false, org)
 	default:
