@@ -34,6 +34,17 @@
   shortdescription = "Commands for interacting with dns records"
 
 [[command]]
+  name = "user"
+  description = """
+  This is a meaty description of the user api."""
+  subcommands = [
+    "details",
+    "billing-profile",
+  ]
+  toplevel = true
+  shortdescription = "Commands for interacting with users"
+
+[[command]]
   name = "ssl"
   description = """
   This is a meaty description of the ssl api."""
@@ -751,3 +762,15 @@
   type = "string"
   description = "The zoneID you wish to fetch the zone settings for"
   required = true
+
+[[command]]
+  name = "details"
+  description = """Get user specific settings."""
+  shortdescription = "Get user specific settings"
+  v4apiname = "UserDetails"
+
+[[command]]
+  name = "billing-profile"
+  description = """Get the user billing profile."""
+  shortdescription = "Get the billing profile"
+  v4apiname = "UserBillingProfile"

@@ -577,6 +577,24 @@ func init() {
 	GetZoneSettings.Flags().StringVar(&ZoneID, "zoneID", "", "The zoneID you wish to fetch the zone settings for")
 	GetZoneSettings.MarkFlagRequired("zoneID")
 
+	var Details = &cobra.Command{
+		Use:   "details",
+		Short: "Get user specific settings",
+		Long:  `Get user specific settings.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UserDetails")
+		},
+	}
+
+	var BillingProfile = &cobra.Command{
+		Use:   "billing-profile",
+		Short: "Get the billing profile",
+		Long:  `Get the user billing profile.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UserBillingProfile")
+		},
+	}
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -609,6 +627,16 @@ func init() {
 	Dns.AddCommand(DeleteDnsRecord)
 
 	RootCmd.AddCommand(Dns)
+
+	var User = &cobra.Command{
+		Use:   "user",
+		Short: "Commands for interacting with users",
+		Long:  `  This is a meaty description of the user api.`,
+	}
+	User.AddCommand(Details)
+	User.AddCommand(BillingProfile)
+
+	RootCmd.AddCommand(User)
 
 	var Ssl = &cobra.Command{
 		Use:   "ssl",
