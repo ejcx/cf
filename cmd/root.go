@@ -225,6 +225,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.UserDetails()
 	case "UserBillingProfile":
 		resp, err = api.UserBillingProfile()
+	case "VirtualDNS":
+		resp, err = api.VirtualDNS(VirtualDNSID)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneID, cloudflare.CustomHostname{
 			Hostname: Hostname,

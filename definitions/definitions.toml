@@ -23,12 +23,13 @@
   description = """
   This is a meaty description of the dns api."""
   subcommands = [
-    "list-dns-records",
-    "list-virtual-dns",
-    "edit-dns-record",
-    "show-dns-record",
     "create-dns-record",
     "delete-dns-record",
+    "get-virtual-dns-details",
+    "edit-dns-record",
+    "list-dns-records",
+    "list-virtual-dns",
+    "show-dns-record",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with dns records"
@@ -38,8 +39,8 @@
   description = """
   This is a meaty description of the user api."""
   subcommands = [
-    "details",
     "billing-profile",
+    "details",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with users"
@@ -71,9 +72,9 @@
   description = """
   Commands for the management and description of cache technologies."""
   subcommands = [
+    "connect-zone-railgun",
     "list-railguns",
     "list-zone-railguns",
-    "connect-zone-railgun",
     "purge-everything",
   ]
   toplevel = true
@@ -85,9 +86,9 @@
   This is a meaty description of the firewall apis."""
   subcommands = [
     "list-user-agent-rules",
-    "list-zone-lockdowns",
     "list-waf-packages",
     "list-waf-rules",
+    "list-zone-lockdowns",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with firewall"
@@ -97,8 +98,8 @@
   description = """
   This is a meaty description of the organizaiton api."""
   subcommands = [
-    "list-organizations",
     "list-organization-access-rules",
+    "list-organizations",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with organizations api"
@@ -130,11 +131,11 @@
   description = """
   This is a meaty description of the loadbalancer api."""
   subcommands = [
-    "list-loadbalancers",
+    "create-loadbalancer",
+    "create-loadbalancer-monitor",
     "list-loadbalancer-monitors",
     "list-loadbalancer-pools",
-    "create-loadbalancer-monitor",
-    "create-loadbalancer",
+    "list-loadbalancers",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with loadbalancer api"
@@ -774,3 +775,14 @@
   description = """Get the user billing profile."""
   shortdescription = "Get the billing profile"
   v4apiname = "UserBillingProfile"
+
+[[command]]
+  name = "get-virtual-dns-details"
+  description = """Get the details about a virtual dns instance."""
+  shortdescription = "Get virtual dns details"
+  v4apiname = "VirtualDNS"
+  [[command.option]]
+  name = "virtualDNSID"
+  type = "string"
+  description = "The virtualDNS ID you wish to fetch the details of."
+  required = true

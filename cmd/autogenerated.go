@@ -34,6 +34,7 @@ var (
 	FallbackPool   string
 	DefaultPools   string
 	ZoneName       string
+	VirtualDNSID   string
 )
 
 func init() {
@@ -595,6 +596,18 @@ func init() {
 		},
 	}
 
+	var GetVirtualDnsDetails = &cobra.Command{
+		Use:   "get-virtual-dns-details",
+		Short: "Get virtual dns details",
+		Long:  `Get the details about a virtual dns instance.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "VirtualDNS")
+		},
+	}
+
+	GetVirtualDnsDetails.Flags().StringVar(&VirtualDNSID, "virtualDNSID", "", "The virtualDNS ID you wish to fetch the details of.")
+	GetVirtualDnsDetails.MarkFlagRequired("virtualDNSID")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -619,12 +632,13 @@ func init() {
 		Short: "Commands for interacting with dns records",
 		Long:  `  This is a meaty description of the dns api.`,
 	}
-	Dns.AddCommand(ListDnsRecords)
-	Dns.AddCommand(ListVirtualDns)
-	Dns.AddCommand(EditDnsRecord)
-	Dns.AddCommand(ShowDnsRecord)
 	Dns.AddCommand(CreateDnsRecord)
 	Dns.AddCommand(DeleteDnsRecord)
+	Dns.AddCommand(GetVirtualDnsDetails)
+	Dns.AddCommand(EditDnsRecord)
+	Dns.AddCommand(ListDnsRecords)
+	Dns.AddCommand(ListVirtualDns)
+	Dns.AddCommand(ShowDnsRecord)
 
 	RootCmd.AddCommand(Dns)
 
@@ -633,8 +647,8 @@ func init() {
 		Short: "Commands for interacting with users",
 		Long:  `  This is a meaty description of the user api.`,
 	}
-	User.AddCommand(Details)
 	User.AddCommand(BillingProfile)
+	User.AddCommand(Details)
 
 	RootCmd.AddCommand(User)
 
@@ -662,9 +676,9 @@ func init() {
 		Short: "Commands for interacting with caching and railgun APIs",
 		Long:  `  Commands for the management and description of cache technologies.`,
 	}
+	Cache.AddCommand(ConnectZoneRailgun)
 	Cache.AddCommand(ListRailguns)
 	Cache.AddCommand(ListZoneRailguns)
-	Cache.AddCommand(ConnectZoneRailgun)
 	Cache.AddCommand(PurgeEverything)
 
 	RootCmd.AddCommand(Cache)
@@ -675,9 +689,9 @@ func init() {
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
 	Firewall.AddCommand(ListUserAgentRules)
-	Firewall.AddCommand(ListZoneLockdowns)
 	Firewall.AddCommand(ListWafPackages)
 	Firewall.AddCommand(ListWafRules)
+	Firewall.AddCommand(ListZoneLockdowns)
 
 	RootCmd.AddCommand(Firewall)
 
@@ -686,8 +700,8 @@ func init() {
 		Short: "Commands for interacting with organizations api",
 		Long:  `  This is a meaty description of the organizaiton api.`,
 	}
-	Organization.AddCommand(ListOrganizations)
 	Organization.AddCommand(ListOrganizationAccessRules)
+	Organization.AddCommand(ListOrganizations)
 
 	RootCmd.AddCommand(Organization)
 
@@ -714,11 +728,11 @@ func init() {
 		Short: "Commands for interacting with loadbalancer api",
 		Long:  `  This is a meaty description of the loadbalancer api.`,
 	}
-	Loadbalancer.AddCommand(ListLoadbalancers)
+	Loadbalancer.AddCommand(CreateLoadbalancer)
+	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)
-	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
-	Loadbalancer.AddCommand(CreateLoadbalancer)
+	Loadbalancer.AddCommand(ListLoadbalancers)
 
 	RootCmd.AddCommand(Loadbalancer)
 
