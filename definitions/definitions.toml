@@ -99,6 +99,10 @@
   description = """
   This is a meaty description of the organizaiton api."""
   subcommands = [
+    "get-organization-details",
+    "get-organization-invites",
+    "get-organization-members",
+    "get-organization-roles",
     "list-organization-access-rules",
     "list-organizations",
   ]
@@ -135,6 +139,7 @@
     "create-loadbalancer",
     "create-loadbalancer-monitor",
     "get-loadbalancer-details",
+    "get-loadbalancer-pool-details",
     "get-loadbalancer-monitor-details",
     "list-loadbalancer-monitors",
     "list-loadbalancer-pools",
@@ -831,4 +836,59 @@
   name = "monitor-id"
   type = "string"
   description = "The loadbalancer monitor id that you wish to view the details of."
+  required = true
+
+[[command]]
+  name = "get-loadbalancer-pool-details"
+  description = """Get loadbalancer pool details."""
+  shortdescription = "Get loadbalancer pool details"
+  v4apiname = "LoadBalancerPoolDetails"
+  [[command.option]]
+  name = "pool-id"
+  type = "string"
+  description = "The loadbalancer pool id that you wish to view the details of."
+  required = true
+
+[[command]]
+  name = "get-organization-details"
+  description = """Get organization details."""
+  shortdescription = "Get organization details"
+  v4apiname = "OrganizationDetails"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id that you wish to view the details of."
+  required = true
+
+[[command]]
+  name = "get-organization-invites"
+  description = """Get organization invites."""
+  shortdescription = "Get organization invites"
+  v4apiname = "OrganizationInvites"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id that you wish to view the invites for."
+  required = true
+
+[[command]]
+  name = "get-organization-members"
+  description = """Get organization members."""
+  shortdescription = "Get organization members"
+  v4apiname = "OrganizationMembers"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id that you wish to view the members of"
+  required = true
+
+[[command]]
+  name = "get-organization-roles"
+  description = """Get organization roles."""
+  shortdescription = "Get organization roles"
+  v4apiname = "OrganizationRoles"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id that you wish to view the member roles of"
   required = true

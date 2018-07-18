@@ -38,6 +38,7 @@ var (
 	PageruleId     string
 	LoadbalancerId string
 	MonitorId      string
+	PoolId         string
 )
 
 func init() {
@@ -653,6 +654,66 @@ func init() {
 	GetLoadbalancerMonitorDetails.Flags().StringVar(&MonitorId, "monitor-id", "", "The loadbalancer monitor id that you wish to view the details of.")
 	GetLoadbalancerMonitorDetails.MarkFlagRequired("monitor-id")
 
+	var GetLoadbalancerPoolDetails = &cobra.Command{
+		Use:   "get-loadbalancer-pool-details",
+		Short: "Get loadbalancer pool details",
+		Long:  `Get loadbalancer pool details.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "LoadBalancerPoolDetails")
+		},
+	}
+
+	GetLoadbalancerPoolDetails.Flags().StringVar(&PoolId, "pool-id", "", "The loadbalancer pool id that you wish to view the details of.")
+	GetLoadbalancerPoolDetails.MarkFlagRequired("pool-id")
+
+	var GetOrganizationDetails = &cobra.Command{
+		Use:   "get-organization-details",
+		Short: "Get organization details",
+		Long:  `Get organization details.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "OrganizationDetails")
+		},
+	}
+
+	GetOrganizationDetails.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id that you wish to view the details of.")
+	GetOrganizationDetails.MarkFlagRequired("organization-id")
+
+	var GetOrganizationInvites = &cobra.Command{
+		Use:   "get-organization-invites",
+		Short: "Get organization invites",
+		Long:  `Get organization invites.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "OrganizationInvites")
+		},
+	}
+
+	GetOrganizationInvites.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id that you wish to view the invites for.")
+	GetOrganizationInvites.MarkFlagRequired("organization-id")
+
+	var GetOrganizationMembers = &cobra.Command{
+		Use:   "get-organization-members",
+		Short: "Get organization members",
+		Long:  `Get organization members.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "OrganizationMembers")
+		},
+	}
+
+	GetOrganizationMembers.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id that you wish to view the members of")
+	GetOrganizationMembers.MarkFlagRequired("organization-id")
+
+	var GetOrganizationRoles = &cobra.Command{
+		Use:   "get-organization-roles",
+		Short: "Get organization roles",
+		Long:  `Get organization roles.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "OrganizationRoles")
+		},
+	}
+
+	GetOrganizationRoles.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id that you wish to view the member roles of")
+	GetOrganizationRoles.MarkFlagRequired("organization-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -746,6 +807,10 @@ func init() {
 		Short: "Commands for interacting with organizations api",
 		Long:  `  This is a meaty description of the organizaiton api.`,
 	}
+	Organization.AddCommand(GetOrganizationDetails)
+	Organization.AddCommand(GetOrganizationInvites)
+	Organization.AddCommand(GetOrganizationMembers)
+	Organization.AddCommand(GetOrganizationRoles)
 	Organization.AddCommand(ListOrganizationAccessRules)
 	Organization.AddCommand(ListOrganizations)
 
@@ -777,6 +842,7 @@ func init() {
 	Loadbalancer.AddCommand(CreateLoadbalancer)
 	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
 	Loadbalancer.AddCommand(GetLoadbalancerDetails)
+	Loadbalancer.AddCommand(GetLoadbalancerPoolDetails)
 	Loadbalancer.AddCommand(GetLoadbalancerMonitorDetails)
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)

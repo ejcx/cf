@@ -233,6 +233,16 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.LoadBalancerDetails(ZoneId, LoadbalancerId)
 	case "LoadBalancerMonitorDetails":
 		resp, err = api.LoadBalancerMonitorDetails(MonitorId)
+	case "LoadBalancerPoolDetails":
+		resp, err = api.LoadBalancerPoolDetails(PoolId)
+	case "OrganizationDetails":
+		resp, err = api.OrganizationDetails(OrganizationId)
+	case "OrganizationInvites":
+		resp, _, err = api.OrganizationInvites(OrganizationId)
+	case "OrganizationMembers":
+		resp, _, err = api.OrganizationMembers(OrganizationId)
+	case "OrganizationRoles":
+		resp, _, err = api.OrganizationRoles(OrganizationId)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneId, cloudflare.CustomHostname{
 			Hostname: Hostname,
