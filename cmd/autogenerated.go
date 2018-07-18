@@ -37,6 +37,7 @@ var (
 	VirtualDnsId   string
 	PageruleId     string
 	LoadbalancerId string
+	MonitorId      string
 )
 
 func init() {
@@ -640,6 +641,18 @@ func init() {
 	GetLoadbalancerDetails.Flags().StringVar(&LoadbalancerId, "loadbalancer-id", "", "The loadbalancer id that you wish to view the details of.")
 	GetLoadbalancerDetails.MarkFlagRequired("loadbalancer-id")
 
+	var GetLoadbalancerMonitorDetails = &cobra.Command{
+		Use:   "get-loadbalancer-monitor-details",
+		Short: "Get loadbalancer monitor details",
+		Long:  `Get loadbalancer monitor details.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "LoadBalancerMonitorDetails")
+		},
+	}
+
+	GetLoadbalancerMonitorDetails.Flags().StringVar(&MonitorId, "monitor-id", "", "The loadbalancer monitor id that you wish to view the details of.")
+	GetLoadbalancerMonitorDetails.MarkFlagRequired("monitor-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -764,6 +777,7 @@ func init() {
 	Loadbalancer.AddCommand(CreateLoadbalancer)
 	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
 	Loadbalancer.AddCommand(GetLoadbalancerDetails)
+	Loadbalancer.AddCommand(GetLoadbalancerMonitorDetails)
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)
 	Loadbalancer.AddCommand(ListLoadbalancers)

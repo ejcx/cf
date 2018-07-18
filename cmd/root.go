@@ -231,6 +231,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.PageRule(ZoneId, PageruleId)
 	case "LoadBalancerDetails":
 		resp, err = api.LoadBalancerDetails(ZoneId, LoadbalancerId)
+	case "LoadBalancerMonitorDetails":
+		resp, err = api.LoadBalancerMonitorDetails(MonitorId)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneId, cloudflare.CustomHostname{
 			Hostname: Hostname,

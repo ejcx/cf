@@ -135,6 +135,7 @@
     "create-loadbalancer",
     "create-loadbalancer-monitor",
     "get-loadbalancer-details",
+    "get-loadbalancer-monitor-details",
     "list-loadbalancer-monitors",
     "list-loadbalancer-pools",
     "list-loadbalancers",
@@ -819,4 +820,15 @@
   name = "loadbalancer-id"
   type = "string"
   description = "The loadbalancer id that you wish to view the details of."
+  required = true
+
+[[command]]
+  name = "get-loadbalancer-monitor-details"
+  description = """Get loadbalancer monitor details."""
+  shortdescription = "Get loadbalancer monitor details"
+  v4apiname = "LoadBalancerMonitorDetails"
+  [[command.option]]
+  name = "monitor-id"
+  type = "string"
+  description = "The loadbalancer monitor id that you wish to view the details of."
   required = true
