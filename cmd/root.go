@@ -210,6 +210,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListRailguns(cloudflare.RailgunListOptions{})
 	case "RailgunDetails":
 		resp, err = api.RailgunDetails(RailgunId)
+	case "RailgunZones":
+		resp, err = api.RailgunZones(RailgunId)
 	case "AvailableZoneRatePlans":
 		resp, err = api.AvailableZoneRatePlans(ZoneId)
 	case "ActivationCheck":
@@ -252,6 +254,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.OriginCertificates(cloudflare.OriginCACertificateListOptions{ZoneID: ZoneId})
 	case "OriginCertificate":
 		resp, err = api.OriginCertificate(CertificateId)
+	case "RateLimit":
+		resp, err = api.RateLimit(ZoneId, RatelimitId)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneId, cloudflare.CustomHostname{
 			Hostname: Hostname,

@@ -77,6 +77,7 @@
   subcommands = [
     "connect-zone-railgun",
     "get-railgun-details",
+    "get-railgun-zones",
     "list-railguns",
     "list-zone-railguns",
     "purge-everything",
@@ -129,6 +130,7 @@
   description = """
   This is a meaty description of the ratelimit api."""
   subcommands = [
+    "get-ratelimit-details",
     "list-ratelimits",
   ]
   toplevel = true
@@ -927,4 +929,31 @@
   name = "railgun-id"
   type = "string"
   description = "The railgun id that you wish to view detailed information about"
+  required = true
+
+[[command]]
+  name = "get-railgun-zones"
+  description = """Get detailed information about a specific railgun's zones"""
+  shortdescription = "Get railgun instance zone details"
+  v4apiname = "RailgunZones"
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun id that you wish to view associated zones"
+  required = true
+
+[[command]]
+  name = "get-ratelimit-details"
+  description = """Get detailed information about a specific zone's ratelimits"""
+  shortdescription = "Get detailed information about a zone"
+  v4apiname = "RateLimit"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the ratelimit"
+  required = true
+  [[command.option]]
+  name = "ratelimit-id"
+  type = "string"
+  description = "The ratelimit id that you wish to view detailed information about"
   required = true

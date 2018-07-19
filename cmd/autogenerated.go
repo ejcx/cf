@@ -40,6 +40,7 @@ var (
 	MonitorId      string
 	PoolId         string
 	CertificateId  string
+	RatelimitId    string
 )
 
 func init() {
@@ -751,6 +752,33 @@ func init() {
 	GetRailgunDetails.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id that you wish to view detailed information about")
 	GetRailgunDetails.MarkFlagRequired("railgun-id")
 
+	var GetRailgunZones = &cobra.Command{
+		Use:   "get-railgun-zones",
+		Short: "Get railgun instance zone details",
+		Long:  `Get detailed information about a specific railgun's zones`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "RailgunZones")
+		},
+	}
+
+	GetRailgunZones.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id that you wish to view associated zones")
+	GetRailgunZones.MarkFlagRequired("railgun-id")
+
+	var GetRatelimitDetails = &cobra.Command{
+		Use:   "get-ratelimit-details",
+		Short: "Get detailed information about a zone",
+		Long:  `Get detailed information about a specific zone's ratelimits`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "RateLimit")
+		},
+	}
+
+	GetRatelimitDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the ratelimit")
+	GetRatelimitDetails.MarkFlagRequired("zone-id")
+
+	GetRatelimitDetails.Flags().StringVar(&RatelimitId, "ratelimit-id", "", "The ratelimit id that you wish to view detailed information about")
+	GetRatelimitDetails.MarkFlagRequired("ratelimit-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -824,6 +852,7 @@ func init() {
 	}
 	Cache.AddCommand(ConnectZoneRailgun)
 	Cache.AddCommand(GetRailgunDetails)
+	Cache.AddCommand(GetRailgunZones)
 	Cache.AddCommand(ListRailguns)
 	Cache.AddCommand(ListZoneRailguns)
 	Cache.AddCommand(PurgeEverything)
@@ -870,6 +899,7 @@ func init() {
 		Short: "Commands for interacting with ratelimit api",
 		Long:  `  This is a meaty description of the ratelimit api.`,
 	}
+	Ratelimit.AddCommand(GetRatelimitDetails)
 	Ratelimit.AddCommand(ListRatelimits)
 
 	RootCmd.AddCommand(Ratelimit)
