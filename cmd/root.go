@@ -260,6 +260,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.RateLimit(ZoneId, RatelimitId)
 	case "RevokeOriginCertificate":
 		resp, err = api.RevokeOriginCertificate(CertificateId)
+	case "TestRailgunConnection":
+		resp, err = api.TestRailgunConnection(ZoneId, RailgunId)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneId, cloudflare.CustomHostname{
 			Hostname: Hostname,

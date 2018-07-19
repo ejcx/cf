@@ -82,6 +82,7 @@
     "get-railgun-zones",
     "list-railguns",
     "list-zone-railguns",
+    "test-railgun-connection",
     "purge-everything",
   ]
   toplevel = true
@@ -985,4 +986,20 @@
   name = "certificate-id"
   type = "string"
   description = "The certificate id that is being revoked"
+  required = true
+
+[[command]]
+  name = "test-railgun-connection"
+  description = """Returns all access rules associated with your account"""
+  shortdescription = "List User Access Rules"
+  v4apiname = "TestRailgunConnection"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the railgun connection you wish to test"
+  required = true
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun id associated with the railgun connection you wish to test"
   required = true

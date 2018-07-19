@@ -806,6 +806,21 @@ func init() {
 	RevokeOriginCert.Flags().StringVar(&CertificateId, "certificate-id", "", "The certificate id that is being revoked")
 	RevokeOriginCert.MarkFlagRequired("certificate-id")
 
+	var TestRailgunConnection = &cobra.Command{
+		Use:   "test-railgun-connection",
+		Short: "List User Access Rules",
+		Long:  `Returns all access rules associated with your account`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "TestRailgunConnection")
+		},
+	}
+
+	TestRailgunConnection.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the railgun connection you wish to test")
+	TestRailgunConnection.MarkFlagRequired("zone-id")
+
+	TestRailgunConnection.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id associated with the railgun connection you wish to test")
+	TestRailgunConnection.MarkFlagRequired("railgun-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -884,6 +899,7 @@ func init() {
 	Cache.AddCommand(GetRailgunZones)
 	Cache.AddCommand(ListRailguns)
 	Cache.AddCommand(ListZoneRailguns)
+	Cache.AddCommand(TestRailgunConnection)
 	Cache.AddCommand(PurgeEverything)
 
 	RootCmd.AddCommand(Cache)
