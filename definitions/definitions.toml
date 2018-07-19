@@ -76,6 +76,7 @@
   Commands for the management and description of cache technologies."""
   subcommands = [
     "connect-zone-railgun",
+    "get-railgun-details",
     "list-railguns",
     "list-zone-railguns",
     "purge-everything",
@@ -915,4 +916,15 @@
   name = "certificate-id"
   type = "string"
   description = "The origin certificate id that you wish to view detailed information about"
+  required = true
+
+[[command]]
+  name = "get-railgun-details"
+  description = """Get detailed information about a specific railgun"""
+  shortdescription = "Get railgun instance details"
+  v4apiname = "RailgunDetails"
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun id that you wish to view detailed information about"
   required = true

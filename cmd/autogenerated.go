@@ -739,6 +739,18 @@ func init() {
 	GetOriginCertDetails.Flags().StringVar(&CertificateId, "certificate-id", "", "The origin certificate id that you wish to view detailed information about")
 	GetOriginCertDetails.MarkFlagRequired("certificate-id")
 
+	var GetRailgunDetails = &cobra.Command{
+		Use:   "get-railgun-details",
+		Short: "Get railgun instance details",
+		Long:  `Get detailed information about a specific railgun`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "RailgunDetails")
+		},
+	}
+
+	GetRailgunDetails.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id that you wish to view detailed information about")
+	GetRailgunDetails.MarkFlagRequired("railgun-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -811,6 +823,7 @@ func init() {
 		Long:  `  Commands for the management and description of cache technologies.`,
 	}
 	Cache.AddCommand(ConnectZoneRailgun)
+	Cache.AddCommand(GetRailgunDetails)
 	Cache.AddCommand(ListRailguns)
 	Cache.AddCommand(ListZoneRailguns)
 	Cache.AddCommand(PurgeEverything)

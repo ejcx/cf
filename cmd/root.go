@@ -208,6 +208,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ListWAFRules(ZoneId, PackageId)
 	case "ListRailguns":
 		resp, err = api.ListRailguns(cloudflare.RailgunListOptions{})
+	case "RailgunDetails":
+		resp, err = api.RailgunDetails(RailgunId)
 	case "AvailableZoneRatePlans":
 		resp, err = api.AvailableZoneRatePlans(ZoneId)
 	case "ActivationCheck":
