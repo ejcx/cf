@@ -1118,6 +1118,21 @@ func init() {
 	DeleteZoneAccessRule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the zone access rule being deleted")
 	DeleteZoneAccessRule.MarkFlagRequired("zone-id")
 
+	var DeleteZoneLockdown = &cobra.Command{
+		Use:   "delete-zone-lockdown",
+		Short: "Delete a zone lockdown",
+		Long:  `Delete a specific zone lockdown`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteZoneLockdown")
+		},
+	}
+
+	DeleteZoneLockdown.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the specific zone lockdown rule")
+	DeleteZoneLockdown.MarkFlagRequired("zone-id")
+
+	DeleteZoneLockdown.Flags().StringVar(&LockdownId, "lockdown-id", "", "The zone lockdown id associated with the zone lockdown being deleted")
+	DeleteZoneLockdown.MarkFlagRequired("lockdown-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1221,6 +1236,7 @@ func init() {
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
 	Firewall.AddCommand(DeleteUserAgentRule)
+	Firewall.AddCommand(DeleteZoneLockdown)
 	Firewall.AddCommand(DescribeZoneLockdown)
 	Firewall.AddCommand(ListUserAgentRules)
 	Firewall.AddCommand(ListWafPackages)

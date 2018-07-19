@@ -108,6 +108,7 @@
   This is a meaty description of the firewall apis."""
   subcommands = [
     "delete-user-agent-rule",
+    "delete-zone-lockdown",
     "describe-zone-lockdown",
     "list-user-agent-rules",
     "list-waf-packages",
@@ -1325,4 +1326,20 @@
   name = "zone-id"
   type = "string"
   description = "The zone id associated with the zone access rule being deleted"
+  required = true
+
+[[command]]
+  name = "delete-zone-lockdown"
+  description = """Delete a specific zone lockdown"""
+  shortdescription = "Delete a zone lockdown"
+  v4apiname = "DeleteZoneLockdown"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the specific zone lockdown rule"
+  required = true
+  [[command.option]]
+  name = "lockdown-id"
+  type = "string"
+  description = "The zone lockdown id associated with the zone lockdown being deleted"
   required = true
