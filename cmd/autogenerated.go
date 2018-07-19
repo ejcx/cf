@@ -821,6 +821,35 @@ func init() {
 	TestRailgunConnection.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id associated with the railgun connection you wish to test")
 	TestRailgunConnection.MarkFlagRequired("railgun-id")
 
+	var GetZoneRailgunDetails = &cobra.Command{
+		Use:   "get-zone-railgun-details",
+		Short: "Get zone railgun details",
+		Long:  `Returns all railgun details for an associated zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneRailgunDetails")
+		},
+	}
+
+	GetZoneRailgunDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the railguns you wish to get")
+	GetZoneRailgunDetails.MarkFlagRequired("zone-id")
+
+	GetZoneRailgunDetails.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id associated with the railguns you wish to get")
+	GetZoneRailgunDetails.MarkFlagRequired("railgun-id")
+
+	var SetPaused = &cobra.Command{
+		Use:   "set-paused",
+		Short: "Pause or unpause a zone",
+		Long:  `Set or unset a zone from being paused`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneSetPaused")
+		},
+	}
+
+	SetPaused.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id to either pause or unpause")
+	SetPaused.MarkFlagRequired("zone-id")
+
+	SetPaused.Flags().BoolVar(&Paused, "paused", false, "This flag is unset for unpaused. Set for paused.")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -836,6 +865,7 @@ func init() {
 	Zone.AddCommand(GetZoneSettings)
 	Zone.AddCommand(ListAvailableRatePlans)
 	Zone.AddCommand(ListZones)
+	Zone.AddCommand(SetPaused)
 	Zone.AddCommand(ZoneDetails)
 
 	RootCmd.AddCommand(Zone)
@@ -897,6 +927,7 @@ func init() {
 	Cache.AddCommand(ConnectZoneRailgun)
 	Cache.AddCommand(GetRailgunDetails)
 	Cache.AddCommand(GetRailgunZones)
+	Cache.AddCommand(GetZoneRailgunDetails)
 	Cache.AddCommand(ListRailguns)
 	Cache.AddCommand(ListZoneRailguns)
 	Cache.AddCommand(TestRailgunConnection)

@@ -13,6 +13,7 @@
     "get-zone-settings",
     "list-available-rate-plans",
     "list-zones",
+    "set-paused",
     "zone-details",
   ]
   toplevel = true
@@ -80,6 +81,7 @@
     "connect-zone-railgun",
     "get-railgun-details",
     "get-railgun-zones",
+    "get-zone-railgun-details",
     "list-railguns",
     "list-zone-railguns",
     "test-railgun-connection",
@@ -1003,3 +1005,35 @@
   type = "string"
   description = "The railgun id associated with the railgun connection you wish to test"
   required = true
+
+[[command]]
+  name = "get-zone-railgun-details"
+  description = """Returns all railgun details for an associated zone"""
+  shortdescription = "Get zone railgun details"
+  v4apiname = "ZoneRailgunDetails"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the railguns you wish to get"
+  required = true
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun id associated with the railguns you wish to get"
+  required = true
+
+[[command]]
+  name = "set-paused"
+  description = """Set or unset a zone from being paused"""
+  shortdescription = "Pause or unpause a zone"
+  v4apiname = "ZoneSetPaused"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id to either pause or unpause"
+  required = true
+  [[command.option]]
+  name = "paused"
+  type = "bool"
+  description = "This flag is unset for unpaused. Set for paused."
+  required = false
