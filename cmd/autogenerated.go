@@ -953,6 +953,21 @@ func init() {
 	DisableRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun ID associated with the railgun being disabled")
 	DisableRailgun.MarkFlagRequired("railgun-id")
 
+	var DisconnectRailgun = &cobra.Command{
+		Use:   "disconnect-railgun",
+		Short: "Disconnect a railgun from a zone",
+		Long:  `Disconnect a railgun associated with a specific zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DisconnectZoneRailgun")
+		},
+	}
+
+	DisconnectRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun ID associated with the railgun being disconnected")
+	DisconnectRailgun.MarkFlagRequired("railgun-id")
+
+	DisconnectRailgun.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID that the railgun instance is being disconnected from")
+	DisconnectRailgun.MarkFlagRequired("zone-id")
+
 	var EnableRailgun = &cobra.Command{
 		Use:   "enable-railgun",
 		Short: "Enable a specific disabled railgun by its id",
@@ -1221,6 +1236,7 @@ func init() {
 	Cache.AddCommand(DescribeRailgun)
 	Cache.AddCommand(DescribeZoneRailgun)
 	Cache.AddCommand(DisableRailgun)
+	Cache.AddCommand(DisconnectRailgun)
 	Cache.AddCommand(EnableRailgun)
 	Cache.AddCommand(GetRailgunZones)
 	Cache.AddCommand(ListRailguns)

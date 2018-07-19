@@ -260,6 +260,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.PurgeEverything(ZoneId)
 	case "ConnectZoneRailgun":
 		resp, err = api.ConnectZoneRailgun(ZoneId, RailgunId)
+	case "DisconnectZoneRailgun":
+		resp, err = api.DisconnectZoneRailgun(ZoneId, RailgunId)
 	case "GetIDByName":
 		resp, err = api.ZoneIDByName(ZoneName)
 	case "ListZoneRailguns":

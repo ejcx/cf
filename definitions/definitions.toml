@@ -92,6 +92,7 @@
     "describe-railgun",
     "describe-zone-railgun",
     "disable-railgun",
+    "disconnect-railgun",
     "enable-railgun",
     "get-railgun-zones",
     "list-railguns",
@@ -1159,6 +1160,22 @@
   name = "railgun-id"
   type = "string"
   description = "The railgun ID associated with the railgun being disabled"
+  required = true
+
+[[command]]
+  name = "disconnect-railgun"
+  description = """Disconnect a railgun associated with a specific zone"""
+  shortdescription = "Disconnect a railgun from a zone"
+  v4apiname = "DisconnectZoneRailgun"
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun ID associated with the railgun being disconnected"
+  required = true
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID that the railgun instance is being disconnected from"
   required = true
 
 [[command]]
