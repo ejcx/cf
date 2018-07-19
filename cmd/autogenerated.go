@@ -1169,6 +1169,24 @@ func init() {
 
 	AnalyticsByColo.Flags().BoolVar(&Continuous, "continuous", false, "When continuous is true and since or until is set, the api will only return completely aggregated results")
 
+	var AnalyticsDashboard = &cobra.Command{
+		Use:   "analytics-dashboard",
+		Short: "Get an analytics overview by zone",
+		Long:  `Retrieve zone analytics overview`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneAnalyticsDashboard")
+		},
+	}
+
+	AnalyticsDashboard.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id that analytics are being retreived for")
+	AnalyticsDashboard.MarkFlagRequired("zone-id")
+
+	AnalyticsDashboard.Flags().StringVar(&Since, "since", "", "String timestamp of the analytics start time")
+
+	AnalyticsDashboard.Flags().StringVar(&Until, "until", "", "String timestamp of the analytics end time")
+
+	AnalyticsDashboard.Flags().BoolVar(&Continuous, "continuous", false, "When continuous is true and since or until is set, the api will only return completely aggregated results")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1176,6 +1194,7 @@ func init() {
 	}
 	Zone.AddCommand(ActivationCheck)
 	Zone.AddCommand(AnalyticsByColo)
+	Zone.AddCommand(AnalyticsDashboard)
 	Zone.AddCommand(CreateCustomHostname)
 	Zone.AddCommand(CreateZone)
 	Zone.AddCommand(DeleteCustomHostname)

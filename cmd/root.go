@@ -346,6 +346,24 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			org.ID = OrganizationId
 		}
 		resp, err = api.CreateZone(Name, Jumpstart, org)
+	case "ZoneAnalyticsDashboard":
+		z := cloudflare.ZoneAnalyticsOptions{}
+		if Since != "" {
+			t, err := time.Parse(time.RFC3339, Since)
+			if err != nil {
+				log.Fatalf("Invalid timestamp passed to Since: %s", err)
+			}
+			z.Since = &t
+		}
+		if Until != "" {
+			t, err := time.Parse(time.RFC3339, Until)
+			if err != nil {
+				log.Fatalf("Invalid timestamp passed to Until: %s", err)
+			}
+			z.Until = &t
+		}
+		z.Continuous = &Continuous
+		resp, err = api.ZoneAnalyticsDashboard(ZoneId, z)
 	case "ZoneAnalyticsByColocation":
 		z := cloudflare.ZoneAnalyticsOptions{}
 		if Since != "" {
