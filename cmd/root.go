@@ -111,6 +111,10 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			rec.Proxied = false
 		}
 		resp, err = api.CreateDNSRecord(ZoneId, rec)
+	case "CustomHostname":
+		resp, err = api.CustomHostname(ZoneId, CustomHostnameId)
+	case "CustomHostnameIDByName":
+		resp, err = api.CustomHostnameIDByName(ZoneId, Name)
 	case "DeleteDNSRecord":
 		err = api.DeleteDNSRecord(ZoneId, RecordId)
 		if err == nil {

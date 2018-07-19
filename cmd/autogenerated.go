@@ -275,8 +275,8 @@ func init() {
 
 	ListZoneLockdowns.Flags().IntVar(&Page, "page", 0, "Pagination for zone lockdowns.")
 
-	var GetZoneLockdownDetails = &cobra.Command{
-		Use:   "get-zone-lockdown-details",
+	var DescribeZoneLockdown = &cobra.Command{
+		Use:   "describe-zone-lockdown",
 		Short: "Get detailed zone lockdown information",
 		Long:  `Return the detailed information about a lockdown associated with a given zone.`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -284,11 +284,11 @@ func init() {
 		},
 	}
 
-	GetZoneLockdownDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the zone lockdown.")
-	GetZoneLockdownDetails.MarkFlagRequired("zone-id")
+	DescribeZoneLockdown.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the zone lockdown.")
+	DescribeZoneLockdown.MarkFlagRequired("zone-id")
 
-	GetZoneLockdownDetails.Flags().StringVar(&LockdownId, "lockdown-id", "", "The lockdown ID associated with the lockdown")
-	GetZoneLockdownDetails.MarkFlagRequired("lockdown-id")
+	DescribeZoneLockdown.Flags().StringVar(&LockdownId, "lockdown-id", "", "The lockdown ID associated with the lockdown")
+	DescribeZoneLockdown.MarkFlagRequired("lockdown-id")
 
 	var EditZonePaused = &cobra.Command{
 		Use:   "edit-zone-paused",
@@ -558,8 +558,8 @@ func init() {
 	ActivationCheck.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the activation check")
 	ActivationCheck.MarkFlagRequired("zone-id")
 
-	var ZoneDetails = &cobra.Command{
-		Use:   "zone-details",
+	var DescribeZone = &cobra.Command{
+		Use:   "describe-zone",
 		Short: "Fetches information about a zone.",
 		Long:  `Fetches information about a zone.`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -567,8 +567,8 @@ func init() {
 		},
 	}
 
-	ZoneDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID that will be purged.")
-	ZoneDetails.MarkFlagRequired("zone-id")
+	DescribeZone.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID that will be purged.")
+	DescribeZone.MarkFlagRequired("zone-id")
 
 	var GetIdByName = &cobra.Command{
 		Use:   "get-id-by-name",
@@ -624,8 +624,8 @@ func init() {
 		},
 	}
 
-	var GetVirtualDnsDetails = &cobra.Command{
-		Use:   "get-virtual-dns-details",
+	var DescribeVirtualDns = &cobra.Command{
+		Use:   "describe-virtual-dns",
 		Short: "Get virtual dns details",
 		Long:  `Get the details about a virtual dns instance.`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -633,8 +633,8 @@ func init() {
 		},
 	}
 
-	GetVirtualDnsDetails.Flags().StringVar(&VirtualDnsId, "virtual-dns-id", "", "The virtualDNS ID you wish to fetch the details of.")
-	GetVirtualDnsDetails.MarkFlagRequired("virtual-dns-id")
+	DescribeVirtualDns.Flags().StringVar(&VirtualDnsId, "virtual-dns-id", "", "The virtualDNS ID you wish to fetch the details of.")
+	DescribeVirtualDns.MarkFlagRequired("virtual-dns-id")
 
 	var DeleteVirtualDns = &cobra.Command{
 		Use:   "delete-virtual-dns",
@@ -648,8 +648,8 @@ func init() {
 	DeleteVirtualDns.Flags().StringVar(&VirtualDnsId, "virtual-dns-id", "", "The virtualDNS ID you wish to delete.")
 	DeleteVirtualDns.MarkFlagRequired("virtual-dns-id")
 
-	var GetPageruleDetails = &cobra.Command{
-		Use:   "get-pagerule-details",
+	var DescribePagerule = &cobra.Command{
+		Use:   "describe-pagerule",
 		Short: "Get page rule details",
 		Long:  `Get the details of a specific page rule`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -657,14 +657,14 @@ func init() {
 		},
 	}
 
-	GetPageruleDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the page rule")
-	GetPageruleDetails.MarkFlagRequired("zone-id")
+	DescribePagerule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the page rule")
+	DescribePagerule.MarkFlagRequired("zone-id")
 
-	GetPageruleDetails.Flags().StringVar(&PageruleId, "pagerule-id", "", "The pagerule ID you wish to fetch the details of.")
-	GetPageruleDetails.MarkFlagRequired("pagerule-id")
+	DescribePagerule.Flags().StringVar(&PageruleId, "pagerule-id", "", "The pagerule ID you wish to fetch the details of.")
+	DescribePagerule.MarkFlagRequired("pagerule-id")
 
-	var GetLoadbalancerDetails = &cobra.Command{
-		Use:   "get-loadbalancer-details",
+	var DescribeLoadbalancer = &cobra.Command{
+		Use:   "describe-loadbalancer",
 		Short: "Get loadbalancer details",
 		Long:  `Get loadbalancer details.`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -672,14 +672,14 @@ func init() {
 		},
 	}
 
-	GetLoadbalancerDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the page rule")
-	GetLoadbalancerDetails.MarkFlagRequired("zone-id")
+	DescribeLoadbalancer.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the page rule")
+	DescribeLoadbalancer.MarkFlagRequired("zone-id")
 
-	GetLoadbalancerDetails.Flags().StringVar(&LoadbalancerId, "loadbalancer-id", "", "The loadbalancer id that you wish to view the details of.")
-	GetLoadbalancerDetails.MarkFlagRequired("loadbalancer-id")
+	DescribeLoadbalancer.Flags().StringVar(&LoadbalancerId, "loadbalancer-id", "", "The loadbalancer id that you wish to view the details of.")
+	DescribeLoadbalancer.MarkFlagRequired("loadbalancer-id")
 
-	var GetLoadbalancerMonitorDetails = &cobra.Command{
-		Use:   "get-loadbalancer-monitor-details",
+	var DescribeLoadbalancerMonitor = &cobra.Command{
+		Use:   "describe-loadbalancer-monitor",
 		Short: "Get loadbalancer monitor details",
 		Long:  `Get loadbalancer monitor details.`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -687,11 +687,11 @@ func init() {
 		},
 	}
 
-	GetLoadbalancerMonitorDetails.Flags().StringVar(&MonitorId, "monitor-id", "", "The loadbalancer monitor id that you wish to view the details of.")
-	GetLoadbalancerMonitorDetails.MarkFlagRequired("monitor-id")
+	DescribeLoadbalancerMonitor.Flags().StringVar(&MonitorId, "monitor-id", "", "The loadbalancer monitor id that you wish to view the details of.")
+	DescribeLoadbalancerMonitor.MarkFlagRequired("monitor-id")
 
-	var GetLoadbalancerPoolDetails = &cobra.Command{
-		Use:   "get-loadbalancer-pool-details",
+	var DescribeLoadbalancerPool = &cobra.Command{
+		Use:   "describe-loadbalancer-pool",
 		Short: "Get loadbalancer pool details",
 		Long:  `Get loadbalancer pool details.`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -699,11 +699,11 @@ func init() {
 		},
 	}
 
-	GetLoadbalancerPoolDetails.Flags().StringVar(&PoolId, "pool-id", "", "The loadbalancer pool id that you wish to view the details of.")
-	GetLoadbalancerPoolDetails.MarkFlagRequired("pool-id")
+	DescribeLoadbalancerPool.Flags().StringVar(&PoolId, "pool-id", "", "The loadbalancer pool id that you wish to view the details of.")
+	DescribeLoadbalancerPool.MarkFlagRequired("pool-id")
 
-	var GetOrganizationDetails = &cobra.Command{
-		Use:   "get-organization-details",
+	var DescribeOrganization = &cobra.Command{
+		Use:   "describe-organization",
 		Short: "Get organization details",
 		Long:  `Get organization details.`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -711,8 +711,8 @@ func init() {
 		},
 	}
 
-	GetOrganizationDetails.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id that you wish to view the details of.")
-	GetOrganizationDetails.MarkFlagRequired("organization-id")
+	DescribeOrganization.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id that you wish to view the details of.")
+	DescribeOrganization.MarkFlagRequired("organization-id")
 
 	var GetOrganizationInvites = &cobra.Command{
 		Use:   "get-organization-invites",
@@ -762,8 +762,8 @@ func init() {
 	ListOriginCerts.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id that you wish to view the origin certs of")
 	ListOriginCerts.MarkFlagRequired("zone-id")
 
-	var GetOriginCertDetails = &cobra.Command{
-		Use:   "get-origin-cert-details",
+	var DescribeOriginCert = &cobra.Command{
+		Use:   "describe-origin-cert",
 		Short: "Get origin cert details",
 		Long:  `Get detailed information about a specific origin certificate`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -771,11 +771,11 @@ func init() {
 		},
 	}
 
-	GetOriginCertDetails.Flags().StringVar(&CertificateId, "certificate-id", "", "The origin certificate id that you wish to view detailed information about")
-	GetOriginCertDetails.MarkFlagRequired("certificate-id")
+	DescribeOriginCert.Flags().StringVar(&CertificateId, "certificate-id", "", "The origin certificate id that you wish to view detailed information about")
+	DescribeOriginCert.MarkFlagRequired("certificate-id")
 
-	var GetZoneOriginCertDetails = &cobra.Command{
-		Use:   "get-zone-origin-cert-details",
+	var DescribeZoneOriginCert = &cobra.Command{
+		Use:   "describe-zone-origin-cert",
 		Short: "Get zone's origin cert details",
 		Long:  `Get detailed information about a specific zone's origin certificate`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -783,14 +783,14 @@ func init() {
 		},
 	}
 
-	GetZoneOriginCertDetails.Flags().StringVar(&CertificateId, "certificate-id", "", "The zone's certificate id that you wish to view detailed information about")
-	GetZoneOriginCertDetails.MarkFlagRequired("certificate-id")
+	DescribeZoneOriginCert.Flags().StringVar(&CertificateId, "certificate-id", "", "The zone's certificate id that you wish to view detailed information about")
+	DescribeZoneOriginCert.MarkFlagRequired("certificate-id")
 
-	GetZoneOriginCertDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id that you wish to view detailed information about")
-	GetZoneOriginCertDetails.MarkFlagRequired("zone-id")
+	DescribeZoneOriginCert.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id that you wish to view detailed information about")
+	DescribeZoneOriginCert.MarkFlagRequired("zone-id")
 
-	var GetRailgunDetails = &cobra.Command{
-		Use:   "get-railgun-details",
+	var DescribeRailgun = &cobra.Command{
+		Use:   "describe-railgun",
 		Short: "Get railgun instance details",
 		Long:  `Get detailed information about a specific railgun`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -798,8 +798,8 @@ func init() {
 		},
 	}
 
-	GetRailgunDetails.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id that you wish to view detailed information about")
-	GetRailgunDetails.MarkFlagRequired("railgun-id")
+	DescribeRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id that you wish to view detailed information about")
+	DescribeRailgun.MarkFlagRequired("railgun-id")
 
 	var GetRailgunZones = &cobra.Command{
 		Use:   "get-railgun-zones",
@@ -813,8 +813,8 @@ func init() {
 	GetRailgunZones.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id that you wish to view associated zones")
 	GetRailgunZones.MarkFlagRequired("railgun-id")
 
-	var GetRatelimitDetails = &cobra.Command{
-		Use:   "get-ratelimit-details",
+	var DescribeRatelimit = &cobra.Command{
+		Use:   "describe-ratelimit",
 		Short: "Get detailed information about a zone",
 		Long:  `Get detailed information about a specific zone's ratelimits`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -822,11 +822,11 @@ func init() {
 		},
 	}
 
-	GetRatelimitDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the ratelimit")
-	GetRatelimitDetails.MarkFlagRequired("zone-id")
+	DescribeRatelimit.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the ratelimit")
+	DescribeRatelimit.MarkFlagRequired("zone-id")
 
-	GetRatelimitDetails.Flags().StringVar(&RatelimitId, "ratelimit-id", "", "The ratelimit id that you wish to view detailed information about")
-	GetRatelimitDetails.MarkFlagRequired("ratelimit-id")
+	DescribeRatelimit.Flags().StringVar(&RatelimitId, "ratelimit-id", "", "The ratelimit id that you wish to view detailed information about")
+	DescribeRatelimit.MarkFlagRequired("ratelimit-id")
 
 	var RevokeOriginCert = &cobra.Command{
 		Use:   "revoke-origin-cert",
@@ -855,8 +855,8 @@ func init() {
 	TestRailgunConnection.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id associated with the railgun connection you wish to test")
 	TestRailgunConnection.MarkFlagRequired("railgun-id")
 
-	var GetZoneRailgunDetails = &cobra.Command{
-		Use:   "get-zone-railgun-details",
+	var DescribeZoneRailgun = &cobra.Command{
+		Use:   "describe-zone-railgun",
 		Short: "Get zone railgun details",
 		Long:  `Returns all railgun details for an associated zone`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -864,11 +864,41 @@ func init() {
 		},
 	}
 
-	GetZoneRailgunDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the railguns you wish to get")
-	GetZoneRailgunDetails.MarkFlagRequired("zone-id")
+	DescribeZoneRailgun.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the railguns you wish to get")
+	DescribeZoneRailgun.MarkFlagRequired("zone-id")
 
-	GetZoneRailgunDetails.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id associated with the railguns you wish to get")
-	GetZoneRailgunDetails.MarkFlagRequired("railgun-id")
+	DescribeZoneRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun id associated with the railguns you wish to get")
+	DescribeZoneRailgun.MarkFlagRequired("railgun-id")
+
+	var DescribeCustomHostname = &cobra.Command{
+		Use:   "describe-custom-hostname",
+		Short: "Custom hostname details",
+		Long:  `Returns details associated with the custom hostname id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CustomHostname")
+		},
+	}
+
+	DescribeCustomHostname.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the custom hostname being returned")
+	DescribeCustomHostname.MarkFlagRequired("zone-id")
+
+	DescribeCustomHostname.Flags().StringVar(&CustomHostnameId, "custom-hostname-id", "", "The custom hostname id associated with the custom hostname you wish to describe")
+	DescribeCustomHostname.MarkFlagRequired("custom-hostname-id")
+
+	var GetCustomHostnameIdByName = &cobra.Command{
+		Use:   "get-custom-hostname-id-by-name",
+		Short: "Custom hostname details",
+		Long:  `Returns details associated with the custom hostname id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CustomHostnameIDByName")
+		},
+	}
+
+	GetCustomHostnameIdByName.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the custom hostname id being returned")
+	GetCustomHostnameIdByName.MarkFlagRequired("zone-id")
+
+	GetCustomHostnameIdByName.Flags().StringVar(&Name, "name", "", "The custom hostname associated with the custom hostname id you wish to return")
+	GetCustomHostnameIdByName.MarkFlagRequired("name")
 
 	var SetPaused = &cobra.Command{
 		Use:   "set-paused",
@@ -1101,12 +1131,14 @@ func init() {
 	Zone.AddCommand(DeleteZoneAccessRule)
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
+	Zone.AddCommand(DescribeCustomHostname)
+	Zone.AddCommand(GetCustomHostnameIdByName)
 	Zone.AddCommand(GetIdByName)
 	Zone.AddCommand(GetZoneSettings)
 	Zone.AddCommand(ListAvailableRatePlans)
 	Zone.AddCommand(ListZones)
 	Zone.AddCommand(SetPaused)
-	Zone.AddCommand(ZoneDetails)
+	Zone.AddCommand(DescribeZone)
 
 	RootCmd.AddCommand(Zone)
 
@@ -1118,7 +1150,7 @@ func init() {
 	Dns.AddCommand(CreateDnsRecord)
 	Dns.AddCommand(DeleteDnsRecord)
 	Dns.AddCommand(DeleteVirtualDns)
-	Dns.AddCommand(GetVirtualDnsDetails)
+	Dns.AddCommand(DescribeVirtualDns)
 	Dns.AddCommand(EditDnsRecord)
 	Dns.AddCommand(ListDnsRecords)
 	Dns.AddCommand(ListVirtualDns)
@@ -1142,8 +1174,8 @@ func init() {
 		Short: "Commands for interacting with ssl configuration",
 		Long:  `  This is a meaty description of the ssl api.`,
 	}
-	Ssl.AddCommand(GetOriginCertDetails)
-	Ssl.AddCommand(GetZoneOriginCertDetails)
+	Ssl.AddCommand(DescribeOriginCert)
+	Ssl.AddCommand(DescribeZoneOriginCert)
 	Ssl.AddCommand(DeleteCustomCert)
 	Ssl.AddCommand(ListCustomCerts)
 	Ssl.AddCommand(ListOriginCerts)
@@ -1159,7 +1191,7 @@ func init() {
 	}
 	Pagerules.AddCommand(ListPagerules)
 	Pagerules.AddCommand(DeletePagerule)
-	Pagerules.AddCommand(GetPageruleDetails)
+	Pagerules.AddCommand(DescribePagerule)
 
 	RootCmd.AddCommand(Pagerules)
 
@@ -1171,11 +1203,11 @@ func init() {
 	Cache.AddCommand(ConnectZoneRailgun)
 	Cache.AddCommand(CreateRailgun)
 	Cache.AddCommand(DeleteRailgun)
+	Cache.AddCommand(DescribeRailgun)
+	Cache.AddCommand(DescribeZoneRailgun)
 	Cache.AddCommand(DisableRailgun)
 	Cache.AddCommand(EnableRailgun)
-	Cache.AddCommand(GetRailgunDetails)
 	Cache.AddCommand(GetRailgunZones)
-	Cache.AddCommand(GetZoneRailgunDetails)
 	Cache.AddCommand(ListRailguns)
 	Cache.AddCommand(ListZoneRailguns)
 	Cache.AddCommand(TestRailgunConnection)
@@ -1189,7 +1221,7 @@ func init() {
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
 	Firewall.AddCommand(DeleteUserAgentRule)
-	Firewall.AddCommand(GetZoneLockdownDetails)
+	Firewall.AddCommand(DescribeZoneLockdown)
 	Firewall.AddCommand(ListUserAgentRules)
 	Firewall.AddCommand(ListWafPackages)
 	Firewall.AddCommand(ListWafRules)
@@ -1203,7 +1235,7 @@ func init() {
 		Long:  `  This is a meaty description of the organizaiton api.`,
 	}
 	Organization.AddCommand(DeleteOrganizationAccessRule)
-	Organization.AddCommand(GetOrganizationDetails)
+	Organization.AddCommand(DescribeOrganization)
 	Organization.AddCommand(GetOrganizationInvites)
 	Organization.AddCommand(GetOrganizationMembers)
 	Organization.AddCommand(GetOrganizationRoles)
@@ -1226,8 +1258,8 @@ func init() {
 		Short: "Commands for interacting with ratelimit api",
 		Long:  `  This is a meaty description of the ratelimit api.`,
 	}
-	Ratelimit.AddCommand(GetRatelimitDetails)
 	Ratelimit.AddCommand(DeleteRatelimit)
+	Ratelimit.AddCommand(DescribeRatelimit)
 	Ratelimit.AddCommand(ListRatelimits)
 
 	RootCmd.AddCommand(Ratelimit)
@@ -1242,9 +1274,9 @@ func init() {
 	Loadbalancer.AddCommand(DeleteLoadbalancer)
 	Loadbalancer.AddCommand(DeleteLoadbalancerMonitor)
 	Loadbalancer.AddCommand(DeleteLoadbalancerPool)
-	Loadbalancer.AddCommand(GetLoadbalancerDetails)
-	Loadbalancer.AddCommand(GetLoadbalancerPoolDetails)
-	Loadbalancer.AddCommand(GetLoadbalancerMonitorDetails)
+	Loadbalancer.AddCommand(DescribeLoadbalancer)
+	Loadbalancer.AddCommand(DescribeLoadbalancerPool)
+	Loadbalancer.AddCommand(DescribeLoadbalancerMonitor)
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)
 	Loadbalancer.AddCommand(ListLoadbalancers)

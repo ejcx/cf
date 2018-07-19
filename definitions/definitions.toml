@@ -11,12 +11,14 @@
     "delete-zone-access-rule",
     "edit-zone-paused",
     "edit-zone-vanity-ns",
+    "describe-custom-hostname",
+    "get-custom-hostname-id-by-name",
     "get-id-by-name",
     "get-zone-settings",
     "list-available-rate-plans",
     "list-zones",
     "set-paused",
-    "zone-details",
+    "describe-zone",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -29,7 +31,7 @@
     "create-dns-record",
     "delete-dns-record",
     "delete-virtual-dns",
-    "get-virtual-dns-details",
+    "describe-virtual-dns",
     "edit-dns-record",
     "list-dns-records",
     "list-virtual-dns",
@@ -55,8 +57,8 @@
   description = """
   This is a meaty description of the ssl api."""
   subcommands = [
-    "get-origin-cert-details",
-    "get-zone-origin-cert-details",
+    "describe-origin-cert",
+    "describe-zone-origin-cert",
     "delete-custom-cert",
     "list-custom-certs",
     "list-origin-certs",
@@ -74,7 +76,7 @@
   subcommands = [
     "list-pagerules",
     "delete-pagerule",
-    "get-pagerule-details",
+    "describe-pagerule",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with pagerules api"
@@ -87,11 +89,11 @@
     "connect-zone-railgun",
     "create-railgun",
     "delete-railgun",
+    "describe-railgun",
+    "describe-zone-railgun",
     "disable-railgun",
     "enable-railgun",
-    "get-railgun-details",
     "get-railgun-zones",
-    "get-zone-railgun-details",
     "list-railguns",
     "list-zone-railguns",
     "test-railgun-connection",
@@ -106,7 +108,7 @@
   This is a meaty description of the firewall apis."""
   subcommands = [
     "delete-user-agent-rule",
-    "get-zone-lockdown-details",
+    "describe-zone-lockdown",
     "list-user-agent-rules",
     "list-waf-packages",
     "list-waf-rules",
@@ -121,7 +123,7 @@
   This is a meaty description of the organizaiton api."""
   subcommands = [
     "delete-organization-access-rule",
-    "get-organization-details",
+    "describe-organization",
     "get-organization-invites",
     "get-organization-members",
     "get-organization-roles",
@@ -148,8 +150,8 @@
   description = """
   This is a meaty description of the ratelimit api."""
   subcommands = [
-    "get-ratelimit-details",
     "delete-ratelimit",
+    "describe-ratelimit",
     "list-ratelimits",
   ]
   toplevel = true
@@ -165,9 +167,9 @@
     "delete-loadbalancer",
     "delete-loadbalancer-monitor",
     "delete-loadbalancer-pool",
-    "get-loadbalancer-details",
-    "get-loadbalancer-pool-details",
-    "get-loadbalancer-monitor-details",
+    "describe-loadbalancer",
+    "describe-loadbalancer-pool",
+    "describe-loadbalancer-monitor",
     "list-loadbalancer-monitors",
     "list-loadbalancer-pools",
     "list-loadbalancers",
@@ -448,7 +450,7 @@
   description = "Pagination for zone lockdowns."
 
 [[command]]
-  name = "get-zone-lockdown-details"
+  name = "describe-zone-lockdown"
   description = """Return the detailed information about a lockdown associated with a given zone."""
   shortdescription = "Get detailed zone lockdown information"
   v4apiname = "ZoneLockdown"
@@ -778,7 +780,7 @@
   required = true
 
 [[command]]
-  name = "zone-details"
+  name = "describe-zone"
   description = """Fetches information about a zone."""
   shortdescription = "Fetches information about a zone."
   v4apiname = "ZoneDetails"
@@ -834,7 +836,7 @@
   v4apiname = "UserBillingProfile"
 
 [[command]]
-  name = "get-virtual-dns-details"
+  name = "describe-virtual-dns"
   description = """Get the details about a virtual dns instance."""
   shortdescription = "Get virtual dns details"
   v4apiname = "VirtualDNS"
@@ -856,7 +858,7 @@
   required = true
 
 [[command]]
-  name = "get-pagerule-details"
+  name = "describe-pagerule"
   description = """Get the details of a specific page rule"""
   shortdescription = "Get page rule details"
   v4apiname = "PageRule"
@@ -872,7 +874,7 @@
   required = true
 
 [[command]]
-  name = "get-loadbalancer-details"
+  name = "describe-loadbalancer"
   description = """Get loadbalancer details."""
   shortdescription = "Get loadbalancer details"
   v4apiname = "LoadBalancerDetails"
@@ -888,7 +890,7 @@
   required = true
 
 [[command]]
-  name = "get-loadbalancer-monitor-details"
+  name = "describe-loadbalancer-monitor"
   description = """Get loadbalancer monitor details."""
   shortdescription = "Get loadbalancer monitor details"
   v4apiname = "LoadBalancerMonitorDetails"
@@ -899,7 +901,7 @@
   required = true
 
 [[command]]
-  name = "get-loadbalancer-pool-details"
+  name = "describe-loadbalancer-pool"
   description = """Get loadbalancer pool details."""
   shortdescription = "Get loadbalancer pool details"
   v4apiname = "LoadBalancerPoolDetails"
@@ -910,7 +912,7 @@
   required = true
 
 [[command]]
-  name = "get-organization-details"
+  name = "describe-organization"
   description = """Get organization details."""
   shortdescription = "Get organization details"
   v4apiname = "OrganizationDetails"
@@ -965,7 +967,7 @@
   required = true
 
 [[command]]
-  name = "get-origin-cert-details"
+  name = "describe-origin-cert"
   description = """Get detailed information about a specific origin certificate"""
   shortdescription = "Get origin cert details"
   v4apiname = "OriginCertificate"
@@ -976,7 +978,7 @@
   required = true
 
 [[command]]
-  name = "get-zone-origin-cert-details"
+  name = "describe-zone-origin-cert"
   description = """Get detailed information about a specific zone's origin certificate"""
   shortdescription = "Get zone's origin cert details"
   v4apiname = "SSLDetails"
@@ -992,7 +994,7 @@
   required = true
 
 [[command]]
-  name = "get-railgun-details"
+  name = "describe-railgun"
   description = """Get detailed information about a specific railgun"""
   shortdescription = "Get railgun instance details"
   v4apiname = "RailgunDetails"
@@ -1014,7 +1016,7 @@
   required = true
 
 [[command]]
-  name = "get-ratelimit-details"
+  name = "describe-ratelimit"
   description = """Get detailed information about a specific zone's ratelimits"""
   shortdescription = "Get detailed information about a zone"
   v4apiname = "RateLimit"
@@ -1057,7 +1059,7 @@
   required = true
 
 [[command]]
-  name = "get-zone-railgun-details"
+  name = "describe-zone-railgun"
   description = """Returns all railgun details for an associated zone"""
   shortdescription = "Get zone railgun details"
   v4apiname = "ZoneRailgunDetails"
@@ -1070,6 +1072,38 @@
   name = "railgun-id"
   type = "string"
   description = "The railgun id associated with the railguns you wish to get"
+  required = true
+
+[[command]]
+  name = "describe-custom-hostname"
+  description = """Returns details associated with the custom hostname id"""
+  shortdescription = "Custom hostname details"
+  v4apiname = "CustomHostname"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the custom hostname being returned"
+  required = true
+  [[command.option]]
+  name = "custom-hostname-id"
+  type = "string"
+  description = "The custom hostname id associated with the custom hostname you wish to describe"
+  required = true
+
+[[command]]
+  name = "get-custom-hostname-id-by-name"
+  description = """Returns details associated with the custom hostname id"""
+  shortdescription = "Custom hostname details"
+  v4apiname = "CustomHostnameIDByName"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the custom hostname id being returned"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The custom hostname associated with the custom hostname id you wish to return"
   required = true
 
 [[command]]
