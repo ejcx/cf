@@ -50,7 +50,9 @@
   description = """
   This is a meaty description of the ssl api."""
   subcommands = [
+    "get-origin-cert-details",
     "list-custom-certs",
+    "list-origin-certs",
     "list-zone-ssl-settings",
   ]
   toplevel = true
@@ -891,4 +893,26 @@
   name = "organization-id"
   type = "string"
   description = "The organization id that you wish to view the member roles of"
+  required = true
+
+[[command]]
+  name = "list-origin-certs"
+  description = """List Origin Certificates associated with a given zone ID"""
+  shortdescription = "List origin certificates"
+  v4apiname = "OriginCertificates"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id that you wish to view the origin certs of"
+  required = true
+
+[[command]]
+  name = "get-origin-cert-details"
+  description = """Get detailed information about a specific origin certificate"""
+  shortdescription = "Get origin cert details"
+  v4apiname = "OriginCertificate"
+  [[command.option]]
+  name = "certificate-id"
+  type = "string"
+  description = "The origin certificate id that you wish to view detailed information about"
   required = true

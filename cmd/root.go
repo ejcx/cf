@@ -39,6 +39,9 @@ func Main(cmd *cobra.Command, args []string, name string) {
 	if err != nil {
 		log.Fatal("Could not initialize api object: %s", err)
 	}
+	if serviceKey, ok := os.LookupEnv("CF_USER_SERVICE_KEY"); ok {
+		api.APIUserServiceKey = serviceKey
+	}
 
 	r, err := root(cmd, args, name, api)
 	if err != nil {
@@ -243,6 +246,10 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, _, err = api.OrganizationMembers(OrganizationId)
 	case "OrganizationRoles":
 		resp, _, err = api.OrganizationRoles(OrganizationId)
+	case "OriginCertificates":
+		resp, err = api.OriginCertificates(cloudflare.OriginCACertificateListOptions{ZoneID: ZoneId})
+	case "OriginCertificate":
+		resp, err = api.OriginCertificate(CertificateId)
 	case "CreateCustomHostname":
 		resp, err = api.CreateCustomHostname(ZoneId, cloudflare.CustomHostname{
 			Hostname: Hostname,

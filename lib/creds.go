@@ -16,8 +16,9 @@ type CredProvider struct {
 }
 
 type Credentials struct {
-	Email string `json:"Email"`
-	Key   string `json:"Key"`
+	Email          string `json:"Email"`
+	Key            string `json:"Key"`
+	UserServiceKey string `json:"UserServiceKey"`
 }
 
 func getHomeDir() (string, error) {
@@ -44,7 +45,8 @@ func (c *CredProvider) ConfigureEnvironment() error {
 	// are used by the cloudflare-go library then we should just return.
 	_, keyOk := os.LookupEnv("CF_API_KEY")
 	_, emailOk := os.LookupEnv("CF_API_EMAIL")
-	if keyOk || emailOk {
+	_, serviceOk := os.LookupEnv("CF_USER_SERVICE_KEY")
+	if keyOk || emailOk || serviceOk {
 		return nil
 	}
 	homedir := c.HomeDir
@@ -64,5 +66,6 @@ func (c *CredProvider) ConfigureEnvironment() error {
 	}
 	os.Setenv("CF_API_KEY", creds.Key)
 	os.Setenv("CF_API_EMAIL", creds.Email)
+	os.Setenv("CF_USER_SERVICE_KEY", creds.UserServiceKey)
 	return nil
 }

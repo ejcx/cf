@@ -39,6 +39,7 @@ var (
 	LoadbalancerId string
 	MonitorId      string
 	PoolId         string
+	CertificateId  string
 )
 
 func init() {
@@ -714,6 +715,30 @@ func init() {
 	GetOrganizationRoles.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id that you wish to view the member roles of")
 	GetOrganizationRoles.MarkFlagRequired("organization-id")
 
+	var ListOriginCerts = &cobra.Command{
+		Use:   "list-origin-certs",
+		Short: "List origin certificates",
+		Long:  `List Origin Certificates associated with a given zone ID`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "OriginCertificates")
+		},
+	}
+
+	ListOriginCerts.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id that you wish to view the origin certs of")
+	ListOriginCerts.MarkFlagRequired("zone-id")
+
+	var GetOriginCertDetails = &cobra.Command{
+		Use:   "get-origin-cert-details",
+		Short: "Get origin cert details",
+		Long:  `Get detailed information about a specific origin certificate`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "OriginCertificate")
+		},
+	}
+
+	GetOriginCertDetails.Flags().StringVar(&CertificateId, "certificate-id", "", "The origin certificate id that you wish to view detailed information about")
+	GetOriginCertDetails.MarkFlagRequired("certificate-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -763,7 +788,9 @@ func init() {
 		Short: "Commands for interacting with ssl configuration",
 		Long:  `  This is a meaty description of the ssl api.`,
 	}
+	Ssl.AddCommand(GetOriginCertDetails)
 	Ssl.AddCommand(ListCustomCerts)
+	Ssl.AddCommand(ListOriginCerts)
 	Ssl.AddCommand(ListZoneSslSettings)
 
 	RootCmd.AddCommand(Ssl)
