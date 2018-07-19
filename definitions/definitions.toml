@@ -51,6 +51,7 @@
   This is a meaty description of the ssl api."""
   subcommands = [
     "get-origin-cert-details",
+    "get-zone-origin-cert-details",
     "list-custom-certs",
     "list-origin-certs",
     "list-zone-ssl-settings",
@@ -919,6 +920,22 @@
   name = "certificate-id"
   type = "string"
   description = "The origin certificate id that you wish to view detailed information about"
+  required = true
+
+[[command]]
+  name = "get-zone-origin-cert-details"
+  description = """Get detailed information about a specific zone's origin certificate"""
+  shortdescription = "Get zone's origin cert details"
+  v4apiname = "SSLDetails"
+  [[command.option]]
+  name = "certificate-id"
+  type = "string"
+  description = "The zone's certificate id that you wish to view detailed information about"
+  required = true
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id that you wish to view detailed information about"
   required = true
 
 [[command]]

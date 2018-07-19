@@ -740,6 +740,21 @@ func init() {
 	GetOriginCertDetails.Flags().StringVar(&CertificateId, "certificate-id", "", "The origin certificate id that you wish to view detailed information about")
 	GetOriginCertDetails.MarkFlagRequired("certificate-id")
 
+	var GetZoneOriginCertDetails = &cobra.Command{
+		Use:   "get-zone-origin-cert-details",
+		Short: "Get zone's origin cert details",
+		Long:  `Get detailed information about a specific zone's origin certificate`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "SSLDetails")
+		},
+	}
+
+	GetZoneOriginCertDetails.Flags().StringVar(&CertificateId, "certificate-id", "", "The zone's certificate id that you wish to view detailed information about")
+	GetZoneOriginCertDetails.MarkFlagRequired("certificate-id")
+
+	GetZoneOriginCertDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id that you wish to view detailed information about")
+	GetZoneOriginCertDetails.MarkFlagRequired("zone-id")
+
 	var GetRailgunDetails = &cobra.Command{
 		Use:   "get-railgun-details",
 		Short: "Get railgun instance details",
@@ -841,6 +856,7 @@ func init() {
 		Long:  `  This is a meaty description of the ssl api.`,
 	}
 	Ssl.AddCommand(GetOriginCertDetails)
+	Ssl.AddCommand(GetZoneOriginCertDetails)
 	Ssl.AddCommand(ListCustomCerts)
 	Ssl.AddCommand(ListOriginCerts)
 	Ssl.AddCommand(ListZoneSslSettings)
