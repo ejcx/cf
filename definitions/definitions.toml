@@ -4,6 +4,7 @@
   This is a meaty description of the zone api."""
   subcommands = [
     "activation-check",
+    "analytics-by-colo",
     "create-custom-hostname",
     "create-zone",
     "delete-custom-hostname",
@@ -1360,3 +1361,29 @@
   type = "string"
   description = "The zone lockdown id associated with the zone lockdown being deleted"
   required = true
+
+[[command]]
+  name = "analytics-by-colo"
+  description = """Retrieve zone analytics structured by colocation"""
+  shortdescription = "Get analytics by colo"
+  v4apiname = "ZoneAnalyticsByColocation"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id that analytics are being retreived for"
+  required = true
+  [[command.option]]
+  name = "since"
+  type = "string"
+  description = "String timestamp of the analytics start time"
+  required = false
+  [[command.option]]
+  name = "until"
+  type = "string"
+  description = "String timestamp of the analytics end time"
+  required = false
+  [[command.option]]
+  name = "continuous"
+  type = "bool"
+  description = "When continuous is true and since or until is set, the api will only return completely aggregated results"
+  required = false

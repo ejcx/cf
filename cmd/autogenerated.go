@@ -46,6 +46,9 @@ var (
 	CustomHostnameId string
 	AccessRuleId     string
 	UserAgentRuleId  string
+	Since            string
+	Until            string
+	Continuous       bool
 )
 
 func init() {
@@ -1148,12 +1151,31 @@ func init() {
 	DeleteZoneLockdown.Flags().StringVar(&LockdownId, "lockdown-id", "", "The zone lockdown id associated with the zone lockdown being deleted")
 	DeleteZoneLockdown.MarkFlagRequired("lockdown-id")
 
+	var AnalyticsByColo = &cobra.Command{
+		Use:   "analytics-by-colo",
+		Short: "Get analytics by colo",
+		Long:  `Retrieve zone analytics structured by colocation`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneAnalyticsByColocation")
+		},
+	}
+
+	AnalyticsByColo.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id that analytics are being retreived for")
+	AnalyticsByColo.MarkFlagRequired("zone-id")
+
+	AnalyticsByColo.Flags().StringVar(&Since, "since", "", "String timestamp of the analytics start time")
+
+	AnalyticsByColo.Flags().StringVar(&Until, "until", "", "String timestamp of the analytics end time")
+
+	AnalyticsByColo.Flags().BoolVar(&Continuous, "continuous", false, "When continuous is true and since or until is set, the api will only return completely aggregated results")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
 		Long:  `  This is a meaty description of the zone api.`,
 	}
 	Zone.AddCommand(ActivationCheck)
+	Zone.AddCommand(AnalyticsByColo)
 	Zone.AddCommand(CreateCustomHostname)
 	Zone.AddCommand(CreateZone)
 	Zone.AddCommand(DeleteCustomHostname)
