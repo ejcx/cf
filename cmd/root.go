@@ -248,6 +248,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.UserBillingProfile()
 	case "VirtualDNS":
 		resp, err = api.VirtualDNS(VirtualDnsId)
+	case "DeleteVirtualDNS":
+		err = api.DeleteVirtualDNS(VirtualDnsId)
 	case "PageRule":
 		resp, err = api.PageRule(ZoneId, PageruleId)
 	case "LoadBalancerDetails":

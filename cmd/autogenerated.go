@@ -614,6 +614,18 @@ func init() {
 	GetVirtualDnsDetails.Flags().StringVar(&VirtualDnsId, "virtual-dns-id", "", "The virtualDNS ID you wish to fetch the details of.")
 	GetVirtualDnsDetails.MarkFlagRequired("virtual-dns-id")
 
+	var DeleteVirtualDns = &cobra.Command{
+		Use:   "delete-virtual-dns",
+		Short: "Delete virtual dns instance",
+		Long:  `Delete a specific virtual dns instance.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteVirtualDNS")
+		},
+	}
+
+	DeleteVirtualDns.Flags().StringVar(&VirtualDnsId, "virtual-dns-id", "", "The virtualDNS ID you wish to delete.")
+	DeleteVirtualDns.MarkFlagRequired("virtual-dns-id")
+
 	var GetPageruleDetails = &cobra.Command{
 		Use:   "get-pagerule-details",
 		Short: "Get page rule details",
@@ -958,6 +970,7 @@ func init() {
 	}
 	Dns.AddCommand(CreateDnsRecord)
 	Dns.AddCommand(DeleteDnsRecord)
+	Dns.AddCommand(DeleteVirtualDns)
 	Dns.AddCommand(GetVirtualDnsDetails)
 	Dns.AddCommand(EditDnsRecord)
 	Dns.AddCommand(ListDnsRecords)

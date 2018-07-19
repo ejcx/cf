@@ -26,6 +26,7 @@
   subcommands = [
     "create-dns-record",
     "delete-dns-record",
+    "delete-virtual-dns",
     "get-virtual-dns-details",
     "edit-dns-record",
     "list-dns-records",
@@ -809,6 +810,17 @@
   name = "virtual-dns-id"
   type = "string"
   description = "The virtualDNS ID you wish to fetch the details of."
+  required = true
+
+[[command]]
+  name = "delete-virtual-dns"
+  description = """Delete a specific virtual dns instance."""
+  shortdescription = "Delete virtual dns instance"
+  v4apiname = "DeleteVirtualDNS"
+  [[command.option]]
+  name = "virtual-dns-id"
+  type = "string"
+  description = "The virtualDNS ID you wish to delete."
   required = true
 
 [[command]]
