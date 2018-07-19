@@ -6,6 +6,7 @@
     "activation-check",
     "create-custom-hostname",
     "create-zone",
+    "delete-custom-hostname",
     "delete-zone",
     "edit-zone-paused",
     "edit-zone-vanity-ns",
@@ -1135,4 +1136,20 @@
   name = "certificate-id"
   type = "string"
   description = "The certificate ID associated with the certificate being deleted"
+  required = true
+
+[[command]]
+  name = "delete-custom-hostname"
+  description = """Delete a custom hostname associated with a specific zone id"""
+  shortdescription = "Delete a specific custom hostname"
+  v4apiname = "DeleteCustomHostname"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the custom hostname being deleted"
+  required = true
+  [[command.option]]
+  name = "custom-hostname-id"
+  type = "string"
+  description = "The custom hostname ID associated with the custom hostname being deleted"
   required = true

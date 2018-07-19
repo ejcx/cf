@@ -120,6 +120,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 	case "DeleteZone":
 		resp, err = api.DeleteZone(ZoneId)
+	case "DeleteCustomHostname":
+		err = api.DeleteCustomHostname(ZoneId, CustomHostnameId)
 	case "DNSRecord":
 		resp, err = api.DNSRecord(ZoneId, RecordId)
 	case "ListAllRateLimits":

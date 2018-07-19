@@ -3,44 +3,45 @@ package cmd
 import "github.com/spf13/cobra"
 
 var (
-	ZoneNameFilter string
-	ZoneId         string
-	Type           string
-	Name           string
-	Content        string
-	Ttl            int
-	NotProxied     bool
-	Priority       int
-	RecordId       string
-	OrganizationId string
-	Page           int
-	PackageId      string
-	Paused         bool
-	VanityNS       string
-	Proxied        bool
-	Notes          string
-	Mode           string
-	RailgunId      string
-	Hostname       string
-	Method         string
-	ExpectedCodes  string
-	Header         string
-	Timeout        int
-	Path           string
-	Interval       int
-	Retries        int
-	ExpectedBody   string
-	Description    string
-	FallbackPool   string
-	DefaultPools   string
-	ZoneName       string
-	VirtualDnsId   string
-	PageruleId     string
-	LoadbalancerId string
-	MonitorId      string
-	PoolId         string
-	CertificateId  string
-	RatelimitId    string
+	ZoneNameFilter   string
+	ZoneId           string
+	Type             string
+	Name             string
+	Content          string
+	Ttl              int
+	NotProxied       bool
+	Priority         int
+	RecordId         string
+	OrganizationId   string
+	Page             int
+	PackageId        string
+	Paused           bool
+	VanityNS         string
+	Proxied          bool
+	Notes            string
+	Mode             string
+	RailgunId        string
+	Hostname         string
+	Method           string
+	ExpectedCodes    string
+	Header           string
+	Timeout          int
+	Path             string
+	Interval         int
+	Retries          int
+	ExpectedBody     string
+	Description      string
+	FallbackPool     string
+	DefaultPools     string
+	ZoneName         string
+	VirtualDnsId     string
+	PageruleId       string
+	LoadbalancerId   string
+	MonitorId        string
+	PoolId           string
+	CertificateId    string
+	RatelimitId      string
+	CustomHostnameId string
 )
 
 func init() {
@@ -943,6 +944,21 @@ func init() {
 	DeleteCustomCert.Flags().StringVar(&CertificateId, "certificate-id", "", "The certificate ID associated with the certificate being deleted")
 	DeleteCustomCert.MarkFlagRequired("certificate-id")
 
+	var DeleteCustomHostname = &cobra.Command{
+		Use:   "delete-custom-hostname",
+		Short: "Delete a specific custom hostname",
+		Long:  `Delete a custom hostname associated with a specific zone id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteCustomHostname")
+		},
+	}
+
+	DeleteCustomHostname.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the custom hostname being deleted")
+	DeleteCustomHostname.MarkFlagRequired("zone-id")
+
+	DeleteCustomHostname.Flags().StringVar(&CustomHostnameId, "custom-hostname-id", "", "The custom hostname ID associated with the custom hostname being deleted")
+	DeleteCustomHostname.MarkFlagRequired("custom-hostname-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -951,6 +967,7 @@ func init() {
 	Zone.AddCommand(ActivationCheck)
 	Zone.AddCommand(CreateCustomHostname)
 	Zone.AddCommand(CreateZone)
+	Zone.AddCommand(DeleteCustomHostname)
 	Zone.AddCommand(DeleteZone)
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
