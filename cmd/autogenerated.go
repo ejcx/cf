@@ -45,6 +45,7 @@ var (
 	RatelimitId      string
 	CustomHostnameId string
 	AccessRuleId     string
+	UserAgentRuleId  string
 )
 
 func init() {
@@ -1057,6 +1058,36 @@ func init() {
 	DeleteUserAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The access rule id associated with the user access rule you are deleting")
 	DeleteUserAccessRule.MarkFlagRequired("access-rule-id")
 
+	var DeleteUserAgentRule = &cobra.Command{
+		Use:   "delete-user-agent-rule",
+		Short: "Delete a user agent rule",
+		Long:  `Delete a specific user agent rule`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteUserAgentRule")
+		},
+	}
+
+	DeleteUserAgentRule.Flags().StringVar(&UserAgentRuleId, "user-agent-rule-id", "", "The user agent rule id associated with the user agent rule being deleted")
+	DeleteUserAgentRule.MarkFlagRequired("user-agent-rule-id")
+
+	DeleteUserAgentRule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the user agent rule being deleted")
+	DeleteUserAgentRule.MarkFlagRequired("zone-id")
+
+	var DeleteZoneAccessRule = &cobra.Command{
+		Use:   "delete-zone-access-rule",
+		Short: "Delete a zone access rule",
+		Long:  `Delete a specific zone access rule`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteZoneAccessRule")
+		},
+	}
+
+	DeleteZoneAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The zone access rule id associated with the zone access rule being deleted")
+	DeleteZoneAccessRule.MarkFlagRequired("access-rule-id")
+
+	DeleteZoneAccessRule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the zone access rule being deleted")
+	DeleteZoneAccessRule.MarkFlagRequired("zone-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1067,6 +1098,7 @@ func init() {
 	Zone.AddCommand(CreateZone)
 	Zone.AddCommand(DeleteCustomHostname)
 	Zone.AddCommand(DeleteZone)
+	Zone.AddCommand(DeleteZoneAccessRule)
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
 	Zone.AddCommand(GetIdByName)
@@ -1156,6 +1188,7 @@ func init() {
 		Short: "Commands for interacting with firewall",
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
+	Firewall.AddCommand(DeleteUserAgentRule)
 	Firewall.AddCommand(GetZoneLockdownDetails)
 	Firewall.AddCommand(ListUserAgentRules)
 	Firewall.AddCommand(ListWafPackages)

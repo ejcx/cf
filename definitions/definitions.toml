@@ -8,6 +8,7 @@
     "create-zone",
     "delete-custom-hostname",
     "delete-zone",
+    "delete-zone-access-rule",
     "edit-zone-paused",
     "edit-zone-vanity-ns",
     "get-id-by-name",
@@ -104,6 +105,7 @@
   description = """
   This is a meaty description of the firewall apis."""
   subcommands = [
+    "delete-user-agent-rule",
     "get-zone-lockdown-details",
     "list-user-agent-rules",
     "list-waf-packages",
@@ -1257,4 +1259,36 @@
   name = "access-rule-id"
   type = "string"
   description = "The access rule id associated with the user access rule you are deleting"
+  required = true
+
+[[command]]
+  name = "delete-user-agent-rule"
+  description = """Delete a specific user agent rule"""
+  shortdescription = "Delete a user agent rule"
+  v4apiname = "DeleteUserAgentRule"
+  [[command.option]]
+  name = "user-agent-rule-id"
+  type = "string"
+  description = "The user agent rule id associated with the user agent rule being deleted"
+  required = true
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the user agent rule being deleted"
+  required = true
+
+[[command]]
+  name = "delete-zone-access-rule"
+  description = """Delete a specific zone access rule"""
+  shortdescription = "Delete a zone access rule"
+  v4apiname = "DeleteZoneAccessRule"
+  [[command.option]]
+  name = "access-rule-id"
+  type = "string"
+  description = "The zone access rule id associated with the zone access rule being deleted"
+  required = true
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the zone access rule being deleted"
   required = true

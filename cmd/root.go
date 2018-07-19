@@ -122,6 +122,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.DeleteZone(ZoneId)
 	case "DeleteLoadBalancer":
 		err = api.DeleteLoadBalancer(ZoneId, LoadbalancerId)
+	case "DeleteUserAgentRule":
+		resp, err = api.DeleteUserAgentRule(ZoneId, UserAgentRuleId)
 	case "DeleteUserAccessRule":
 		resp, err = api.DeleteUserAccessRule(AccessRuleId)
 	case "CreateRailgun":
@@ -168,6 +170,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		err = api.DeletePageRule(ZoneId, PageruleId)
 	case "DeleteRailgun":
 		err = api.DeleteRailgun(RailgunId)
+	case "DeleteZoneAccessRule":
+		resp, err = api.DeleteZoneAccessRule(ZoneId, AccessRuleId)
 	case "DisableRailgun":
 		resp, err = api.DisableRailgun(RailgunId)
 	case "EnableRailgun":
