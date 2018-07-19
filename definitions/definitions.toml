@@ -43,6 +43,7 @@
   This is a meaty description of the user api."""
   subcommands = [
     "billing-profile",
+    "delete-user-access-rule",
     "details",
   ]
   toplevel = true
@@ -1245,4 +1246,15 @@
   name = "name"
   type = "string"
   description = "The name you are assigning to the newly created railgun"
+  required = true
+
+[[command]]
+  name = "delete-user-access-rule"
+  description = """Delete a specific user access rule"""
+  shortdescription = "Delete a user access rule"
+  v4apiname = "DeleteUserAccessRule"
+  [[command.option]]
+  name = "access-rule-id"
+  type = "string"
+  description = "The access rule id associated with the user access rule you are deleting"
   required = true

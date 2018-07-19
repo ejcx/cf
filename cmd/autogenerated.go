@@ -1045,6 +1045,18 @@ func init() {
 	CreateRailgun.Flags().StringVar(&Name, "name", "", "The name you are assigning to the newly created railgun")
 	CreateRailgun.MarkFlagRequired("name")
 
+	var DeleteUserAccessRule = &cobra.Command{
+		Use:   "delete-user-access-rule",
+		Short: "Delete a user access rule",
+		Long:  `Delete a specific user access rule`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteUserAccessRule")
+		},
+	}
+
+	DeleteUserAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The access rule id associated with the user access rule you are deleting")
+	DeleteUserAccessRule.MarkFlagRequired("access-rule-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1088,6 +1100,7 @@ func init() {
 		Long:  `  This is a meaty description of the user api.`,
 	}
 	User.AddCommand(BillingProfile)
+	User.AddCommand(DeleteUserAccessRule)
 	User.AddCommand(Details)
 
 	RootCmd.AddCommand(User)

@@ -122,6 +122,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.DeleteZone(ZoneId)
 	case "DeleteLoadBalancer":
 		err = api.DeleteLoadBalancer(ZoneId, LoadbalancerId)
+	case "DeleteUserAccessRule":
+		resp, err = api.DeleteUserAccessRule(AccessRuleId)
 	case "CreateRailgun":
 		resp, err = api.CreateRailgun(Name)
 	case "DeleteLoadBalancerMonitor":
