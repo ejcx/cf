@@ -115,6 +115,7 @@
   description = """
   This is a meaty description of the organizaiton api."""
   subcommands = [
+    "delete-organization-access-rule",
     "get-organization-details",
     "get-organization-invites",
     "get-organization-members",
@@ -156,6 +157,9 @@
   subcommands = [
     "create-loadbalancer",
     "create-loadbalancer-monitor",
+    "delete-loadbalancer",
+    "delete-loadbalancer-monitor",
+    "delete-loadbalancer-pool",
     "get-loadbalancer-details",
     "get-loadbalancer-pool-details",
     "get-loadbalancer-monitor-details",
@@ -1152,4 +1156,58 @@
   name = "custom-hostname-id"
   type = "string"
   description = "The custom hostname ID associated with the custom hostname being deleted"
+  required = true
+
+[[command]]
+  name = "delete-loadbalancer"
+  description = """Delete a loadbalancer associated with a specific zone"""
+  shortdescription = "Delete a specific loadbalancer"
+  v4apiname = "DeleteLoadBalancer"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the loadbalancer"
+  required = true
+  [[command.option]]
+  name = "loadbalancer-id"
+  type = "string"
+  description = "The loadbalancer-id associated with the custom hostname being deleted"
+  required = true
+
+[[command]]
+  name = "delete-loadbalancer-monitor"
+  description = """Delete a specific loadbalancer monitor"""
+  shortdescription = "Delete a specific loadbalancer monitor"
+  v4apiname = "DeleteLoadBalancerMonitor"
+  [[command.option]]
+  name = "monitor-id"
+  type = "string"
+  description = "The load balancer monitor ID associated with the monitor being deleted"
+  required = true
+
+[[command]]
+  name = "delete-loadbalancer-pool"
+  description = """Delete a specific loadbalancer pool"""
+  shortdescription = "Delete a specific loadbalancer pool"
+  v4apiname = "DeleteLoadBalancerPool"
+  [[command.option]]
+  name = "pool-id"
+  type = "string"
+  description = "The load balancer pool ID associated with the pool being deleted"
+  required = true
+
+[[command]]
+  name = "delete-organization-access-rule"
+  description = """Delete an access rule associated with a specific organization"""
+  shortdescription = "Delete a specific access rule"
+  v4apiname = "DeleteOrganizationAccessRule"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization ID associated with the access rule being deleted"
+  required = true
+  [[command.option]]
+  name = "access-rule-id"
+  type = "string"
+  description = "The access rule ID associated with the access rule being deleted"
   required = true

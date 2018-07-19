@@ -42,6 +42,7 @@ var (
 	CertificateId    string
 	RatelimitId      string
 	CustomHostnameId string
+	AccessRuleId     string
 )
 
 func init() {
@@ -959,6 +960,60 @@ func init() {
 	DeleteCustomHostname.Flags().StringVar(&CustomHostnameId, "custom-hostname-id", "", "The custom hostname ID associated with the custom hostname being deleted")
 	DeleteCustomHostname.MarkFlagRequired("custom-hostname-id")
 
+	var DeleteLoadbalancer = &cobra.Command{
+		Use:   "delete-loadbalancer",
+		Short: "Delete a specific loadbalancer",
+		Long:  `Delete a loadbalancer associated with a specific zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteLoadBalancer")
+		},
+	}
+
+	DeleteLoadbalancer.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the loadbalancer")
+	DeleteLoadbalancer.MarkFlagRequired("zone-id")
+
+	DeleteLoadbalancer.Flags().StringVar(&LoadbalancerId, "loadbalancer-id", "", "The loadbalancer-id associated with the custom hostname being deleted")
+	DeleteLoadbalancer.MarkFlagRequired("loadbalancer-id")
+
+	var DeleteLoadbalancerMonitor = &cobra.Command{
+		Use:   "delete-loadbalancer-monitor",
+		Short: "Delete a specific loadbalancer monitor",
+		Long:  `Delete a specific loadbalancer monitor`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteLoadBalancerMonitor")
+		},
+	}
+
+	DeleteLoadbalancerMonitor.Flags().StringVar(&MonitorId, "monitor-id", "", "The load balancer monitor ID associated with the monitor being deleted")
+	DeleteLoadbalancerMonitor.MarkFlagRequired("monitor-id")
+
+	var DeleteLoadbalancerPool = &cobra.Command{
+		Use:   "delete-loadbalancer-pool",
+		Short: "Delete a specific loadbalancer pool",
+		Long:  `Delete a specific loadbalancer pool`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteLoadBalancerPool")
+		},
+	}
+
+	DeleteLoadbalancerPool.Flags().StringVar(&PoolId, "pool-id", "", "The load balancer pool ID associated with the pool being deleted")
+	DeleteLoadbalancerPool.MarkFlagRequired("pool-id")
+
+	var DeleteOrganizationAccessRule = &cobra.Command{
+		Use:   "delete-organization-access-rule",
+		Short: "Delete a specific access rule",
+		Long:  `Delete an access rule associated with a specific organization`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteOrganizationAccessRule")
+		},
+	}
+
+	DeleteOrganizationAccessRule.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization ID associated with the access rule being deleted")
+	DeleteOrganizationAccessRule.MarkFlagRequired("organization-id")
+
+	DeleteOrganizationAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The access rule ID associated with the access rule being deleted")
+	DeleteOrganizationAccessRule.MarkFlagRequired("access-rule-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1068,6 +1123,7 @@ func init() {
 		Short: "Commands for interacting with organizations api",
 		Long:  `  This is a meaty description of the organizaiton api.`,
 	}
+	Organization.AddCommand(DeleteOrganizationAccessRule)
 	Organization.AddCommand(GetOrganizationDetails)
 	Organization.AddCommand(GetOrganizationInvites)
 	Organization.AddCommand(GetOrganizationMembers)
@@ -1104,6 +1160,9 @@ func init() {
 	}
 	Loadbalancer.AddCommand(CreateLoadbalancer)
 	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
+	Loadbalancer.AddCommand(DeleteLoadbalancer)
+	Loadbalancer.AddCommand(DeleteLoadbalancerMonitor)
+	Loadbalancer.AddCommand(DeleteLoadbalancerPool)
 	Loadbalancer.AddCommand(GetLoadbalancerDetails)
 	Loadbalancer.AddCommand(GetLoadbalancerPoolDetails)
 	Loadbalancer.AddCommand(GetLoadbalancerMonitorDetails)

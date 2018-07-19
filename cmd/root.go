@@ -120,6 +120,12 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 	case "DeleteZone":
 		resp, err = api.DeleteZone(ZoneId)
+	case "DeleteLoadBalancer":
+		err = api.DeleteLoadBalancer(ZoneId, LoadbalancerId)
+	case "DeleteLoadBalancerMonitor":
+		err = api.DeleteLoadBalancerMonitor(MonitorId)
+	case "DeleteLoadBalancerPool":
+		err = api.DeleteLoadBalancerPool(PoolId)
 	case "DeleteCustomHostname":
 		err = api.DeleteCustomHostname(ZoneId, CustomHostnameId)
 	case "DNSRecord":
@@ -166,6 +172,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		err = api.DeleteRateLimit(ZoneId, RatelimitId)
 	case "DeleteSSL":
 		err = api.DeleteSSL(ZoneId, CertificateId)
+	case "DeleteOrganizationAccessRule":
+		resp, err = api.DeleteOrganizationAccessRule(OrganizationId, AccessRuleId)
 	case "ListCustomCerts":
 		resp, err = api.ListSSL(ZoneId)
 	case "SSLDetails":
