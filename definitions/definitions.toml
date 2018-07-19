@@ -53,6 +53,7 @@
   subcommands = [
     "get-origin-cert-details",
     "get-zone-origin-cert-details",
+    "delete-custom-cert",
     "list-custom-certs",
     "list-origin-certs",
     "list-zone-ssl-settings",
@@ -68,6 +69,7 @@
   This is a meaty description of the pagerules api."""
   subcommands = [
     "list-pagerules",
+    "delete-pagerule",
     "get-pagerule-details",
   ]
   toplevel = true
@@ -79,6 +81,7 @@
   Commands for the management and description of cache technologies."""
   subcommands = [
     "connect-zone-railgun",
+    "delete-railgun",
     "get-railgun-details",
     "get-railgun-zones",
     "get-zone-railgun-details",
@@ -136,6 +139,7 @@
   This is a meaty description of the ratelimit api."""
   subcommands = [
     "get-ratelimit-details",
+    "delete-ratelimit",
     "list-ratelimits",
   ]
   toplevel = true
@@ -1037,3 +1041,62 @@
   type = "bool"
   description = "This flag is unset for unpaused. Set for paused."
   required = false
+
+[[command]]
+  name = "delete-pagerule"
+  description = """Delete a page rule associated with a specific zone and pagerule id"""
+  shortdescription = "Delete a specific page rule"
+  v4apiname = "DeletePageRule"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the page rule"
+  required = true
+  [[command.option]]
+  name = "pagerule-id"
+  type = "string"
+  description = "The pagerule ID associated with the pagerule you wish to delete"
+  required = true
+
+[[command]]
+  name = "delete-railgun"
+  description = """Delete a railgun associated with a specific railgun id"""
+  shortdescription = "Delete a specific railgun by its id"
+  v4apiname = "DeleteRailgun"
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun ID associated with the railgun being deleted"
+  required = true
+
+[[command]]
+  name = "delete-ratelimit"
+  description = """Delete a ratelimit associated with a specific ratelimit id"""
+  shortdescription = "Delete a specific ratelimit by its id"
+  v4apiname = "DeleteRateLimit"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the ratelimit being deleted"
+  required = true
+  [[command.option]]
+  name = "ratelimit-id"
+  type = "string"
+  description = "The ratelimit ID associated with the ratelimit being deleted"
+  required = true
+
+[[command]]
+  name = "delete-custom-cert"
+  description = """Delete a custom certificate associated with a specific certificate id"""
+  shortdescription = "Delete a specific certificate by its id"
+  v4apiname = "DeleteSSL"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the certificate being deleted"
+  required = true
+  [[command.option]]
+  name = "certificate-id"
+  type = "string"
+  description = "The certificate ID associated with the certificate being deleted"
+  required = true

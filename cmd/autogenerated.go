@@ -850,6 +850,63 @@ func init() {
 
 	SetPaused.Flags().BoolVar(&Paused, "paused", false, "This flag is unset for unpaused. Set for paused.")
 
+	var DeletePagerule = &cobra.Command{
+		Use:   "delete-pagerule",
+		Short: "Delete a specific page rule",
+		Long:  `Delete a page rule associated with a specific zone and pagerule id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeletePageRule")
+		},
+	}
+
+	DeletePagerule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the page rule")
+	DeletePagerule.MarkFlagRequired("zone-id")
+
+	DeletePagerule.Flags().StringVar(&PageruleId, "pagerule-id", "", "The pagerule ID associated with the pagerule you wish to delete")
+	DeletePagerule.MarkFlagRequired("pagerule-id")
+
+	var DeleteRailgun = &cobra.Command{
+		Use:   "delete-railgun",
+		Short: "Delete a specific railgun by its id",
+		Long:  `Delete a railgun associated with a specific railgun id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteRailgun")
+		},
+	}
+
+	DeleteRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun ID associated with the railgun being deleted")
+	DeleteRailgun.MarkFlagRequired("railgun-id")
+
+	var DeleteRatelimit = &cobra.Command{
+		Use:   "delete-ratelimit",
+		Short: "Delete a specific ratelimit by its id",
+		Long:  `Delete a ratelimit associated with a specific ratelimit id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteRateLimit")
+		},
+	}
+
+	DeleteRatelimit.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the ratelimit being deleted")
+	DeleteRatelimit.MarkFlagRequired("zone-id")
+
+	DeleteRatelimit.Flags().StringVar(&RatelimitId, "ratelimit-id", "", "The ratelimit ID associated with the ratelimit being deleted")
+	DeleteRatelimit.MarkFlagRequired("ratelimit-id")
+
+	var DeleteCustomCert = &cobra.Command{
+		Use:   "delete-custom-cert",
+		Short: "Delete a specific certificate by its id",
+		Long:  `Delete a custom certificate associated with a specific certificate id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteSSL")
+		},
+	}
+
+	DeleteCustomCert.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the certificate being deleted")
+	DeleteCustomCert.MarkFlagRequired("zone-id")
+
+	DeleteCustomCert.Flags().StringVar(&CertificateId, "certificate-id", "", "The certificate ID associated with the certificate being deleted")
+	DeleteCustomCert.MarkFlagRequired("certificate-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -902,6 +959,7 @@ func init() {
 	}
 	Ssl.AddCommand(GetOriginCertDetails)
 	Ssl.AddCommand(GetZoneOriginCertDetails)
+	Ssl.AddCommand(DeleteCustomCert)
 	Ssl.AddCommand(ListCustomCerts)
 	Ssl.AddCommand(ListOriginCerts)
 	Ssl.AddCommand(ListZoneSslSettings)
@@ -915,6 +973,7 @@ func init() {
 		Long:  `  This is a meaty description of the pagerules api.`,
 	}
 	Pagerules.AddCommand(ListPagerules)
+	Pagerules.AddCommand(DeletePagerule)
 	Pagerules.AddCommand(GetPageruleDetails)
 
 	RootCmd.AddCommand(Pagerules)
@@ -925,6 +984,7 @@ func init() {
 		Long:  `  Commands for the management and description of cache technologies.`,
 	}
 	Cache.AddCommand(ConnectZoneRailgun)
+	Cache.AddCommand(DeleteRailgun)
 	Cache.AddCommand(GetRailgunDetails)
 	Cache.AddCommand(GetRailgunZones)
 	Cache.AddCommand(GetZoneRailgunDetails)
@@ -976,6 +1036,7 @@ func init() {
 		Long:  `  This is a meaty description of the ratelimit api.`,
 	}
 	Ratelimit.AddCommand(GetRatelimitDetails)
+	Ratelimit.AddCommand(DeleteRatelimit)
 	Ratelimit.AddCommand(ListRatelimits)
 
 	RootCmd.AddCommand(Ratelimit)
