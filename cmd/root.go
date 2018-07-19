@@ -122,6 +122,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.DeleteZone(ZoneId)
 	case "DeleteLoadBalancer":
 		err = api.DeleteLoadBalancer(ZoneId, LoadbalancerId)
+	case "CreateRailgun":
+		resp, err = api.CreateRailgun(Name)
 	case "DeleteLoadBalancerMonitor":
 		err = api.DeleteLoadBalancerMonitor(MonitorId)
 	case "DeleteLoadBalancerPool":
@@ -315,6 +317,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			page = Page
 		}
 		resp, err = api.ListZoneLockdowns(ZoneId, page)
+	case "ZoneLockdown":
+		resp, err = api.ZoneLockdown(ZoneId, LockdownId)
 	case "ListUserAgentRules":
 		page := 1
 		if Page != 0 {
@@ -326,7 +330,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		if OrganizationId != "" {
 			org.ID = OrganizationId
 		}
-		resp, err = api.CreateZone(Name, false, org)
+		resp, err = api.CreateZone(Name, Jumpstart, org)
 	default:
 		break
 	}

@@ -83,6 +83,7 @@
   Commands for the management and description of cache technologies."""
   subcommands = [
     "connect-zone-railgun",
+    "create-railgun",
     "delete-railgun",
     "disable-railgun",
     "enable-railgun",
@@ -102,6 +103,7 @@
   description = """
   This is a meaty description of the firewall apis."""
   subcommands = [
+    "get-zone-lockdown-details",
     "list-user-agent-rules",
     "list-waf-packages",
     "list-waf-rules",
@@ -304,6 +306,12 @@
   required = true
 
   [[command.option]]
+  name = "jumpstart"
+  type = "bool"
+  description = "Should the zone DNS be pre-populated"
+  required = false
+
+  [[command.option]]
   name = "organization-id"
   type = "string"
   description = "The organizationID associated with the zone"
@@ -423,7 +431,7 @@
 
 [[command]]
   name = "list-zone-lockdowns"
-  description = """Return the lockdowns associated with a given lockdown."""
+  description = """Return the lockdowns associated with a given zone."""
   shortdescription = "List Zone Lockdowns"
   v4apiname = "ListZoneLockdowns"
   [[command.option]]
@@ -435,6 +443,22 @@
   name = "page"
   type = "int"
   description = "Pagination for zone lockdowns."
+
+[[command]]
+  name = "get-zone-lockdown-details"
+  description = """Return the detailed information about a lockdown associated with a given zone."""
+  shortdescription = "Get detailed zone lockdown information"
+  v4apiname = "ZoneLockdown"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the zone lockdown."
+  required = true
+  [[command.option]]
+  name = "lockdown-id"
+  type = "string"
+  description = "The lockdown ID associated with the lockdown"
+  required = true
 
 [[command]]
   name = "edit-zone-paused"
@@ -1210,4 +1234,15 @@
   name = "access-rule-id"
   type = "string"
   description = "The access rule ID associated with the access rule being deleted"
+  required = true
+
+[[command]]
+  name = "create-railgun"
+  description = """Create a railgun"""
+  shortdescription = "Create a railgun"
+  v4apiname = "CreateRailgun"
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The name you are assigning to the newly created railgun"
   required = true

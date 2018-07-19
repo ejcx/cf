@@ -12,9 +12,11 @@ var (
 	NotProxied       bool
 	Priority         int
 	RecordId         string
+	Jumpstart        bool
 	OrganizationId   string
 	Page             int
 	PackageId        string
+	LockdownId       string
 	Paused           bool
 	VanityNS         string
 	Proxied          bool
@@ -141,6 +143,8 @@ func init() {
 	CreateZone.Flags().StringVar(&Name, "name", "", "The zone name that will be added to your account")
 	CreateZone.MarkFlagRequired("name")
 
+	CreateZone.Flags().BoolVar(&Jumpstart, "jumpstart", false, "Should the zone DNS be pre-populated")
+
 	CreateZone.Flags().StringVar(&OrganizationId, "organization-id", "", "The organizationID associated with the zone")
 
 	var ShowDnsRecord = &cobra.Command{
@@ -259,7 +263,7 @@ func init() {
 	var ListZoneLockdowns = &cobra.Command{
 		Use:   "list-zone-lockdowns",
 		Short: "List Zone Lockdowns",
-		Long:  `Return the lockdowns associated with a given lockdown.`,
+		Long:  `Return the lockdowns associated with a given zone.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			Main(cmd, args, "ListZoneLockdowns")
 		},
@@ -269,6 +273,21 @@ func init() {
 	ListZoneLockdowns.MarkFlagRequired("zone-id")
 
 	ListZoneLockdowns.Flags().IntVar(&Page, "page", 0, "Pagination for zone lockdowns.")
+
+	var GetZoneLockdownDetails = &cobra.Command{
+		Use:   "get-zone-lockdown-details",
+		Short: "Get detailed zone lockdown information",
+		Long:  `Return the detailed information about a lockdown associated with a given zone.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneLockdown")
+		},
+	}
+
+	GetZoneLockdownDetails.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the zone lockdown.")
+	GetZoneLockdownDetails.MarkFlagRequired("zone-id")
+
+	GetZoneLockdownDetails.Flags().StringVar(&LockdownId, "lockdown-id", "", "The lockdown ID associated with the lockdown")
+	GetZoneLockdownDetails.MarkFlagRequired("lockdown-id")
 
 	var EditZonePaused = &cobra.Command{
 		Use:   "edit-zone-paused",
@@ -1014,6 +1033,18 @@ func init() {
 	DeleteOrganizationAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The access rule ID associated with the access rule being deleted")
 	DeleteOrganizationAccessRule.MarkFlagRequired("access-rule-id")
 
+	var CreateRailgun = &cobra.Command{
+		Use:   "create-railgun",
+		Short: "Create a railgun",
+		Long:  `Create a railgun`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateRailgun")
+		},
+	}
+
+	CreateRailgun.Flags().StringVar(&Name, "name", "", "The name you are assigning to the newly created railgun")
+	CreateRailgun.MarkFlagRequired("name")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1093,6 +1124,7 @@ func init() {
 		Long:  `  Commands for the management and description of cache technologies.`,
 	}
 	Cache.AddCommand(ConnectZoneRailgun)
+	Cache.AddCommand(CreateRailgun)
 	Cache.AddCommand(DeleteRailgun)
 	Cache.AddCommand(DisableRailgun)
 	Cache.AddCommand(EnableRailgun)
@@ -1111,6 +1143,7 @@ func init() {
 		Short: "Commands for interacting with firewall",
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
+	Firewall.AddCommand(GetZoneLockdownDetails)
 	Firewall.AddCommand(ListUserAgentRules)
 	Firewall.AddCommand(ListWafPackages)
 	Firewall.AddCommand(ListWafRules)
