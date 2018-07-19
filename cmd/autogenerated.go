@@ -779,6 +779,18 @@ func init() {
 	GetRatelimitDetails.Flags().StringVar(&RatelimitId, "ratelimit-id", "", "The ratelimit id that you wish to view detailed information about")
 	GetRatelimitDetails.MarkFlagRequired("ratelimit-id")
 
+	var RevokeOriginCert = &cobra.Command{
+		Use:   "revoke-origin-cert",
+		Short: "Revoke origin certificate",
+		Long:  `Revoke a specific origin certificate`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "RevokeOriginCertificate")
+		},
+	}
+
+	RevokeOriginCert.Flags().StringVar(&CertificateId, "certificate-id", "", "The certificate id that is being revoked")
+	RevokeOriginCert.MarkFlagRequired("certificate-id")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -832,6 +844,7 @@ func init() {
 	Ssl.AddCommand(ListCustomCerts)
 	Ssl.AddCommand(ListOriginCerts)
 	Ssl.AddCommand(ListZoneSslSettings)
+	Ssl.AddCommand(RevokeOriginCert)
 
 	RootCmd.AddCommand(Ssl)
 

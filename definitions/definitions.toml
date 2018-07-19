@@ -54,6 +54,7 @@
     "list-custom-certs",
     "list-origin-certs",
     "list-zone-ssl-settings",
+    "revoke-origin-cert",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with ssl configuration"
@@ -956,4 +957,15 @@
   name = "ratelimit-id"
   type = "string"
   description = "The ratelimit id that you wish to view detailed information about"
+  required = true
+
+[[command]]
+  name = "revoke-origin-cert"
+  description = """Revoke a specific origin certificate"""
+  shortdescription = "Revoke origin certificate"
+  v4apiname = "RevokeOriginCertificate"
+  [[command.option]]
+  name = "certificate-id"
+  type = "string"
+  description = "The certificate id that is being revoked"
   required = true
