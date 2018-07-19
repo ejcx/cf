@@ -82,6 +82,8 @@
   subcommands = [
     "connect-zone-railgun",
     "delete-railgun",
+    "disable-railgun",
+    "enable-railgun",
     "get-railgun-details",
     "get-railgun-zones",
     "get-zone-railgun-details",
@@ -1067,6 +1069,28 @@
   name = "railgun-id"
   type = "string"
   description = "The railgun ID associated with the railgun being deleted"
+  required = true
+
+[[command]]
+  name = "disable-railgun"
+  description = """Disable a railgun associated with a specific railgun id"""
+  shortdescription = "Delete a specific railgun by its id"
+  v4apiname = "DisableRailgun"
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun ID associated with the railgun being disabled"
+  required = true
+
+[[command]]
+  name = "enable-railgun"
+  description = """Enable a railgun associated with a specific railgun id"""
+  shortdescription = "Enable a specific disabled railgun by its id"
+  v4apiname = "EnableRailgun"
+  [[command.option]]
+  name = "railgun-id"
+  type = "string"
+  description = "The railgun ID associated with the railgun being enabled "
   required = true
 
 [[command]]

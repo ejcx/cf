@@ -877,6 +877,30 @@ func init() {
 	DeleteRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun ID associated with the railgun being deleted")
 	DeleteRailgun.MarkFlagRequired("railgun-id")
 
+	var DisableRailgun = &cobra.Command{
+		Use:   "disable-railgun",
+		Short: "Delete a specific railgun by its id",
+		Long:  `Disable a railgun associated with a specific railgun id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DisableRailgun")
+		},
+	}
+
+	DisableRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun ID associated with the railgun being disabled")
+	DisableRailgun.MarkFlagRequired("railgun-id")
+
+	var EnableRailgun = &cobra.Command{
+		Use:   "enable-railgun",
+		Short: "Enable a specific disabled railgun by its id",
+		Long:  `Enable a railgun associated with a specific railgun id`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "EnableRailgun")
+		},
+	}
+
+	EnableRailgun.Flags().StringVar(&RailgunId, "railgun-id", "", "The railgun ID associated with the railgun being enabled ")
+	EnableRailgun.MarkFlagRequired("railgun-id")
+
 	var DeleteRatelimit = &cobra.Command{
 		Use:   "delete-ratelimit",
 		Short: "Delete a specific ratelimit by its id",
@@ -985,6 +1009,8 @@ func init() {
 	}
 	Cache.AddCommand(ConnectZoneRailgun)
 	Cache.AddCommand(DeleteRailgun)
+	Cache.AddCommand(DisableRailgun)
+	Cache.AddCommand(EnableRailgun)
 	Cache.AddCommand(GetRailgunDetails)
 	Cache.AddCommand(GetRailgunZones)
 	Cache.AddCommand(GetZoneRailgunDetails)

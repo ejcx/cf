@@ -156,6 +156,10 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		err = api.DeletePageRule(ZoneId, PageruleId)
 	case "DeleteRailgun":
 		err = api.DeleteRailgun(RailgunId)
+	case "DisableRailgun":
+		resp, err = api.DisableRailgun(RailgunId)
+	case "EnableRailgun":
+		resp, err = api.EnableRailgun(RailgunId)
 	case "DeleteRateLimit":
 		err = api.DeleteRateLimit(ZoneId, RatelimitId)
 	case "DeleteSSL":
