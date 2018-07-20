@@ -116,7 +116,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		if NotificationEmail != "" {
 			l.NotificationEmail = NotificationEmail
 		}
-		resp, err = api.CreateLoadBalancerPool(l)
+		resp, err = api.ModifyLoadBalancerPool(l)
 	case "CreateLoadBalancerPool":
 		var lbo []cloudflare.LoadBalancerOrigin
 		err = json.Unmarshal([]byte(Origins), &lbo)
