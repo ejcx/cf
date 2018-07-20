@@ -90,6 +90,34 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			TTL:     Ttl,
 		}
 		err = api.UpdateDNSRecord(ZoneId, RecordId, rec)
+	case "CreateVirtualDNS":
+		v := &cloudflare.VirtualDNS{}
+		v.Name = Name
+		v.OriginIPs = strings.Split(OriginIps, ",")
+		if MinimumCacheTtl > 0 {
+			v.MinimumCacheTTL = uint(MinimumCacheTtl)
+		}
+		if MaximumCacheTtl > 0 {
+			v.MaximumCacheTTL = uint(MaximumCacheTtl)
+		}
+		v.DeprecateAnyRequests = DeprecateAnyRequest
+		resp, err = api.CreateVirtualDNS(v)
+	case "UpdateVirtualDNS":
+		v := &cloudflare.VirtualDNS{}
+		if Name != "" {
+			v.Name = Name
+		}
+		if OriginIps != "" {
+			v.OriginIPs = strings.Split(OriginIps, ",")
+		}
+		if MinimumCacheTtl > 0 {
+			v.MinimumCacheTTL = uint(MinimumCacheTtl)
+		}
+		if MaximumCacheTtl > 0 {
+			v.MaximumCacheTTL = uint(MaximumCacheTtl)
+		}
+		v.DeprecateAnyRequests = DeprecateAnyRequest
+		err = api.UpdateVirtualDNS(VirtualDnsId, *v)
 	case "CreateZoneLockdown":
 		var c []cloudflare.ZoneLockdownConfig
 		err = json.Unmarshal([]byte(Configuration), &c)

@@ -3,65 +3,69 @@ package cmd
 import "github.com/spf13/cobra"
 
 var (
-	ZoneNameFilter    string
-	ZoneId            string
-	Type              string
-	Name              string
-	Content           string
-	Ttl               int
-	NotProxied        bool
-	Priority          int
-	RecordId          string
-	Jumpstart         bool
-	OrganizationId    string
-	Page              int
-	PackageId         string
-	LockdownId        string
-	Paused            bool
-	VanityNs          string
-	Proxied           bool
-	Notes             string
-	Mode              string
-	RailgunId         string
-	Hostname          string
-	Method            string
-	ExpectedCodes     string
-	Header            string
-	Timeout           int
-	Path              string
-	Interval          int
-	Retries           int
-	ExpectedBody      string
-	Description       string
-	FallbackPool      string
-	DefaultPools      string
-	ZoneName          string
-	VirtualDnsId      string
-	PageruleId        string
-	LoadbalancerId    string
-	MonitorId         string
-	PoolId            string
-	CertificateId     string
-	RatelimitId       string
-	CustomHostnameId  string
-	AccessRuleId      string
-	UserAgentRuleId   string
-	Since             string
-	Until             string
-	Continuous        bool
-	FirstName         string
-	LastName          string
-	Telephone         string
-	Country           string
-	Zipcode           string
-	Origins           string
-	Disabled          bool
-	MinimumOrigins    int
-	Monitor           string
-	NotificationEmail string
-	ZoneSettings      string
-	Configuration     string
-	Urls              string
+	ZoneNameFilter      string
+	ZoneId              string
+	Type                string
+	Name                string
+	Content             string
+	Ttl                 int
+	NotProxied          bool
+	Priority            int
+	RecordId            string
+	Jumpstart           bool
+	OrganizationId      string
+	Page                int
+	PackageId           string
+	LockdownId          string
+	Paused              bool
+	VanityNs            string
+	Proxied             bool
+	Notes               string
+	Mode                string
+	RailgunId           string
+	Hostname            string
+	Method              string
+	ExpectedCodes       string
+	Header              string
+	Timeout             int
+	Path                string
+	Interval            int
+	Retries             int
+	ExpectedBody        string
+	Description         string
+	FallbackPool        string
+	DefaultPools        string
+	ZoneName            string
+	VirtualDnsId        string
+	PageruleId          string
+	LoadbalancerId      string
+	MonitorId           string
+	PoolId              string
+	CertificateId       string
+	RatelimitId         string
+	CustomHostnameId    string
+	AccessRuleId        string
+	UserAgentRuleId     string
+	Since               string
+	Until               string
+	Continuous          bool
+	FirstName           string
+	LastName            string
+	Telephone           string
+	Country             string
+	Zipcode             string
+	Origins             string
+	Disabled            bool
+	MinimumOrigins      int
+	Monitor             string
+	NotificationEmail   string
+	ZoneSettings        string
+	Configuration       string
+	Urls                string
+	OriginIps           string
+	MinimumCacheTtl     int
+	MaximumCacheTtl     int
+	DeprecateAnyRequest bool
 )
 
 func init() {
@@ -1349,6 +1353,47 @@ func init() {
 
 	CreateZoneLockdown.Flags().StringVar(&Description, "description", "", "A note that you can use to describe the reason for a Lockdown rule")
 
+	var CreateVirtualDns = &cobra.Command{
+		Use:   "create-virtual-dns",
+		Short: "Create a new virtual dns cluster",
+		Long:  `Create a new virtual dns cluster`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateVirtualDNS")
+		},
+	}
+
+	CreateVirtualDns.Flags().StringVar(&Name, "name", "", "Virtual DNS Cluster Name, max length: 160 characters")
+	CreateVirtualDns.MarkFlagRequired("name")
+
+	CreateVirtualDns.Flags().StringVar(&OriginIps, "origin-ips", "", "Comma delimited list of origin IP addresses - Example: [\"192.0.2.1\",\"198.51.100.1\",\"2001:DB8:100::CF\"]")
+	CreateVirtualDns.MarkFlagRequired("origin-ips")
+
+	CreateVirtualDns.Flags().IntVar(&MinimumCacheTtl, "minimum-cache-ttl", 0, "Minimum DNS Cache TTL. default value: 60, min value:30, max value:36000")
+
+	CreateVirtualDns.Flags().IntVar(&MaximumCacheTtl, "maximum-cache-ttl", 0, "Maximum DNS Cache TTL. default value: 900, min value:30, max value:36000")
+
+	CreateVirtualDns.Flags().BoolVar(&DeprecateAnyRequest, "deprecate-any-request", false, "Deprecate the response to ANY requests")
+
+	var UpdateVirtualDns = &cobra.Command{
+		Use:   "update-virtual-dns",
+		Short: "Update a virtual dns cluster",
+		Long:  `Update a virtual dns cluster`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateVirtualDNS")
+		},
+	}
+
+	UpdateVirtualDns.Flags().StringVar(&VirtualDnsId, "virtual-dns-id", "", "The virtual DNS id being modified")
+	UpdateVirtualDns.MarkFlagRequired("virtual-dns-id")
+
+	UpdateVirtualDns.Flags().StringVar(&OriginIps, "origin-ips", "", "Comma delimited list of origin IP addresses - Example: [\"192.0.2.1\",\"198.51.100.1\",\"2001:DB8:100::CF\"]")
+
+	UpdateVirtualDns.Flags().IntVar(&MinimumCacheTtl, "minimum-cache-ttl", 0, "Minimum DNS Cache TTL. default value: 60, min value:30, max value:36000")
+
+	UpdateVirtualDns.Flags().IntVar(&MaximumCacheTtl, "maximum-cache-ttl", 0, "Maximum DNS Cache TTL. default value: 900, min value:30, max value:36000")
+
+	UpdateVirtualDns.Flags().BoolVar(&DeprecateAnyRequest, "deprecate-any-request", false, "Deprecate the response to ANY requests")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1383,6 +1428,7 @@ func init() {
 		Long:  `  This is a meaty description of the dns api.`,
 	}
 	Dns.AddCommand(CreateDnsRecord)
+	Dns.AddCommand(CreateVirtualDns)
 	Dns.AddCommand(DeleteDnsRecord)
 	Dns.AddCommand(DeleteVirtualDns)
 	Dns.AddCommand(DescribeVirtualDns)
@@ -1390,6 +1436,7 @@ func init() {
 	Dns.AddCommand(ListDnsRecords)
 	Dns.AddCommand(ListVirtualDns)
 	Dns.AddCommand(ShowDnsRecord)
+	Dns.AddCommand(UpdateVirtualDns)
 
 	RootCmd.AddCommand(Dns)
 

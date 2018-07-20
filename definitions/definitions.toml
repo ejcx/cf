@@ -33,6 +33,7 @@
   This is a meaty description of the dns api."""
   subcommands = [
     "create-dns-record",
+    "create-virtual-dns",
     "delete-dns-record",
     "delete-virtual-dns",
     "describe-virtual-dns",
@@ -40,6 +41,7 @@
     "list-dns-records",
     "list-virtual-dns",
     "show-dns-record",
+    "update-virtual-dns",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with dns records"
@@ -1627,4 +1629,66 @@
   name = "description"
   type = "string"
   description = "A note that you can use to describe the reason for a Lockdown rule"
+  required = false
+
+[[command]]
+  name = "create-virtual-dns"
+  description = """Create a new virtual dns cluster"""
+  shortdescription = "Create a new virtual dns cluster"
+  v4apiname = "CreateVirtualDNS"
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "Virtual DNS Cluster Name, max length: 160 characters"
+  required = true
+  [[command.option]]
+  name = "origin-ips"
+  type = "string"
+  description = "Comma delimited list of origin IP addresses - Example: [\\\"192.0.2.1\\\",\\\"198.51.100.1\\\",\\\"2001:DB8:100::CF\\\"]"
+  required = true
+  [[command.option]]
+  name = "minimum-cache-ttl"
+  type = "int"
+  description = "Minimum DNS Cache TTL. default value: 60, min value:30, max value:36000"
+  required = false
+  [[command.option]]
+  name = "maximum-cache-ttl"
+  type = "int"
+  description = "Maximum DNS Cache TTL. default value: 900, min value:30, max value:36000"
+  required = false
+  [[command.option]]
+  name = "deprecate-any-request"
+  type = "bool"
+  description = "Deprecate the response to ANY requests"
+  required = false
+
+[[command]]
+  name = "update-virtual-dns"
+  description = """Update a virtual dns cluster"""
+  shortdescription = "Update a virtual dns cluster"
+  v4apiname = "UpdateVirtualDNS"
+  [[command.option]]
+  name = "virtual-dns-id"
+  type = "string"
+  description = "The virtual DNS id being modified"
+  required = true
+  [[command.option]]
+  name = "origin-ips"
+  type = "string"
+  description = "Comma delimited list of origin IP addresses - Example: [\\\"192.0.2.1\\\",\\\"198.51.100.1\\\",\\\"2001:DB8:100::CF\\\"]"
+  required = false
+  [[command.option]]
+  name = "minimum-cache-ttl"
+  type = "int"
+  description = "Minimum DNS Cache TTL. default value: 60, min value:30, max value:36000"
+  required = false
+  [[command.option]]
+  name = "maximum-cache-ttl"
+  type = "int"
+  description = "Maximum DNS Cache TTL. default value: 900, min value:30, max value:36000"
+  required = false
+  [[command.option]]
+  name = "deprecate-any-request"
+  type = "bool"
+  description = "Deprecate the response to ANY requests"
   required = false
