@@ -169,6 +169,7 @@
   This is a meaty description of the loadbalancer api."""
   subcommands = [
     "create-loadbalancer",
+    "create-loadbalancer-pool",
     "create-loadbalancer-monitor",
     "delete-loadbalancer",
     "delete-loadbalancer-monitor",
@@ -1463,3 +1464,39 @@
   type = "string"
   description = "The zip code or postal code in which the user lives, max length 20"
   required = false
+
+[[command]]
+  name = "create-loadbalancer-pool"
+  description = """Create a new loadbalancer pool"""
+  shortdescription = "Create a loadbalancer pool"
+  v4apiname = "CreateLoadBalancerPool"
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The name of the loadbalancer pool"
+  required = true
+  [[command.option]]
+  name = "origins"
+  type = "string"
+  description = "The list of origins Example: [{\\\"name\\\": \\\"app-server-1\\\", \\\"address\\\": \\\"0.0.0.0\\\", \\\"enabled\\\": true, \\\"weight\\\": 0.56}]"
+  required = true
+  [[command.option]]
+  name = "description"
+  type = "string"
+  description = "A human-readable description of the pool."
+  [[command.option]]
+  name = "disabled"
+  type = "bool"
+  description = "By default, the pool will be enabled. Specify disabled in order to modify this default"
+  [[command.option]]
+  name = "minimum-origins"
+  type = "int"
+  description = "The minimum number of origins that must be healthy for this pool to serve traffic. "
+  [[command.option]]
+  name = "monitor"
+  type = "string"
+  description = "The ID of the Monitor to use for health checking origins within this pool."
+  [[command.option]]
+  name = "notification-email"
+  type = "string"
+  description = "The email address to send health status notifications to. This can be an individual mailbox or a mailing list."

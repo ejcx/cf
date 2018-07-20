@@ -90,6 +90,32 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			TTL:     Ttl,
 		}
 		err = api.UpdateDNSRecord(ZoneId, RecordId, rec)
+	case "CreateLoadBalancerPool":
+		var lbo []cloudflare.LoadBalancerOrigin
+		err = json.Unmarshal([]byte(Origins), &lbo)
+		if err != nil {
+			break
+		}
+		l := cloudflare.LoadBalancerPool{
+			Name:    Name,
+			Origins: lbo,
+		}
+		if Description != "" {
+			l.Description = Description
+		}
+		if Disabled {
+			l.Enabled = false
+		}
+		if MinimumOrigins > 0 {
+			l.MinimumOrigins = MinimumOrigins
+		}
+		if Monitor != "" {
+			l.Monitor = Monitor
+		}
+		if NotificationEmail != "" {
+			l.NotificationEmail = NotificationEmail
+		}
+		resp, err = api.CreateLoadBalancerPool(l)
 	case "CreateDNSRecord":
 		rec := cloudflare.DNSRecord{}
 		if Type != "" {

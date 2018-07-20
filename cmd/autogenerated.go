@@ -3,57 +3,62 @@ package cmd
 import "github.com/spf13/cobra"
 
 var (
-	ZoneNameFilter   string
-	ZoneId           string
-	Type             string
-	Name             string
-	Content          string
-	Ttl              int
-	NotProxied       bool
-	Priority         int
-	RecordId         string
-	Jumpstart        bool
-	OrganizationId   string
-	Page             int
-	PackageId        string
-	LockdownId       string
-	Paused           bool
-	VanityNs         string
-	Proxied          bool
-	Notes            string
-	Mode             string
-	RailgunId        string
-	Hostname         string
-	Method           string
-	ExpectedCodes    string
-	Header           string
-	Timeout          int
-	Path             string
-	Interval         int
-	Retries          int
-	ExpectedBody     string
-	Description      string
-	FallbackPool     string
-	DefaultPools     string
-	ZoneName         string
-	VirtualDnsId     string
-	PageruleId       string
-	LoadbalancerId   string
-	MonitorId        string
-	PoolId           string
-	CertificateId    string
-	RatelimitId      string
-	CustomHostnameId string
-	AccessRuleId     string
-	UserAgentRuleId  string
-	Since            string
-	Until            string
-	Continuous       bool
-	FirstName        string
-	LastName         string
-	Telephone        string
-	Country          string
-	Zipcode          string
+	ZoneNameFilter    string
+	ZoneId            string
+	Type              string
+	Name              string
+	Content           string
+	Ttl               int
+	NotProxied        bool
+	Priority          int
+	RecordId          string
+	Jumpstart         bool
+	OrganizationId    string
+	Page              int
+	PackageId         string
+	LockdownId        string
+	Paused            bool
+	VanityNs          string
+	Proxied           bool
+	Notes             string
+	Mode              string
+	RailgunId         string
+	Hostname          string
+	Method            string
+	ExpectedCodes     string
+	Header            string
+	Timeout           int
+	Path              string
+	Interval          int
+	Retries           int
+	ExpectedBody      string
+	Description       string
+	FallbackPool      string
+	DefaultPools      string
+	ZoneName          string
+	VirtualDnsId      string
+	PageruleId        string
+	LoadbalancerId    string
+	MonitorId         string
+	PoolId            string
+	CertificateId     string
+	RatelimitId       string
+	CustomHostnameId  string
+	AccessRuleId      string
+	UserAgentRuleId   string
+	Since             string
+	Until             string
+	Continuous        bool
+	FirstName         string
+	LastName          string
+	Telephone         string
+	Country           string
+	Zipcode           string
+	Origins           string
+	Disabled          bool
+	MinimumOrigins    int
+	Monitor           string
+	NotificationEmail string
 )
 
 func init() {
@@ -1226,6 +1231,31 @@ func init() {
 
 	EditUser.Flags().StringVar(&Zipcode, "zipcode", "", "The zip code or postal code in which the user lives, max length 20")
 
+	var CreateLoadbalancerPool = &cobra.Command{
+		Use:   "create-loadbalancer-pool",
+		Short: "Create a loadbalancer pool",
+		Long:  `Create a new loadbalancer pool`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateLoadBalancerPool")
+		},
+	}
+
+	CreateLoadbalancerPool.Flags().StringVar(&Name, "name", "", "The name of the loadbalancer pool")
+	CreateLoadbalancerPool.MarkFlagRequired("name")
+
+	CreateLoadbalancerPool.Flags().StringVar(&Origins, "origins", "", "The list of origins Example: [{\"name\": \"app-server-1\", \"address\": \"0.0.0.0\", \"enabled\": true, \"weight\": 0.56}]")
+	CreateLoadbalancerPool.MarkFlagRequired("origins")
+
+	CreateLoadbalancerPool.Flags().StringVar(&Description, "description", "", "A human-readable description of the pool.")
+
+	CreateLoadbalancerPool.Flags().BoolVar(&Disabled, "disabled", false, "By default, the pool will be enabled. Specify disabled in order to modify this default")
+
+	CreateLoadbalancerPool.Flags().IntVar(&MinimumOrigins, "minimum-origins", 0, "The minimum number of origins that must be healthy for this pool to serve traffic. ")
+
+	CreateLoadbalancerPool.Flags().StringVar(&Monitor, "monitor", "", "The ID of the Monitor to use for health checking origins within this pool.")
+
+	CreateLoadbalancerPool.Flags().StringVar(&NotificationEmail, "notification-email", "", "The email address to send health status notifications to. This can be an individual mailbox or a mailing list.")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1384,6 +1414,7 @@ func init() {
 		Long:  `  This is a meaty description of the loadbalancer api.`,
 	}
 	Loadbalancer.AddCommand(CreateLoadbalancer)
+	Loadbalancer.AddCommand(CreateLoadbalancerPool)
 	Loadbalancer.AddCommand(CreateLoadbalancerMonitor)
 	Loadbalancer.AddCommand(DeleteLoadbalancer)
 	Loadbalancer.AddCommand(DeleteLoadbalancerMonitor)
