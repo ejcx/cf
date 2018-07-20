@@ -66,6 +66,9 @@ var (
 	MinimumCacheTtl     int
 	MaximumCacheTtl     int
 	DeprecateAnyRequest bool
+	Targets             string
+	Actions             string
+	Status              string
 )
 
 func init() {
@@ -1394,6 +1397,55 @@ func init() {
 
 	UpdateVirtualDns.Flags().BoolVar(&DeprecateAnyRequest, "deprecate-any-request", false, "Deprecate the response to ANY requests")
 
+	var CreatePagerule = &cobra.Command{
+		Use:   "create-pagerule",
+		Short: "Create a new page rule",
+		Long:  `Create a new page rule associated with a zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreatePageRule")
+		},
+	}
+
+	CreatePagerule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the new page rule")
+	CreatePagerule.MarkFlagRequired("zone-id")
+
+	CreatePagerule.Flags().StringVar(&Targets, "targets", "", "List of page rule targets. Examples: '[{\"target\": \"url\",\"constraint\": {\"operator\": \"matches\",\"value\": \"*example.com/images/*\"}}]'")
+	CreatePagerule.MarkFlagRequired("targets")
+
+	CreatePagerule.Flags().StringVar(&Actions, "actions", "", "List of page rule actions. Examples: '[{\"id\": \"always_online\",\"value\": \"on\"}]'")
+	CreatePagerule.MarkFlagRequired("actions")
+
+	CreatePagerule.Flags().IntVar(&Priority, "priority", 0, "A number that indicates the preference for a page rule over another. default value: 1")
+
+	CreatePagerule.Flags().StringVar(&Status, "status", "", "Status of the page rule. default value: disabled valid values: active, disabled required = false")
+	CreatePagerule.MarkFlagRequired("status")
+
+	var UpdatePagerule = &cobra.Command{
+		Use:   "update-pagerule",
+		Short: "Update a new page rule",
+		Long:  `Update a new page rule associated with a zone and page rule`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdatePageRule")
+		},
+	}
+
+	UpdatePagerule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the updated page rule")
+	UpdatePagerule.MarkFlagRequired("zone-id")
+
+	UpdatePagerule.Flags().StringVar(&PageruleId, "pagerule-id", "", "The pagerule id associated with the updated page rule")
+	UpdatePagerule.MarkFlagRequired("pagerule-id")
+
+	UpdatePagerule.Flags().StringVar(&Targets, "targets", "", "List of page rule targets. Examples: '[{\"target\": \"url\",\"constraint\": {\"operator\": \"matches\",\"value\": \"*example.com/images/*\"}}]'")
+	UpdatePagerule.MarkFlagRequired("targets")
+
+	UpdatePagerule.Flags().StringVar(&Actions, "actions", "", "List of page rule actions. Examples: '[{\"id\": \"always_online\",\"value\": \"on\"}]'")
+	UpdatePagerule.MarkFlagRequired("actions")
+
+	UpdatePagerule.Flags().IntVar(&Priority, "priority", 0, "A number that indicates the preference for a page rule over another. default value: 1")
+
+	UpdatePagerule.Flags().StringVar(&Status, "status", "", "Status of the page rule. default value: disabled valid values: active, disabled required = false")
+	UpdatePagerule.MarkFlagRequired("status")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1467,16 +1519,18 @@ func init() {
 
 	RootCmd.AddCommand(Ssl)
 
-	var Pagerules = &cobra.Command{
-		Use:   "pagerules",
+	var Pagerule = &cobra.Command{
+		Use:   "pagerule",
 		Short: "Commands for interacting with pagerules api",
 		Long:  `  This is a meaty description of the pagerules api.`,
 	}
-	Pagerules.AddCommand(ListPagerules)
-	Pagerules.AddCommand(DeletePagerule)
-	Pagerules.AddCommand(DescribePagerule)
+	Pagerule.AddCommand(CreatePagerule)
+	Pagerule.AddCommand(ListPagerules)
+	Pagerule.AddCommand(DeletePagerule)
+	Pagerule.AddCommand(DescribePagerule)
+	Pagerule.AddCommand(UpdatePagerule)
 
-	RootCmd.AddCommand(Pagerules)
+	RootCmd.AddCommand(Pagerule)
 
 	var Cache = &cobra.Command{
 		Use:   "cache",

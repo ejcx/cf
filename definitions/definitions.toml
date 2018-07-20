@@ -77,13 +77,15 @@
 
 
 [[command]]
-  name = "pagerules"
+  name = "pagerule"
   description = """
   This is a meaty description of the pagerules api."""
   subcommands = [
+    "create-pagerule",
     "list-pagerules",
     "delete-pagerule",
     "describe-pagerule",
+    "update-pagerule",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with pagerules api"
@@ -1692,3 +1694,70 @@
   type = "bool"
   description = "Deprecate the response to ANY requests"
   required = false
+
+[[command]]
+  name = "create-pagerule"
+  description = """Create a new page rule associated with a zone"""
+  shortdescription = "Create a new page rule"
+  v4apiname = "CreatePageRule"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the new page rule"
+  required = true
+  [[command.option]]
+  name = "targets"
+  type = "string"
+  description = "List of page rule targets. Examples: '[{\\\"target\\\": \\\"url\\\",\\\"constraint\\\": {\\\"operator\\\": \\\"matches\\\",\\\"value\\\": \\\"*example.com/images/*\\\"}}]'"
+  required = true
+  [[command.option]]
+  name = "actions"
+  type = "string"
+  description = "List of page rule actions. Examples: '[{\\\"id\\\": \\\"always_online\\\",\\\"value\\\": \\\"on\\\"}]'"
+  required = true
+  [[command.option]]
+  name = "priority"
+  type = "int"
+  description = "A number that indicates the preference for a page rule over another. default value: 1"
+  required = false
+  [[command.option]]
+  name = "status"
+  type = "string"
+  description = "Status of the page rule. default value: disabled valid values: active, disabled required = false"
+  required = true
+
+[[command]]
+  name = "update-pagerule"
+  description = """Update a new page rule associated with a zone and page rule"""
+  shortdescription = "Update a new page rule"
+  v4apiname = "UpdatePageRule"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the updated page rule"
+  required = true
+  [[command.option]]
+  name = "pagerule-id"
+  type = "string"
+  description = "The pagerule id associated with the updated page rule"
+  required = true
+  [[command.option]]
+  name = "targets"
+  type = "string"
+  description = "List of page rule targets. Examples: '[{\\\"target\\\": \\\"url\\\",\\\"constraint\\\": {\\\"operator\\\": \\\"matches\\\",\\\"value\\\": \\\"*example.com/images/*\\\"}}]'"
+  required = true
+  [[command.option]]
+  name = "actions"
+  type = "string"
+  description = "List of page rule actions. Examples: '[{\\\"id\\\": \\\"always_online\\\",\\\"value\\\": \\\"on\\\"}]'"
+  required = true
+  [[command.option]]
+  name = "priority"
+  type = "int"
+  description = "A number that indicates the preference for a page rule over another. default value: 1"
+  required = false
+  [[command.option]]
+  name = "status"
+  type = "string"
+  description = "Status of the page rule. default value: disabled valid values: active, disabled required = false"
+  required = true

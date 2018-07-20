@@ -90,6 +90,50 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			TTL:     Ttl,
 		}
 		err = api.UpdateDNSRecord(ZoneId, RecordId, rec)
+	case "UpdatePageRule":
+		var (
+			prt []cloudflare.PageRuleTarget
+			pra []cloudflare.PageRuleAction
+			r   = cloudflare.PageRule{}
+		)
+
+		err = json.Unmarshal([]byte(Targets), &prt)
+		if err != nil {
+			break
+		}
+		err = json.Unmarshal([]byte(Actions), &pra)
+		if err != nil {
+			break
+		}
+		if Priority > 0 {
+			r.Priority = Priority
+		}
+		r.Status = Status
+		r.Actions = pra
+		r.Targets = prt
+		err = api.UpdatePageRule(ZoneId, PageruleId, r)
+	case "CreatePageRule":
+		var (
+			prt []cloudflare.PageRuleTarget
+			pra []cloudflare.PageRuleAction
+			r   = cloudflare.PageRule{}
+		)
+
+		err = json.Unmarshal([]byte(Targets), &prt)
+		if err != nil {
+			break
+		}
+		err = json.Unmarshal([]byte(Actions), &pra)
+		if err != nil {
+			break
+		}
+		if Priority > 0 {
+			r.Priority = Priority
+		}
+		r.Status = Status
+		r.Actions = pra
+		r.Targets = prt
+		resp, err = api.CreatePageRule(ZoneId, r)
 	case "CreateVirtualDNS":
 		v := &cloudflare.VirtualDNS{}
 		v.Name = Name
