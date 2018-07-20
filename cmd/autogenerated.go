@@ -18,7 +18,7 @@ var (
 	PackageId        string
 	LockdownId       string
 	Paused           bool
-	VanityNS         string
+	VanityNs         string
 	Proxied          bool
 	Notes            string
 	Mode             string
@@ -319,8 +319,23 @@ func init() {
 	EditZoneVanityNs.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the zone being updated")
 	EditZoneVanityNs.MarkFlagRequired("zone-id")
 
-	EditZoneVanityNs.Flags().StringVar(&VanityNS, "vanityNS", "", "Comma delimited list of vanity nameservers")
-	EditZoneVanityNs.MarkFlagRequired("vanityNS")
+	EditZoneVanityNs.Flags().StringVar(&VanityNs, "vanity-ns", "", "Comma delimited list of vanity nameservers")
+	EditZoneVanityNs.MarkFlagRequired("vanity-ns")
+
+	var SetVanityNs = &cobra.Command{
+		Use:   "set-vanity-ns",
+		Short: "Set zone's vanity nameservers",
+		Long:  `Set a given zone's vanity nameservers.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ZoneSetVanityNS")
+		},
+	}
+
+	SetVanityNs.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the zone being updated")
+	SetVanityNs.MarkFlagRequired("zone-id")
+
+	SetVanityNs.Flags().StringVar(&VanityNs, "vanity-ns", "", "Comma delimited list of vanity nameservers")
+	SetVanityNs.MarkFlagRequired("vanity-ns")
 
 	var EditDnsRecord = &cobra.Command{
 		Use:   "edit-dns-record",
@@ -1209,6 +1224,7 @@ func init() {
 	Zone.AddCommand(ListAvailableRatePlans)
 	Zone.AddCommand(ListZones)
 	Zone.AddCommand(SetPaused)
+	Zone.AddCommand(SetVanityNs)
 	Zone.AddCommand(DescribeZone)
 
 	RootCmd.AddCommand(Zone)

@@ -321,11 +321,14 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		}
 		resp, err = api.EditZone(ZoneId, z)
 	case "EditZoneVanityNS":
-		vns := strings.Split(VanityNS, ",")
+		vns := strings.Split(VanityNs, ",")
 		z := cloudflare.ZoneOptions{
 			VanityNS: vns,
 		}
 		resp, err = api.EditZone(ZoneId, z)
+	case "ZoneSetVanityNS":
+		vns := strings.Split(VanityNs, ",")
+		resp, err = api.ZoneSetVanityNS(ZoneId, vns)
 	case "ListZoneLockdowns":
 		page := 1
 		if Page != 0 {

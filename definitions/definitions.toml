@@ -20,6 +20,7 @@
     "list-available-rate-plans",
     "list-zones",
     "set-paused",
+    "set-vanity-ns",
     "describe-zone",
   ]
   toplevel = true
@@ -495,7 +496,23 @@
   description = "The zone ID associated with the zone being updated"
   required = true
   [[command.option]]
-  name = "vanityNS"
+  name = "vanity-ns"
+  type = "string"
+  required = true
+  description = "Comma delimited list of vanity nameservers"
+
+[[command]]
+  name = "set-vanity-ns"
+  description = """Set a given zone's vanity nameservers."""
+  shortdescription = "Set zone's vanity nameservers"
+  v4apiname = "ZoneSetVanityNS"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the zone being updated"
+  required = true
+  [[command.option]]
+  name = "vanity-ns"
   type = "string"
   required = true
   description = "Comma delimited list of vanity nameservers"
