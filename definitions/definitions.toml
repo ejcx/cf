@@ -11,6 +11,7 @@
     "delete-custom-hostname",
     "delete-zone",
     "delete-zone-access-rule",
+    "describe-zone",
     "edit-zone-paused",
     "edit-zone-vanity-ns",
     "describe-custom-hostname",
@@ -21,7 +22,7 @@
     "list-zones",
     "set-paused",
     "set-vanity-ns",
-    "describe-zone",
+    "update-zone-settings",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with zones"
@@ -1542,3 +1543,19 @@
   name = "notification-email"
   type = "string"
   description = "The email address to send health status notifications to. This can be an individual mailbox or a mailing list."
+
+[[command]]
+  name = "update-zone-settings"
+  description = """Edit a zones settings"""
+  shortdescription = "Edit a zones settings"
+  v4apiname = "UpdateZoneSettings"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associagted with the settings being modified"
+  required = true
+  [[command.option]]
+  name = "zone-settings"
+  type = "string"
+  description = "One or more zone setting objects. Must contain an ID and a value. Example: [{\\\"id\\\": \\\"always_online\\\",\\\"value\\\": \\\"on\\\"}]"
+  required = true

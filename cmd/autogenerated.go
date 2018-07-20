@@ -59,6 +59,7 @@ var (
 	MinimumOrigins    int
 	Monitor           string
 	NotificationEmail string
+	ZoneSettings      string
 )
 
 func init() {
@@ -1284,6 +1285,21 @@ func init() {
 
 	UpdateLoadbalancerPool.Flags().StringVar(&NotificationEmail, "notification-email", "", "The email address to send health status notifications to. This can be an individual mailbox or a mailing list.")
 
+	var UpdateZoneSettings = &cobra.Command{
+		Use:   "update-zone-settings",
+		Short: "Edit a zones settings",
+		Long:  `Edit a zones settings`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateZoneSettings")
+		},
+	}
+
+	UpdateZoneSettings.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associagted with the settings being modified")
+	UpdateZoneSettings.MarkFlagRequired("zone-id")
+
+	UpdateZoneSettings.Flags().StringVar(&ZoneSettings, "zone-settings", "", "One or more zone setting objects. Must contain an ID and a value. Example: [{\"id\": \"always_online\",\"value\": \"on\"}]")
+	UpdateZoneSettings.MarkFlagRequired("zone-settings")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1297,6 +1313,7 @@ func init() {
 	Zone.AddCommand(DeleteCustomHostname)
 	Zone.AddCommand(DeleteZone)
 	Zone.AddCommand(DeleteZoneAccessRule)
+	Zone.AddCommand(DescribeZone)
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
 	Zone.AddCommand(DescribeCustomHostname)
@@ -1307,7 +1324,7 @@ func init() {
 	Zone.AddCommand(ListZones)
 	Zone.AddCommand(SetPaused)
 	Zone.AddCommand(SetVanityNs)
-	Zone.AddCommand(DescribeZone)
+	Zone.AddCommand(UpdateZoneSettings)
 
 	RootCmd.AddCommand(Zone)
 

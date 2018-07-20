@@ -90,6 +90,13 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			TTL:     Ttl,
 		}
 		err = api.UpdateDNSRecord(ZoneId, RecordId, rec)
+	case "UpdateZoneSettings":
+		var zs []cloudflare.ZoneSetting
+		err = json.Unmarshal([]byte(ZoneSettings), &zs)
+		if err != nil {
+			break
+		}
+		resp, err = api.UpdateZoneSettings(ZoneId, zs)
 	case "ModifyLoadBalancerPool":
 		var lbo []cloudflare.LoadBalancerOrigin
 		err = json.Unmarshal([]byte(Origins), &lbo)
