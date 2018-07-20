@@ -49,6 +49,11 @@ var (
 	Since            string
 	Until            string
 	Continuous       bool
+	FirstName        string
+	LastName         string
+	Telephone        string
+	Country          string
+	Zipcode          string
 )
 
 func init() {
@@ -1202,6 +1207,25 @@ func init() {
 
 	AnalyticsDashboard.Flags().BoolVar(&Continuous, "continuous", false, "When continuous is true and since or until is set, the api will only return completely aggregated results")
 
+	var EditUser = &cobra.Command{
+		Use:   "edit-user",
+		Short: "Edit user account details",
+		Long:  `Edit user account details`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateUser")
+		},
+	}
+
+	EditUser.Flags().StringVar(&FirstName, "first-name", "", "User's first name, max length 60")
+
+	EditUser.Flags().StringVar(&LastName, "last-name", "", "User's last name, max length 60")
+
+	EditUser.Flags().StringVar(&Telephone, "telephone", "", "User's telephone number, max length 20")
+
+	EditUser.Flags().StringVar(&Country, "country", "", "The country in which the user lives, example US. max length 30")
+
+	EditUser.Flags().StringVar(&Zipcode, "zipcode", "", "The zip code or postal code in which the user lives, max length 20")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1252,6 +1276,7 @@ func init() {
 	}
 	User.AddCommand(BillingProfile)
 	User.AddCommand(DeleteUserAccessRule)
+	User.AddCommand(EditUser)
 	User.AddCommand(Details)
 
 	RootCmd.AddCommand(User)

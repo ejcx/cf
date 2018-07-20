@@ -189,6 +189,34 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		err = api.DeleteSSL(ZoneId, CertificateId)
 	case "DeleteOrganizationAccessRule":
 		resp, err = api.DeleteOrganizationAccessRule(OrganizationId, AccessRuleId)
+	case "UpdateUser":
+		u := &cloudflare.User{}
+		var setVar bool
+		if FirstName != "" {
+			u.FirstName = FirstName
+			setVar = true
+		}
+		if LastName != "" {
+			u.LastName = LastName
+			setVar = true
+		}
+		if Telephone != "" {
+			u.Telephone = Telephone
+			setVar = true
+		}
+		if Country != "" {
+			u.Country = Country
+			setVar = true
+		}
+		if Zipcode != "" {
+			u.Zipcode = Zipcode
+			setVar = true
+		}
+		if setVar {
+			resp, err = api.UpdateUser(u)
+		} else {
+			resp, err = api.UserDetails()
+		}
 	case "ListCustomCerts":
 		resp, err = api.ListSSL(ZoneId)
 	case "SSLDetails":

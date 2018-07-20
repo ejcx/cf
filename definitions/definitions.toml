@@ -50,6 +50,7 @@
   subcommands = [
     "billing-profile",
     "delete-user-access-rule",
+    "edit-user",
     "details",
   ]
   toplevel = true
@@ -1430,4 +1431,35 @@
   name = "continuous"
   type = "bool"
   description = "When continuous is true and since or until is set, the api will only return completely aggregated results"
+  required = false
+
+[[command]]
+  name = "edit-user"
+  description = """Edit user account details"""
+  shortdescription = "Edit user account details"
+  v4apiname = "UpdateUser"
+  [[command.option]]
+  name = "first-name"
+  type = "string"
+  description = "User's first name, max length 60"
+  required = false
+  [[command.option]]
+  name = "last-name"
+  type = "string"
+  description = "User's last name, max length 60"
+  required = false
+  [[command.option]]
+  name = "telephone"
+  type = "string"
+  description = "User's telephone number, max length 20"
+  required = false
+  [[command.option]]
+  name = "country"
+  type = "string"
+  description = "The country in which the user lives, example US. max length 30"
+  required = false
+  [[command.option]]
+  name = "zipcode"
+  type = "string"
+  description = "The zip code or postal code in which the user lives, max length 20"
   required = false
