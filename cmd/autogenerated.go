@@ -1256,6 +1256,34 @@ func init() {
 
 	CreateLoadbalancerPool.Flags().StringVar(&NotificationEmail, "notification-email", "", "The email address to send health status notifications to. This can be an individual mailbox or a mailing list.")
 
+	var UpdateLoadbalancerPool = &cobra.Command{
+		Use:   "update-loadbalancer-pool",
+		Short: "Edit an existing loadbalancer pool",
+		Long:  `Edit an existing loadbalancer pool`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ModifyLoadBalancerPool")
+		},
+	}
+
+	UpdateLoadbalancerPool.Flags().StringVar(&PoolId, "pool-id", "", "The name of the loadbalancer pool")
+	UpdateLoadbalancerPool.MarkFlagRequired("pool-id")
+
+	UpdateLoadbalancerPool.Flags().StringVar(&Name, "name", "", "The name of the loadbalancer pool")
+	UpdateLoadbalancerPool.MarkFlagRequired("name")
+
+	UpdateLoadbalancerPool.Flags().StringVar(&Origins, "origins", "", "The list of origins Example: [{\"name\": \"app-server-1\", \"address\": \"0.0.0.0\", \"enabled\": true, \"weight\": 0.56}]")
+	UpdateLoadbalancerPool.MarkFlagRequired("origins")
+
+	UpdateLoadbalancerPool.Flags().StringVar(&Description, "description", "", "A human-readable description of the pool.")
+
+	UpdateLoadbalancerPool.Flags().BoolVar(&Disabled, "disabled", false, "By default, the pool will be enabled. Specify disabled in order to modify this default")
+
+	UpdateLoadbalancerPool.Flags().IntVar(&MinimumOrigins, "minimum-origins", 0, "The minimum number of origins that must be healthy for this pool to serve traffic. ")
+
+	UpdateLoadbalancerPool.Flags().StringVar(&Monitor, "monitor", "", "The ID of the Monitor to use for health checking origins within this pool.")
+
+	UpdateLoadbalancerPool.Flags().StringVar(&NotificationEmail, "notification-email", "", "The email address to send health status notifications to. This can be an individual mailbox or a mailing list.")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1425,6 +1453,7 @@ func init() {
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)
 	Loadbalancer.AddCommand(ListLoadbalancers)
+	Loadbalancer.AddCommand(UpdateLoadbalancerPool)
 
 	RootCmd.AddCommand(Loadbalancer)
 
