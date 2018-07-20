@@ -1730,7 +1730,7 @@
   name = "update-pagerule"
   description = """Update a new page rule associated with a zone and page rule"""
   shortdescription = "Update a new page rule"
-  v4apiname = "UpdatePageRule"
+  v4apiname = "ChangePageRule"
   [[command.option]]
   name = "zone-id"
   type = "string"

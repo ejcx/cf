@@ -1425,7 +1425,7 @@ func init() {
 		Short: "Update a new page rule",
 		Long:  `Update a new page rule associated with a zone and page rule`,
 		Run: func(cmd *cobra.Command, args []string) {
-			Main(cmd, args, "UpdatePageRule")
+			Main(cmd, args, "ChangePageRule")
 		},
 	}
 

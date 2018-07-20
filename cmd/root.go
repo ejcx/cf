@@ -90,7 +90,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			TTL:     Ttl,
 		}
 		err = api.UpdateDNSRecord(ZoneId, RecordId, rec)
-	case "UpdatePageRule":
+	case "ChangePageRule":
 		var (
 			prt []cloudflare.PageRuleTarget
 			pra []cloudflare.PageRuleAction
@@ -111,7 +111,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		r.Status = Status
 		r.Actions = pra
 		r.Targets = prt
-		err = api.UpdatePageRule(ZoneId, PageruleId, r)
+		err = api.ChangePageRule(ZoneId, PageruleId, r)
 	case "CreatePageRule":
 		var (
 			prt []cloudflare.PageRuleTarget
