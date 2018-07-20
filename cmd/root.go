@@ -90,6 +90,38 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			TTL:     Ttl,
 		}
 		err = api.UpdateDNSRecord(ZoneId, RecordId, rec)
+	case "CreateZoneLockdown":
+		var c []cloudflare.ZoneLockdownConfig
+		err = json.Unmarshal([]byte(Configuration), &c)
+		if err != nil {
+			break
+		}
+		urlList := strings.Split(Urls, ",")
+		zl := cloudflare.ZoneLockdown{
+			URLs:           urlList,
+			Paused:         Paused,
+			Configurations: c,
+		}
+		if Description != "" {
+			zl.Description = Description
+		}
+		resp, err = api.CreateZoneLockdown(ZoneId, zl)
+	case "UpdateZoneLockdown":
+		var c []cloudflare.ZoneLockdownConfig
+		err = json.Unmarshal([]byte(Configuration), &c)
+		if err != nil {
+			break
+		}
+		urlList := strings.Split(Urls, ",")
+		zl := cloudflare.ZoneLockdown{
+			URLs:           urlList,
+			Paused:         Paused,
+			Configurations: c,
+		}
+		if Description != "" {
+			zl.Description = Description
+		}
+		resp, err = api.UpdateZoneLockdown(ZoneId, LockdownId, zl)
 	case "UpdateZoneSettings":
 		var zs []cloudflare.ZoneSetting
 		err = json.Unmarshal([]byte(ZoneSettings), &zs)

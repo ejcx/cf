@@ -113,6 +113,7 @@
   description = """
   This is a meaty description of the firewall apis."""
   subcommands = [
+    "create-zone-lockdown",
     "delete-user-agent-rule",
     "delete-zone-lockdown",
     "describe-zone-lockdown",
@@ -120,6 +121,7 @@
     "list-waf-packages",
     "list-waf-rules",
     "list-zone-lockdowns",
+    "update-zone-lockdown",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with firewall"
@@ -1552,10 +1554,77 @@
   [[command.option]]
   name = "zone-id"
   type = "string"
-  description = "The zone id associagted with the settings being modified"
+  description = "The zone id associated with the settings being modified"
   required = true
   [[command.option]]
   name = "zone-settings"
   type = "string"
   description = "One or more zone setting objects. Must contain an ID and a value. Example: [{\\\"id\\\": \\\"always_online\\\",\\\"value\\\": \\\"on\\\"}]"
   required = true
+
+[[command]]
+  name = "update-zone-lockdown"
+  description = """Edit an existing zone lockdown"""
+  shortdescription = "Edit an existing zone lockdown"
+  v4apiname = "UpdateZoneLockdown"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the zone lockdown"
+  required = true
+  [[command.option]]
+  name = "lockdown-id"
+  type = "string"
+  description = "The lockdown id associated with the zone lockdown"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "The new configuration associated with the lockdown - Example: [{\\\"target\\\": \\\"ip\\\",\\\"value\\\": \\\"198.51.100.4\\\"}]"
+  required = true
+  [[command.option]]
+  name = "urls"
+  type = "string"
+  description = "Comma delimited list of URLs associated with the zone lockdown"
+  required = true
+  [[command.option]]
+  name = "paused"
+  type = "bool"
+  description = "Whether this zone lockdown is currently paused"
+  required = false
+  [[command.option]]
+  name = "description"
+  type = "string"
+  description = "A note that you can use to describe the reason for a Lockdown rule"
+  required = false
+
+[[command]]
+  name = "create-zone-lockdown"
+  description = """Create a new zone lockdown"""
+  shortdescription = "Create a new zone lockdown"
+  v4apiname = "CreateZoneLockdown"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the zone lockdown"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "The new configuration associated with the lockdown - Example: [{\\\"target\\\": \\\"ip\\\",\\\"value\\\": \\\"198.51.100.4\\\"}]"
+  required = true
+  [[command.option]]
+  name = "urls"
+  type = "string"
+  description = "Comma delimited list of URLs associated with the zone lockdown"
+  required = true
+  [[command.option]]
+  name = "paused"
+  type = "bool"
+  description = "Whether this zone lockdown is currently paused"
+  required = false
+  [[command.option]]
+  name = "description"
+  type = "string"
+  description = "A note that you can use to describe the reason for a Lockdown rule"
+  required = false

@@ -60,6 +60,8 @@ var (
 	Monitor           string
 	NotificationEmail string
 	ZoneSettings      string
+	Configuration     string
+	Urls              string
 )
 
 func init() {
@@ -1294,11 +1296,58 @@ func init() {
 		},
 	}
 
-	UpdateZoneSettings.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associagted with the settings being modified")
+	UpdateZoneSettings.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the settings being modified")
 	UpdateZoneSettings.MarkFlagRequired("zone-id")
 
 	UpdateZoneSettings.Flags().StringVar(&ZoneSettings, "zone-settings", "", "One or more zone setting objects. Must contain an ID and a value. Example: [{\"id\": \"always_online\",\"value\": \"on\"}]")
 	UpdateZoneSettings.MarkFlagRequired("zone-settings")
+
+	var UpdateZoneLockdown = &cobra.Command{
+		Use:   "update-zone-lockdown",
+		Short: "Edit an existing zone lockdown",
+		Long:  `Edit an existing zone lockdown`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateZoneLockdown")
+		},
+	}
+
+	UpdateZoneLockdown.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the zone lockdown")
+	UpdateZoneLockdown.MarkFlagRequired("zone-id")
+
+	UpdateZoneLockdown.Flags().StringVar(&LockdownId, "lockdown-id", "", "The lockdown id associated with the zone lockdown")
+	UpdateZoneLockdown.MarkFlagRequired("lockdown-id")
+
+	UpdateZoneLockdown.Flags().StringVar(&Configuration, "configuration", "", "The new configuration associated with the lockdown - Example: [{\"target\": \"ip\",\"value\": \"198.51.100.4\"}]")
+	UpdateZoneLockdown.MarkFlagRequired("configuration")
+
+	UpdateZoneLockdown.Flags().StringVar(&Urls, "urls", "", "Comma delimited list of URLs associated with the zone lockdown")
+	UpdateZoneLockdown.MarkFlagRequired("urls")
+
+	UpdateZoneLockdown.Flags().BoolVar(&Paused, "paused", false, "Whether this zone lockdown is currently paused")
+
+	UpdateZoneLockdown.Flags().StringVar(&Description, "description", "", "A note that you can use to describe the reason for a Lockdown rule")
+
+	var CreateZoneLockdown = &cobra.Command{
+		Use:   "create-zone-lockdown",
+		Short: "Create a new zone lockdown",
+		Long:  `Create a new zone lockdown`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateZoneLockdown")
+		},
+	}
+
+	CreateZoneLockdown.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the zone lockdown")
+	CreateZoneLockdown.MarkFlagRequired("zone-id")
+
+	CreateZoneLockdown.Flags().StringVar(&Configuration, "configuration", "", "The new configuration associated with the lockdown - Example: [{\"target\": \"ip\",\"value\": \"198.51.100.4\"}]")
+	CreateZoneLockdown.MarkFlagRequired("configuration")
+
+	CreateZoneLockdown.Flags().StringVar(&Urls, "urls", "", "Comma delimited list of URLs associated with the zone lockdown")
+	CreateZoneLockdown.MarkFlagRequired("urls")
+
+	CreateZoneLockdown.Flags().BoolVar(&Paused, "paused", false, "Whether this zone lockdown is currently paused")
+
+	CreateZoneLockdown.Flags().StringVar(&Description, "description", "", "A note that you can use to describe the reason for a Lockdown rule")
 
 	var Zone = &cobra.Command{
 		Use:   "zone",
@@ -1408,6 +1457,7 @@ func init() {
 		Short: "Commands for interacting with firewall",
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
+	Firewall.AddCommand(CreateZoneLockdown)
 	Firewall.AddCommand(DeleteUserAgentRule)
 	Firewall.AddCommand(DeleteZoneLockdown)
 	Firewall.AddCommand(DescribeZoneLockdown)
@@ -1415,6 +1465,7 @@ func init() {
 	Firewall.AddCommand(ListWafPackages)
 	Firewall.AddCommand(ListWafRules)
 	Firewall.AddCommand(ListZoneLockdowns)
+	Firewall.AddCommand(UpdateZoneLockdown)
 
 	RootCmd.AddCommand(Firewall)
 
