@@ -622,6 +622,18 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.ZoneDetails(ZoneId)
 	case "PurgeEverything":
 		resp, err = api.PurgeEverything(ZoneId)
+	case "Purge":
+		p := cloudflare.PurgeCacheRequest{}
+		if Files != "" {
+			p.Files = strings.Split(Files, ",")
+		}
+		if Hosts != "" {
+			p.Hosts = strings.Split(Hosts, ",")
+		}
+		if Tags != "" {
+			p.Tags = strings.Split(Tags, ",")
+		}
+		resp, err = api.PurgeCache(ZoneId, p)
 	case "ConnectZoneRailgun":
 		resp, err = api.ConnectZoneRailgun(ZoneId, RailgunId)
 	case "DisconnectZoneRailgun":

@@ -114,8 +114,9 @@
     "get-railgun-zones",
     "list-railguns",
     "list-zone-railguns",
-    "test-railgun-connection",
+    "purge",
     "purge-everything",
+    "test-railgun-connection",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with caching and railgun APIs"
@@ -2100,3 +2101,29 @@
   name = "bundle-method"
   type = "string"
   description = "A ubiquitous bundle is a bundle that has a higher probability of being verified everywhere, even by clients using outdated or unusual trust stores. default value: ubiquitous; valid values: ubiquitous, optimal, force  required = false"
+
+[[command]]
+  name = "purge"
+  description = """Purge specific items in the cache"""
+  shortdescription = "Purge specific items"
+  v4apiname = "Purge"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID that will be purged."
+  required = true
+  [[command.option]]
+  name = "files"
+  type = "string"
+  description = "The files that will be purged."
+  required = false
+  [[command.option]]
+  name = "tags"
+  type = "string"
+  description = "The tags that will be purged."
+  required = false
+  [[command.option]]
+  name = "hosts"
+  type = "string"
+  description = "The hosts that will be purged."
+  required = false

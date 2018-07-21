@@ -83,6 +83,9 @@ var (
 	Certificate         string
 	PrivateKey          string
 	BundleMethod        string
+	Files               string
+	Tags                string
+	Hosts               string
 )
 
 func init() {
@@ -1708,6 +1711,24 @@ func init() {
 
 	UpdateCustomCert.Flags().StringVar(&BundleMethod, "bundle-method", "", "A ubiquitous bundle is a bundle that has a higher probability of being verified everywhere, even by clients using outdated or unusual trust stores. default value: ubiquitous; valid values: ubiquitous, optimal, force  required = false")
 
+	var Purge = &cobra.Command{
+		Use:   "purge",
+		Short: "Purge specific items",
+		Long:  `Purge specific items in the cache`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "Purge")
+		},
+	}
+
+	Purge.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID that will be purged.")
+	Purge.MarkFlagRequired("zone-id")
+
+	Purge.Flags().StringVar(&Files, "files", "", "The files that will be purged.")
+
+	Purge.Flags().StringVar(&Tags, "tags", "", "The tags that will be purged.")
+
+	Purge.Flags().StringVar(&Hosts, "hosts", "", "The hosts that will be purged.")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1818,8 +1839,9 @@ func init() {
 	Cache.AddCommand(GetRailgunZones)
 	Cache.AddCommand(ListRailguns)
 	Cache.AddCommand(ListZoneRailguns)
-	Cache.AddCommand(TestRailgunConnection)
+	Cache.AddCommand(Purge)
 	Cache.AddCommand(PurgeEverything)
+	Cache.AddCommand(TestRailgunConnection)
 
 	RootCmd.AddCommand(Cache)
 
