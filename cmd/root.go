@@ -186,6 +186,34 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			CSR:             Csr,
 		}
 		resp, err = api.CreateOriginCertificate(c)
+	case "CreateUserAccessRule":
+		var arc cloudflare.AccessRuleConfiguration
+		err = json.Unmarshal([]byte(Configuration), &arc)
+		if err != nil {
+			break
+		}
+		ar := cloudflare.AccessRule{
+			Configuration: arc,
+			Mode:          Mode,
+		}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		resp, err = api.CreateUserAccessRule(ar)
+	case "UpdateUserAccessRule":
+		var arc cloudflare.AccessRuleConfiguration
+		err = json.Unmarshal([]byte(Configuration), &arc)
+		if err != nil {
+			break
+		}
+		ar := cloudflare.AccessRule{
+			Configuration: arc,
+			Mode:          Mode,
+		}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		resp, err = api.UpdateUserAccessRule(AccessRuleId, ar)
 	case "CreateOrganizationAccessRule":
 		var arc cloudflare.AccessRuleConfiguration
 		err = json.Unmarshal([]byte(Configuration), &arc)

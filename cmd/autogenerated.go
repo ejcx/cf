@@ -455,7 +455,7 @@ func init() {
 		Short: "List User Access Rules",
 		Long:  `Returns all access rules associated with your account`,
 		Run: func(cmd *cobra.Command, args []string) {
-			Main(cmd, args, "ListOrganizationAccessRules")
+			Main(cmd, args, "ListUserAccessRules")
 		},
 	}
 
@@ -1561,6 +1561,43 @@ func init() {
 
 	UpdateRatelimit.Flags().StringVar(&Bypass, "bypass", "", "Criteria that would allow the rate limit to be bypassed, for example to express that you shouldn't apply a rate limit to a given set of URLs '[{\"name\": \"url\",\"value\": \"api.example.com/*\"}]'")
 
+	var CreateUserAccessRule = &cobra.Command{
+		Use:   "create-user-access-rule",
+		Short: "Create a user access rule",
+		Long:  `Make a new IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateUserAccessRule")
+		},
+	}
+
+	CreateUserAccessRule.Flags().StringVar(&Mode, "mode", "", "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge")
+	CreateUserAccessRule.MarkFlagRequired("mode")
+
+	CreateUserAccessRule.Flags().StringVar(&Configuration, "configuration", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
+	CreateUserAccessRule.MarkFlagRequired("configuration")
+
+	CreateUserAccessRule.Flags().StringVar(&Notes, "notes", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
+
+	var UpdateUserAccessRule = &cobra.Command{
+		Use:   "update-user-access-rule",
+		Short: "Create a user access rule",
+		Long:  `Update an IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateUserAccessRule")
+		},
+	}
+
+	UpdateUserAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The access rule id associated with the rule being updated")
+	UpdateUserAccessRule.MarkFlagRequired("access-rule-id")
+
+	UpdateUserAccessRule.Flags().StringVar(&Mode, "mode", "", "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge")
+	UpdateUserAccessRule.MarkFlagRequired("mode")
+
+	UpdateUserAccessRule.Flags().StringVar(&Configuration, "configuration", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
+	UpdateUserAccessRule.MarkFlagRequired("configuration")
+
+	UpdateUserAccessRule.Flags().StringVar(&Notes, "notes", "", "Set the access rule's human readable note")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1613,9 +1650,12 @@ func init() {
 		Long:  `  This is a meaty description of the user api.`,
 	}
 	User.AddCommand(BillingProfile)
+	User.AddCommand(CreateUserAccessRule)
 	User.AddCommand(DeleteUserAccessRule)
-	User.AddCommand(EditUser)
 	User.AddCommand(Details)
+	User.AddCommand(EditUser)
+	User.AddCommand(ListUserAccessRules)
+	User.AddCommand(UpdateUserAccessRule)
 
 	RootCmd.AddCommand(User)
 
@@ -1701,15 +1741,6 @@ func init() {
 	Organization.AddCommand(ListOrganizations)
 
 	RootCmd.AddCommand(Organization)
-
-	var Access = &cobra.Command{
-		Use:   "access",
-		Short: "Commands for interacting with the cloudflare access API",
-		Long:  `  Commands to interact with Cloudflare Access API`,
-	}
-	Access.AddCommand(ListOrganizationAccessRules)
-
-	RootCmd.AddCommand(Access)
 
 	var Ratelimit = &cobra.Command{
 		Use:   "ratelimit",

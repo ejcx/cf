@@ -52,9 +52,12 @@
   This is a meaty description of the user api."""
   subcommands = [
     "billing-profile",
+    "create-user-access-rule",
     "delete-user-access-rule",
-    "edit-user",
     "details",
+    "edit-user",
+    "list-user-access-rules",
+    "update-user-access-rule",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with users"
@@ -147,18 +150,6 @@
   ]
   toplevel = true
   shortdescription = "Commands for interacting with organizations api"
-
-[[command]]
-  name = "access"
-  description = """
-  Commands to interact with Cloudflare Access API"""
-  subcommands = [
-    # Comment out user access rules because it doesn't work properly
-    # "list-user-access-rules",
-    "list-organization-access-rules",
-  ]
-  toplevel = true
-  shortdescription = "Commands for interacting with the cloudflare access API"
 
 [[command]]
   name = "ratelimit"
@@ -624,7 +615,7 @@
   name = "list-user-access-rules"
   description = """Returns all access rules associated with your account"""
   shortdescription = "List User Access Rules"
-  v4apiname = "ListOrganizationAccessRules"
+  v4apiname = "ListUserAccessRules"
   [[command.option]]
   name = "notes"
   type = "string"
@@ -1913,4 +1904,51 @@
   name = "bypass"
   type = "string"
   description = "Criteria that would allow the rate limit to be bypassed, for example to express that you shouldn't apply a rate limit to a given set of URLs '[{\\\"name\\\": \\\"url\\\",\\\"value\\\": \\\"api.example.com/*\\\"}]'"
+  required = false
+
+[[command]]
+  name = "create-user-access-rule"
+  description = """Make a new IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints."""
+  shortdescription = "Create a user access rule"
+  v4apiname = "CreateUserAccessRule"
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "Rule configuration. Example {\\\"target\\\": \\\"ip\\\",\\\"value\\\": \\\"198.51.100.4\\\"}"
+  required = true
+  [[command.option]]
+  name = "notes"
+  type = "string"
+  description = "Rule configuration. Example {\\\"target\\\": \\\"ip\\\",\\\"value\\\": \\\"198.51.100.4\\\"}"
+  required = false
+
+[[command]]
+  name = "update-user-access-rule"
+  description = """Update an IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints."""
+  shortdescription = "Create a user access rule"
+  v4apiname = "UpdateUserAccessRule"
+  [[command.option]]
+  name = "access-rule-id"
+  type = "string"
+  description = "The access rule id associated with the rule being updated"
+  required = true
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "Rule configuration. Example {\\\"target\\\": \\\"ip\\\",\\\"value\\\": \\\"198.51.100.4\\\"}"
+  required = true
+  [[command.option]]
+  name = "notes"
+  type = "string"
+  description = "Set the access rule's human readable note"
   required = false
