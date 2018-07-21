@@ -112,6 +112,15 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		r.Actions = pra
 		r.Targets = prt
 		err = api.ChangePageRule(ZoneId, PageruleId, r)
+	case "CreateOriginCertificate":
+		h := strings.Split(Hostnames, ",")
+		c := cloudflare.OriginCACertificate{
+			Hostnames:       h,
+			RequestValidity: RequestValidity,
+			RequestType:     RequestType,
+			CSR:             Csr,
+		}
+		resp, err = api.CreateOriginCertificate(c)
 	case "CreateOrganizationAccessRule":
 		var arc cloudflare.AccessRuleConfiguration
 		err = json.Unmarshal([]byte(Configuration), &arc)

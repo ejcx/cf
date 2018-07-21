@@ -69,6 +69,10 @@ var (
 	Targets             string
 	Actions             string
 	Status              string
+	Hostnames           string
+	RequestValidity     int
+	RequestType         string
+	Csr                 string
 )
 
 func init() {
@@ -1466,6 +1470,27 @@ func init() {
 
 	CreateOrganizationAccessRule.Flags().StringVar(&Notes, "notes", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
 
+	var CreateOriginCert = &cobra.Command{
+		Use:   "create-origin-cert",
+		Short: "Create a Cloudflare-signed certificate",
+		Long:  `Create a Cloudflare-signed certificate.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateOriginCertificate")
+		},
+	}
+
+	CreateOriginCert.Flags().StringVar(&Hostnames, "hostnames", "", "Comma-delimited list of hostnames or wildcard names (e.g., *.example.com) bound to the certificate")
+	CreateOriginCert.MarkFlagRequired("hostnames")
+
+	CreateOriginCert.Flags().IntVar(&RequestValidity, "request-validity", 0, "The number of days for which the certificate should be valid. default value: 5475, valid values: 7, 30, 90, 365, 730, 1095, 5475")
+	CreateOriginCert.MarkFlagRequired("request-validity")
+
+	CreateOriginCert.Flags().StringVar(&RequestType, "request-type", "", "Signature type desired on certificate (\"origin-rsa\" (rsa), \"origin-ecc\" (ecdsa), or \"keyless-certificate\" (for Keyless SSL servers) valid values: origin-rsa, origin-ecc, keyless-certificate")
+	CreateOriginCert.MarkFlagRequired("request-type")
+
+	CreateOriginCert.Flags().StringVar(&Csr, "csr", "", "The Certificate Signing Request (CSR). Must be newline-encoded. -----BEGIN CERTIFICATE REQUEST-----\nMIICxzCCA...\n-----END CERTIFICATE REQUEST-----")
+	CreateOriginCert.MarkFlagRequired("csr")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1529,6 +1554,7 @@ func init() {
 		Short: "Commands for interacting with ssl configuration",
 		Long:  `  This is a meaty description of the ssl api.`,
 	}
+	Ssl.AddCommand(CreateOriginCert)
 	Ssl.AddCommand(DescribeOriginCert)
 	Ssl.AddCommand(DescribeZoneOriginCert)
 	Ssl.AddCommand(DeleteCustomCert)
