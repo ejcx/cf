@@ -1980,8 +1980,10 @@ func init() {
 
 	var Pagerule = &cobra.Command{
 		Use:   "pagerule",
-		Short: "Commands for interacting with pagerules api",
-		Long:  `  This is a meaty description of the pagerules api.`,
+		Short: "Change how cloudflare works on a URL or subdomain basis.",
+		Long: `  Gives you the ability to control how Cloudflare works on a URL or subdomain basis.
+  
+  Page Rules allow you to customize Cloudflare's functionality to match your domain's unique needs.`,
 	}
 	Pagerule.AddCommand(CreatePagerule)
 	Pagerule.AddCommand(ListPagerules)

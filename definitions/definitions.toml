@@ -90,7 +90,7 @@
 [[command]]
   name = "pagerule"
   description = """
-  This is a meaty description of the pagerules api."""
+  Gives you the ability to control how Cloudflare works on a URL or subdomain basis. Page Rules allow you to customize Cloudflare's functionality to match your domain's unique needs."""
   subcommands = [
     "create-pagerule",
     "list-pagerules",
@@ -99,7 +99,7 @@
     "update-pagerule",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with pagerules api"
+  shortdescription = "Change how cloudflare works on a URL or subdomain basis."
 
 [[command]]
   name = "cache"
