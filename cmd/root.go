@@ -112,6 +112,39 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		r.Actions = pra
 		r.Targets = prt
 		err = api.ChangePageRule(ZoneId, PageruleId, r)
+	case "UpdateRateLimit":
+		var (
+			rlkv []cloudflare.RateLimitKeyValue
+			m    cloudflare.RateLimitTrafficMatcher
+			a    cloudflare.RateLimitAction
+		)
+		err = json.Unmarshal([]byte(Match), &m)
+		if err != nil {
+			break
+		}
+		err = json.Unmarshal([]byte(Action), &a)
+		if err != nil {
+			break
+		}
+		rl := cloudflare.RateLimit{
+			ID:        LimitId,
+			Disabled:  Enabled,
+			Period:    Period,
+			Threshold: Threshold,
+			Match:     m,
+			Action:    a,
+		}
+		if Bypass != "" {
+			err = json.Unmarshal([]byte(Bypass), &rlkv)
+			if err != nil {
+				break
+			}
+			rl.Bypass = rlkv
+		}
+		if Description != "" {
+			rl.Description = Description
+		}
+		resp, err = api.CreateRateLimit(ZoneId, rl)
 	case "CreateRateLimit":
 		var (
 			rlkv []cloudflare.RateLimitKeyValue
