@@ -45,7 +45,7 @@ var (
 	RatelimitId         string
 	CustomHostnameId    string
 	AccessRuleId        string
-	UserAgentRuleId     string
+	UserAgentId         string
 	Since               string
 	Until               string
 	Continuous          bool
@@ -1167,8 +1167,8 @@ func init() {
 		},
 	}
 
-	DeleteUserAgentRule.Flags().StringVar(&UserAgentRuleId, "user-agent-rule-id", "", "The user agent rule id associated with the user agent rule being deleted")
-	DeleteUserAgentRule.MarkFlagRequired("user-agent-rule-id")
+	DeleteUserAgentRule.Flags().StringVar(&UserAgentId, "user-agent-id", "", "The user agent rule id associated with the user agent rule being deleted")
+	DeleteUserAgentRule.MarkFlagRequired("user-agent-id")
 
 	DeleteUserAgentRule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the user agent rule being deleted")
 	DeleteUserAgentRule.MarkFlagRequired("zone-id")
@@ -1729,6 +1729,53 @@ func init() {
 
 	Purge.Flags().StringVar(&Hosts, "hosts", "", "The hosts that will be purged.")
 
+	var CreateUserAgentRule = &cobra.Command{
+		Use:   "create-user-agent-rule",
+		Short: "Creates a new User-Agent rule",
+		Long:  `Creates a new User-Agent rule for a specific zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateUserAgentRule")
+		},
+	}
+
+	CreateUserAgentRule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the user-agent rule.")
+	CreateUserAgentRule.MarkFlagRequired("zone-id")
+
+	CreateUserAgentRule.Flags().StringVar(&Mode, "mode", "", "The type of action to perform. max length: 12 valid values: block, challenge, js_challenge")
+	CreateUserAgentRule.MarkFlagRequired("mode")
+
+	CreateUserAgentRule.Flags().StringVar(&Configuration, "configuration", "", "Target/Value pair to use for this rule. The value is the exact UserAgent to match {\"target\": \"ua\",  \"value\": \"Mozilla/5.0\"}")
+	CreateUserAgentRule.MarkFlagRequired("configuration")
+
+	CreateUserAgentRule.Flags().StringVar(&Description, "description", "", "Some useful information about this rule to help identify the purpose of it.")
+
+	CreateUserAgentRule.Flags().BoolVar(&Paused, "paused", false, "Whether this UA rule is currently paused")
+
+	var UpdateUserAgentRule = &cobra.Command{
+		Use:   "update-user-agent-rule",
+		Short: "Updates a new User-Agent rule",
+		Long:  `Updates a new User-Agent rule for a specific zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateUserAgentRule")
+		},
+	}
+
+	UpdateUserAgentRule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the user-agent rule.")
+	UpdateUserAgentRule.MarkFlagRequired("zone-id")
+
+	UpdateUserAgentRule.Flags().StringVar(&UserAgentId, "user-agent-id", "", "The user agent ID associated with the user-agent rule.")
+	UpdateUserAgentRule.MarkFlagRequired("user-agent-id")
+
+	UpdateUserAgentRule.Flags().StringVar(&Mode, "mode", "", "The type of action to perform. max length: 12 valid values: block, challenge, js_challenge")
+	UpdateUserAgentRule.MarkFlagRequired("mode")
+
+	UpdateUserAgentRule.Flags().StringVar(&Configuration, "configuration", "", "Target/Value pair to use for this rule. The value is the exact UserAgent to match {\"target\": \"ua\",  \"value\": \"Mozilla/5.0\"}")
+	UpdateUserAgentRule.MarkFlagRequired("configuration")
+
+	UpdateUserAgentRule.Flags().StringVar(&Description, "description", "", "Some useful information about this rule to help identify the purpose of it.")
+
+	UpdateUserAgentRule.Flags().BoolVar(&Paused, "paused", false, "Whether this UA rule is currently paused")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1850,6 +1897,7 @@ func init() {
 		Short: "Commands for interacting with firewall",
 		Long:  `  This is a meaty description of the firewall apis.`,
 	}
+	Firewall.AddCommand(CreateUserAgentRule)
 	Firewall.AddCommand(CreateZoneLockdown)
 	Firewall.AddCommand(DeleteUserAgentRule)
 	Firewall.AddCommand(DeleteZoneLockdown)
@@ -1858,6 +1906,7 @@ func init() {
 	Firewall.AddCommand(ListWafPackages)
 	Firewall.AddCommand(ListWafRules)
 	Firewall.AddCommand(ListZoneLockdowns)
+	Firewall.AddCommand(UpdateUserAgentRule)
 	Firewall.AddCommand(UpdateZoneLockdown)
 
 	RootCmd.AddCommand(Firewall)

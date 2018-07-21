@@ -454,7 +454,37 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 	case "DeleteLoadBalancer":
 		err = api.DeleteLoadBalancer(ZoneId, LoadbalancerId)
 	case "DeleteUserAgentRule":
-		resp, err = api.DeleteUserAgentRule(ZoneId, UserAgentRuleId)
+		resp, err = api.DeleteUserAgentRule(ZoneId, UserAgentId)
+	case "CreateUserAgentRule":
+		var c cloudflare.UserAgentRuleConfig
+		u := cloudflare.UserAgentRule{
+			Mode:   Mode,
+			Paused: Paused,
+		}
+		err = json.Unmarshal([]byte(Configuration), &c)
+		if err != nil {
+			break
+		}
+		u.Configuration = c
+		if Description != "" {
+			u.Description = Description
+		}
+		resp, err = api.CreateUserAgentRule(ZoneId, u)
+	case "UpdateUserAgentRule":
+		var c cloudflare.UserAgentRuleConfig
+		u := cloudflare.UserAgentRule{
+			Mode:   Mode,
+			Paused: Paused,
+		}
+		err = json.Unmarshal([]byte(Configuration), &c)
+		if err != nil {
+			break
+		}
+		u.Configuration = c
+		if Description != "" {
+			u.Description = Description
+		}
+		resp, err = api.UpdateUserAgentRule(ZoneId, UserAgentId, u)
 	case "DeleteUserAccessRule":
 		resp, err = api.DeleteUserAccessRule(AccessRuleId)
 	case "CreateRailgun":

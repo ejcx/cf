@@ -126,6 +126,7 @@
   description = """
   This is a meaty description of the firewall apis."""
   subcommands = [
+    "create-user-agent-rule",
     "create-zone-lockdown",
     "delete-user-agent-rule",
     "delete-zone-lockdown",
@@ -134,6 +135,7 @@
     "list-waf-packages",
     "list-waf-rules",
     "list-zone-lockdowns",
+    "update-user-agent-rule",
     "update-zone-lockdown",
   ]
   toplevel = true
@@ -1349,7 +1351,7 @@
   shortdescription = "Delete a user agent rule"
   v4apiname = "DeleteUserAgentRule"
   [[command.option]]
-  name = "user-agent-rule-id"
+  name = "user-agent-id"
   type = "string"
   description = "The user agent rule id associated with the user agent rule being deleted"
   required = true
@@ -2126,4 +2128,71 @@
   name = "hosts"
   type = "string"
   description = "The hosts that will be purged."
+  required = false
+
+[[command]]
+  name = "create-user-agent-rule"
+  description = """Creates a new User-Agent rule for a specific zone"""
+  shortdescription = "Creates a new User-Agent rule"
+  v4apiname = "CreateUserAgentRule"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the user-agent rule."
+  required = true
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "The type of action to perform. max length: 12 valid values: block, challenge, js_challenge"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "Target/Value pair to use for this rule. The value is the exact UserAgent to match {\\\"target\\\": \\\"ua\\\",  \\\"value\\\": \\\"Mozilla/5.0\\\"}"
+  required = true
+  [[command.option]]
+  name = "description"
+  type = "string"
+  description = "Some useful information about this rule to help identify the purpose of it."
+  required = false
+  [[command.option]]
+  name = "paused"
+  type = "bool"
+  description = "Whether this UA rule is currently paused"
+  required = false
+
+[[command]]
+  name = "update-user-agent-rule"
+  description = """Updates a new User-Agent rule for a specific zone"""
+  shortdescription = "Updates a new User-Agent rule"
+  v4apiname = "UpdateUserAgentRule"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the user-agent rule."
+  required = true
+  [[command.option]]
+  name = "user-agent-id"
+  type = "string"
+  description = "The user agent ID associated with the user-agent rule."
+  required = true
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "The type of action to perform. max length: 12 valid values: block, challenge, js_challenge"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "Target/Value pair to use for this rule. The value is the exact UserAgent to match {\\\"target\\\": \\\"ua\\\",  \\\"value\\\": \\\"Mozilla/5.0\\\"}"
+  required = true
+  [[command.option]]
+  name = "description"
+  type = "string"
+  description = "Some useful information about this rule to help identify the purpose of it."
+  required = false
+  [[command.option]]
+  name = "paused"
+  type = "bool"
+  description = "Whether this UA rule is currently paused"
   required = false
