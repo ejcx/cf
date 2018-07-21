@@ -1,7 +1,7 @@
 [[command]]
   name = "zone"
   description = """
-  This is a meaty description of the zone api."""
+  A Zone is a domain name along with its subdomains and other identities. Using the zone command to interact with cloudflare zones"""
   subcommands = [
     "activation-check",
     "analytics-by-colo",
@@ -29,12 +29,12 @@
     "update-zone-settings",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with zones"
+  shortdescription = "Interact with cloudflare zones"
 
 [[command]]
   name = "dns"
   description = """
-  This is a meaty description of the dns api."""
+  Create, read, update, and delete cloudflare dns and virtual dns."""
   subcommands = [
     "create-dns-record",
     "create-virtual-dns",
@@ -48,12 +48,12 @@
     "update-virtual-dns",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with dns records"
+  shortdescription = "Create, read, update, and delete your dns records."
 
 [[command]]
   name = "user"
   description = """
-  This is a meaty description of the user api."""
+  The User subcommand will help you interact with your Cloudflare account."""
   subcommands = [
     "billing-profile",
     "create-user-access-rule",
@@ -64,12 +64,12 @@
     "update-user-access-rule",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with users"
+  shortdescription = "Interacting with your Cloudflare account"
 
 [[command]]
   name = "ssl"
   description = """
-  This is a meaty description of the ssl api."""
+  Fine grained control and deep insights in to your zone's SSL stack, as well as the ability to order new certs."""
   subcommands = [
     "create-origin-cert",
     "describe-origin-cert",
@@ -84,7 +84,7 @@
     "upload-custom-cert",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with ssl configuration"
+  shortdescription = "Control and insight in to your zone's SSL stack "
 
 
 [[command]]
@@ -127,7 +127,7 @@
 [[command]]
   name = "firewall"
   description = """
-  This is a meaty description of the firewall apis."""
+  The firewall subcommand is used to configure the WAF, user-agent rules, and zone-lockdowns."""
   subcommands = [
     "create-user-agent-rule",
     "create-zone-lockdown",
@@ -142,12 +142,12 @@
     "update-zone-lockdown",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with firewall"
+  shortdescription = "Commands to interact with products that block access to your site"
 
 [[command]]
   name = "organization"
   description = """
-  This is a meaty description of the organizaiton api."""
+  Organizztions show all information about the organizations and provides the ability to modify access and display information about your specific organizations."""
   subcommands = [
     "create-organization-access-rule",
     "delete-organization-access-rule",
@@ -160,12 +160,12 @@
     "update-organization-access-rule",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with organizations api"
+  shortdescription = "Interact with the organizations you own and have access to"
 
 [[command]]
   name = "ratelimit"
   description = """
-  This is a meaty description of the ratelimit api."""
+  Cloudflare ratelimits that ensure that the requests to your site are done at a rate you accept."""
   subcommands = [
     "create-ratelimit",
     "delete-ratelimit",
@@ -174,12 +174,12 @@
     "update-ratelimit",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with ratelimit api"
+  shortdescription = "Configure, create, and view your zone's ratelimits."
 
 [[command]]
   name = "loadbalancer"
   description = """
-  This is a meaty description of the loadbalancer api."""
+  The Cloudflare loadbalancer product is an enterprise ready load balancing platform."""
   subcommands = [
     "create-loadbalancer",
     "create-loadbalancer-pool",
@@ -198,7 +198,7 @@
     "update-loadbalancer-pool",
   ]
   toplevel = true
-  shortdescription = "Commands for interacting with loadbalancer api"
+  shortdescription = "Manage, create, and describe your loadbalancers, pools, and monitor"
 
 [[command]]
   name = "list-zones"

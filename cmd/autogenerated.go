@@ -1896,8 +1896,8 @@ func init() {
 
 	var Zone = &cobra.Command{
 		Use:   "zone",
-		Short: "Commands for interacting with zones",
-		Long:  `  This is a meaty description of the zone api.`,
+		Short: "Interact with cloudflare zones",
+		Long:  `  A Zone is a domain name along with its subdomains and other identities. Using the zone command to interact with cloudflare zones`,
 	}
 	Zone.AddCommand(ActivationCheck)
 	Zone.AddCommand(AnalyticsByColo)
@@ -1928,8 +1928,8 @@ func init() {
 
 	var Dns = &cobra.Command{
 		Use:   "dns",
-		Short: "Commands for interacting with dns records",
-		Long:  `  This is a meaty description of the dns api.`,
+		Short: "Create, read, update, and delete your dns records.",
+		Long:  `  Create, read, update, and delete cloudflare dns and virtual dns.`,
 	}
 	Dns.AddCommand(CreateDnsRecord)
 	Dns.AddCommand(CreateVirtualDns)
@@ -1946,8 +1946,8 @@ func init() {
 
 	var User = &cobra.Command{
 		Use:   "user",
-		Short: "Commands for interacting with users",
-		Long:  `  This is a meaty description of the user api.`,
+		Short: "Interacting with your Cloudflare account",
+		Long:  `  The User subcommand will help you interact with your Cloudflare account.`,
 	}
 	User.AddCommand(BillingProfile)
 	User.AddCommand(CreateUserAccessRule)
@@ -1961,8 +1961,8 @@ func init() {
 
 	var Ssl = &cobra.Command{
 		Use:   "ssl",
-		Short: "Commands for interacting with ssl configuration",
-		Long:  `  This is a meaty description of the ssl api.`,
+		Short: "Control and insight in to your zone's SSL stack ",
+		Long:  `  Fine grained control and deep insights in to your zone's SSL stack, as well as the ability to order new certs.`,
 	}
 	Ssl.AddCommand(CreateOriginCert)
 	Ssl.AddCommand(DescribeOriginCert)
@@ -2015,8 +2015,8 @@ func init() {
 
 	var Firewall = &cobra.Command{
 		Use:   "firewall",
-		Short: "Commands for interacting with firewall",
-		Long:  `  This is a meaty description of the firewall apis.`,
+		Short: "Commands to interact with products that block access to your site",
+		Long:  `  The firewall subcommand is used to configure the WAF, user-agent rules, and zone-lockdowns.`,
 	}
 	Firewall.AddCommand(CreateUserAgentRule)
 	Firewall.AddCommand(CreateZoneLockdown)
@@ -2034,8 +2034,8 @@ func init() {
 
 	var Organization = &cobra.Command{
 		Use:   "organization",
-		Short: "Commands for interacting with organizations api",
-		Long:  `  This is a meaty description of the organizaiton api.`,
+		Short: "Interact with the organizations you own and have access to",
+		Long:  `  Organizztions show all information about the organizations and provides the ability to modify access and display information about your specific organizations.`,
 	}
 	Organization.AddCommand(CreateOrganizationAccessRule)
 	Organization.AddCommand(DeleteOrganizationAccessRule)
@@ -2051,8 +2051,8 @@ func init() {
 
 	var Ratelimit = &cobra.Command{
 		Use:   "ratelimit",
-		Short: "Commands for interacting with ratelimit api",
-		Long:  `  This is a meaty description of the ratelimit api.`,
+		Short: "Configure, create, and view your zone's ratelimits.",
+		Long:  `  Cloudflare ratelimits that ensure that the requests to your site are done at a rate you accept.`,
 	}
 	Ratelimit.AddCommand(CreateRatelimit)
 	Ratelimit.AddCommand(DeleteRatelimit)
@@ -2064,8 +2064,8 @@ func init() {
 
 	var Loadbalancer = &cobra.Command{
 		Use:   "loadbalancer",
-		Short: "Commands for interacting with loadbalancer api",
-		Long:  `  This is a meaty description of the loadbalancer api.`,
+		Short: "Manage, create, and describe your loadbalancers, pools, and monitor",
+		Long:  `  The Cloudflare loadbalancer product is an enterprise ready load balancing platform.`,
 	}
 	Loadbalancer.AddCommand(CreateLoadbalancer)
 	Loadbalancer.AddCommand(CreateLoadbalancerPool)
