@@ -1598,6 +1598,70 @@ func init() {
 
 	UpdateUserAccessRule.Flags().StringVar(&Notes, "notes", "", "Set the access rule's human readable note")
 
+	var UpdateZoneAccessRule = &cobra.Command{
+		Use:   "update-zone-access-rule",
+		Short: "Create a user access rule",
+		Long:  `Update an IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateZoneAccessRule")
+		},
+	}
+
+	UpdateZoneAccessRule.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the rule being updated")
+	UpdateZoneAccessRule.MarkFlagRequired("zone-id")
+
+	UpdateZoneAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The access rule id associated with the rule being updated")
+	UpdateZoneAccessRule.MarkFlagRequired("access-rule-id")
+
+	UpdateZoneAccessRule.Flags().StringVar(&Mode, "mode", "", "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge")
+	UpdateZoneAccessRule.MarkFlagRequired("mode")
+
+	UpdateZoneAccessRule.Flags().StringVar(&Configuration, "configuration", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
+	UpdateZoneAccessRule.MarkFlagRequired("configuration")
+
+	UpdateZoneAccessRule.Flags().StringVar(&Notes, "notes", "", "Set the access rule's human readable note")
+
+	var UpdateOrganizationAccessRule = &cobra.Command{
+		Use:   "update-organization-access-rule",
+		Short: "Create a user access rule",
+		Long:  `Update an IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateOrganizationAccessRule")
+		},
+	}
+
+	UpdateOrganizationAccessRule.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with the rule being updated")
+	UpdateOrganizationAccessRule.MarkFlagRequired("organization-id")
+
+	UpdateOrganizationAccessRule.Flags().StringVar(&AccessRuleId, "access-rule-id", "", "The access rule id associated with the rule being updated")
+	UpdateOrganizationAccessRule.MarkFlagRequired("access-rule-id")
+
+	UpdateOrganizationAccessRule.Flags().StringVar(&Mode, "mode", "", "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge")
+	UpdateOrganizationAccessRule.MarkFlagRequired("mode")
+
+	UpdateOrganizationAccessRule.Flags().StringVar(&Configuration, "configuration", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
+	UpdateOrganizationAccessRule.MarkFlagRequired("configuration")
+
+	UpdateOrganizationAccessRule.Flags().StringVar(&Notes, "notes", "", "Set the access rule's human readable note")
+
+	var ListZoneAccessRules = &cobra.Command{
+		Use:   "list-zone-access-rules",
+		Short: "List Zone Access Rules",
+		Long:  `Returns all access rules associated with the zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListZoneAccessRules")
+		},
+	}
+
+	ListZoneAccessRules.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the access rule")
+	ListZoneAccessRules.MarkFlagRequired("zone-id")
+
+	ListZoneAccessRules.Flags().StringVar(&Notes, "notes", "", "Matching any string within previously created access rules with the notes")
+
+	ListZoneAccessRules.Flags().StringVar(&Mode, "mode", "", "valid values: block, challenge, whitelist, js_challenge")
+
+	ListZoneAccessRules.Flags().IntVar(&Page, "page", 0, "Requested page within paginated list of results")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1619,9 +1683,11 @@ func init() {
 	Zone.AddCommand(GetIdByName)
 	Zone.AddCommand(GetZoneSettings)
 	Zone.AddCommand(ListAvailableRatePlans)
+	Zone.AddCommand(ListZoneAccessRules)
 	Zone.AddCommand(ListZones)
 	Zone.AddCommand(SetPaused)
 	Zone.AddCommand(SetVanityNs)
+	Zone.AddCommand(UpdateZoneAccessRule)
 	Zone.AddCommand(UpdateZoneSettings)
 
 	RootCmd.AddCommand(Zone)
@@ -1739,6 +1805,7 @@ func init() {
 	Organization.AddCommand(GetOrganizationRoles)
 	Organization.AddCommand(ListOrganizationAccessRules)
 	Organization.AddCommand(ListOrganizations)
+	Organization.AddCommand(UpdateOrganizationAccessRule)
 
 	RootCmd.AddCommand(Organization)
 

@@ -19,9 +19,11 @@
     "get-id-by-name",
     "get-zone-settings",
     "list-available-rate-plans",
+    "list-zone-access-rules",
     "list-zones",
     "set-paused",
     "set-vanity-ns",
+    "update-zone-access-rule",
     "update-zone-settings",
   ]
   toplevel = true
@@ -147,6 +149,7 @@
     "get-organization-roles",
     "list-organization-access-rules",
     "list-organizations",
+    "update-organization-access-rule",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with organizations api"
@@ -1951,4 +1954,92 @@
   name = "notes"
   type = "string"
   description = "Set the access rule's human readable note"
+  required = false
+
+[[command]]
+  name = "update-zone-access-rule"
+  description = """Update an IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints."""
+  shortdescription = "Create a user access rule"
+  v4apiname = "UpdateZoneAccessRule"
+  [[command.option]]
+  name = "zone-id"
+  description = "The zone id associated with the rule being updated"
+  type = "string"
+  required = true
+  [[command.option]]
+  name = "access-rule-id"
+  type = "string"
+  description = "The access rule id associated with the rule being updated"
+  required = true
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "Rule configuration. Example {\\\"target\\\": \\\"ip\\\",\\\"value\\\": \\\"198.51.100.4\\\"}"
+  required = true
+  [[command.option]]
+  name = "notes"
+  type = "string"
+  description = "Set the access rule's human readable note"
+  required = false
+
+[[command]]
+  name = "update-organization-access-rule"
+  description = """Update an IP, IP range, or country access rule for all zones owned by the user. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints."""
+  shortdescription = "Create a user access rule"
+  v4apiname = "UpdateOrganizationAccessRule"
+  [[command.option]]
+  name = "organization-id"
+  description = "The organization id associated with the rule being updated"
+  type = "string"
+  required = true
+  [[command.option]]
+  name = "access-rule-id"
+  type = "string"
+  description = "The access rule id associated with the rule being updated"
+  required = true
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge"
+  required = true
+  [[command.option]]
+  name = "configuration"
+  type = "string"
+  description = "Rule configuration. Example {\\\"target\\\": \\\"ip\\\",\\\"value\\\": \\\"198.51.100.4\\\"}"
+  required = true
+  [[command.option]]
+  name = "notes"
+  type = "string"
+  description = "Set the access rule's human readable note"
+  required = false
+
+[[command]]
+  name = "list-zone-access-rules"
+  description = """Returns all access rules associated with the zone"""
+  shortdescription = "List Zone Access Rules"
+  v4apiname = "ListZoneAccessRules"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the access rule"
+  required = true
+  [[command.option]]
+  name = "notes"
+  type = "string"
+  description = "Matching any string within previously created access rules with the notes"
+  required = false
+  [[command.option]]
+  name = "mode"
+  type = "string"
+  description = "valid values: block, challenge, whitelist, js_challenge"
+  required = false
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "Requested page within paginated list of results"
   required = false

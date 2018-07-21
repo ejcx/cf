@@ -214,6 +214,34 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			ar.Notes = Notes
 		}
 		resp, err = api.UpdateUserAccessRule(AccessRuleId, ar)
+	case "UpdateOrganizationAccessRule":
+		var arc cloudflare.AccessRuleConfiguration
+		err = json.Unmarshal([]byte(Configuration), &arc)
+		if err != nil {
+			break
+		}
+		ar := cloudflare.AccessRule{
+			Configuration: arc,
+			Mode:          Mode,
+		}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		resp, err = api.UpdateOrganizationAccessRule(OrganizationId, AccessRuleId, ar)
+	case "UpdateZoneAccessRule":
+		var arc cloudflare.AccessRuleConfiguration
+		err = json.Unmarshal([]byte(Configuration), &arc)
+		if err != nil {
+			break
+		}
+		ar := cloudflare.AccessRule{
+			Configuration: arc,
+			Mode:          Mode,
+		}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		resp, err = api.UpdateZoneAccessRule(OrganizationId, AccessRuleId, ar)
 	case "CreateOrganizationAccessRule":
 		var arc cloudflare.AccessRuleConfiguration
 		err = json.Unmarshal([]byte(Configuration), &arc)
@@ -442,6 +470,15 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			ar.Mode = Mode
 		}
 		resp, err = api.ListOrganizationAccessRules(OrganizationId, ar, Page)
+	case "ListZoneAccessRules":
+		ar := cloudflare.AccessRule{}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		if Mode != "" {
+			ar.Mode = Mode
+		}
+		resp, err = api.ListOrganizationAccessRules(ZoneId, ar, Page)
 	case "ListUserAccessRules":
 		ar := cloudflare.AccessRule{}
 		if Notes != "" {
