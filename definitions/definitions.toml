@@ -15,14 +15,16 @@
     "edit-zone-paused",
     "edit-zone-vanity-ns",
     "describe-custom-hostname",
-    "get-custom-hostname-id-by-name",
+    "describe-custom-hostname-by-name",
     "get-id-by-name",
     "get-zone-settings",
     "list-available-rate-plans",
+    "list-custom-hostnames",
     "list-zone-access-rules",
     "list-zones",
     "set-paused",
     "set-vanity-ns",
+    "update-custom-hostname",
     "update-zone-access-rule",
     "update-zone-settings",
   ]
@@ -1125,7 +1127,7 @@
   required = true
 
 [[command]]
-  name = "get-custom-hostname-id-by-name"
+  name = "describe-custom-hostname-by-name"
   description = """Returns details associated with the custom hostname id"""
   shortdescription = "Custom hostname details"
   v4apiname = "CustomHostnameIDByName"
@@ -2196,3 +2198,47 @@
   type = "bool"
   description = "Whether this UA rule is currently paused"
   required = false
+
+[[command]]
+  name = "update-custom-hostname"
+  description = """Modify SSL configuration for a custom hostname. When sent with SSL config that matches existing config, used to indicate that hostname should pass domain control validation (DCV). Can also be used to change validation type, e.g., from 'http' to 'email'."""
+  shortdescription = "Create a custom hostname for an associated zone."
+  v4apiname = "UpdateCustomHostnameSSL"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the custom hostname"
+  required = true
+  [[command.option]]
+  name = "custom-hostname-id"
+  type = "string"
+  description = "The custom hostname id associated with the custom hostname being modified"
+  required = true
+  [[command.option]]
+  name = "method"
+  type = "string"
+  description = "The SSL Verification method. valid values: http, email, cname."
+  required = true
+  [[command.option]]
+  name = "type"
+  type = "string"
+  description = "The type of SSL certificate valid values: dv only"
+  required = true
+
+
+[[command]]
+  name = "list-custom-hostnames"
+  description = """List Custom Hostnames fetches custom hostnames for the given zone, by applying filter.Hostname if not empty and scoping the result to page'th 50 items."""
+  shortdescription = "List custom hostnames"
+  v4apiname = "CustomHostnames"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the custom hostname"
+  required = true
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "API supports pagination. Up to 50 results per page. Default is page 1"
+  required = false
+

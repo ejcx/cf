@@ -940,8 +940,8 @@ func init() {
 	DescribeCustomHostname.Flags().StringVar(&CustomHostnameId, "custom-hostname-id", "", "The custom hostname id associated with the custom hostname you wish to describe")
 	DescribeCustomHostname.MarkFlagRequired("custom-hostname-id")
 
-	var GetCustomHostnameIdByName = &cobra.Command{
-		Use:   "get-custom-hostname-id-by-name",
+	var DescribeCustomHostnameByName = &cobra.Command{
+		Use:   "describe-custom-hostname-by-name",
 		Short: "Custom hostname details",
 		Long:  `Returns details associated with the custom hostname id`,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -949,11 +949,11 @@ func init() {
 		},
 	}
 
-	GetCustomHostnameIdByName.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the custom hostname id being returned")
-	GetCustomHostnameIdByName.MarkFlagRequired("zone-id")
+	DescribeCustomHostnameByName.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the custom hostname id being returned")
+	DescribeCustomHostnameByName.MarkFlagRequired("zone-id")
 
-	GetCustomHostnameIdByName.Flags().StringVar(&Name, "name", "", "The custom hostname associated with the custom hostname id you wish to return")
-	GetCustomHostnameIdByName.MarkFlagRequired("name")
+	DescribeCustomHostnameByName.Flags().StringVar(&Name, "name", "", "The custom hostname associated with the custom hostname id you wish to return")
+	DescribeCustomHostnameByName.MarkFlagRequired("name")
 
 	var SetPaused = &cobra.Command{
 		Use:   "set-paused",
@@ -1776,6 +1776,41 @@ func init() {
 
 	UpdateUserAgentRule.Flags().BoolVar(&Paused, "paused", false, "Whether this UA rule is currently paused")
 
+	var UpdateCustomHostname = &cobra.Command{
+		Use:   "update-custom-hostname",
+		Short: "Create a custom hostname for an associated zone.",
+		Long:  `Modify SSL configuration for a custom hostname. When sent with SSL config that matches existing config, used to indicate that hostname should pass domain control validation (DCV). Can also be used to change validation type, e.g., from 'http' to 'email'.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateCustomHostnameSSL")
+		},
+	}
+
+	UpdateCustomHostname.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the custom hostname")
+	UpdateCustomHostname.MarkFlagRequired("zone-id")
+
+	UpdateCustomHostname.Flags().StringVar(&CustomHostnameId, "custom-hostname-id", "", "The custom hostname id associated with the custom hostname being modified")
+	UpdateCustomHostname.MarkFlagRequired("custom-hostname-id")
+
+	UpdateCustomHostname.Flags().StringVar(&Method, "method", "", "The SSL Verification method. valid values: http, email, cname.")
+	UpdateCustomHostname.MarkFlagRequired("method")
+
+	UpdateCustomHostname.Flags().StringVar(&Type, "type", "", "The type of SSL certificate valid values: dv only")
+	UpdateCustomHostname.MarkFlagRequired("type")
+
+	var ListCustomHostnames = &cobra.Command{
+		Use:   "list-custom-hostnames",
+		Short: "List custom hostnames",
+		Long:  `List Custom Hostnames fetches custom hostnames for the given zone, by applying filter.Hostname if not empty and scoping the result to page'th 50 items.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CustomHostnames")
+		},
+	}
+
+	ListCustomHostnames.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the custom hostname")
+	ListCustomHostnames.MarkFlagRequired("zone-id")
+
+	ListCustomHostnames.Flags().IntVar(&Page, "page", 0, "API supports pagination. Up to 50 results per page. Default is page 1")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1793,14 +1828,16 @@ func init() {
 	Zone.AddCommand(EditZonePaused)
 	Zone.AddCommand(EditZoneVanityNs)
 	Zone.AddCommand(DescribeCustomHostname)
-	Zone.AddCommand(GetCustomHostnameIdByName)
+	Zone.AddCommand(DescribeCustomHostnameByName)
 	Zone.AddCommand(GetIdByName)
 	Zone.AddCommand(GetZoneSettings)
 	Zone.AddCommand(ListAvailableRatePlans)
+	Zone.AddCommand(ListCustomHostnames)
 	Zone.AddCommand(ListZoneAccessRules)
 	Zone.AddCommand(ListZones)
 	Zone.AddCommand(SetPaused)
 	Zone.AddCommand(SetVanityNs)
+	Zone.AddCommand(UpdateCustomHostname)
 	Zone.AddCommand(UpdateZoneAccessRule)
 	Zone.AddCommand(UpdateZoneSettings)
 

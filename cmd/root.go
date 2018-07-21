@@ -440,6 +440,8 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.CreateDNSRecord(ZoneId, rec)
 	case "CustomHostname":
 		resp, err = api.CustomHostname(ZoneId, CustomHostnameId)
+	case "CustomHostnames":
+		resp, _, err = api.CustomHostnames(ZoneId, Page, cloudflare.CustomHostname{})
 	case "CustomHostnameIDByName":
 		resp, err = api.CustomHostnameIDByName(ZoneId, Name)
 	case "DeleteDNSRecord":
@@ -720,6 +722,12 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 				Type:   Type,
 			},
 		})
+	case "UpdateCustomHostnameSSL":
+		h := cloudflare.CustomHostnameSSL{
+			Method: Method,
+			Type:   Type,
+		}
+		resp, err = api.UpdateCustomHostnameSSL(ZoneId, CustomHostnameId, h)
 	case "EditZonePaused":
 		z := cloudflare.ZoneOptions{
 			Paused: &Paused,
