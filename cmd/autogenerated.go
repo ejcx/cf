@@ -73,6 +73,12 @@ var (
 	RequestValidity     int
 	RequestType         string
 	Csr                 string
+	Match               string
+	Threshold           int
+	Period              int
+	Action              string
+	Enabled             bool
+	Bypass              string
 )
 
 func init() {
@@ -1491,6 +1497,36 @@ func init() {
 	CreateOriginCert.Flags().StringVar(&Csr, "csr", "", "The Certificate Signing Request (CSR). Must be newline-encoded. -----BEGIN CERTIFICATE REQUEST-----\nMIICxzCCA...\n-----END CERTIFICATE REQUEST-----")
 	CreateOriginCert.MarkFlagRequired("csr")
 
+	var CreateRatelimit = &cobra.Command{
+		Use:   "create-ratelimit",
+		Short: "Creates a new rate limit for a zone.",
+		Long:  `Create a new rate limit for a zone. See the record object definitions for required attributes for each record type`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateRateLimit")
+		},
+	}
+
+	CreateRatelimit.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the newly created ratelimit")
+	CreateRatelimit.MarkFlagRequired("zone-id")
+
+	CreateRatelimit.Flags().StringVar(&Match, "match", "", "The match object described by https://api.cloudflare.com/#rate-limits-for-a-zone-create-rate-limit")
+	CreateRatelimit.MarkFlagRequired("match")
+
+	CreateRatelimit.Flags().IntVar(&Threshold, "threshold", 0, "The threshold that triggers the rate limit mitigations, combine with period. i.e. threshold per period min value:2 max value:1000000")
+	CreateRatelimit.MarkFlagRequired("threshold")
+
+	CreateRatelimit.Flags().IntVar(&Period, "period", 0, "The time in seconds to count matching traffic. If the count exceeds threshold within this period the action will be performed. min value:1 max value:86400")
+	CreateRatelimit.MarkFlagRequired("period")
+
+	CreateRatelimit.Flags().StringVar(&Action, "action", "", "The action to be performed when the threshold of matched traffic within the period defined is exceeded '{\"mode\": \"challenge\",\"timeout\": 86400,\"response\": {\"content_type\": \"text/xml\",\"body\": \"<error>This request has been rate-limited.</error>\"}}'")
+	CreateRatelimit.MarkFlagRequired("action")
+
+	CreateRatelimit.Flags().BoolVar(&Enabled, "enabled", false, "Whether this ratelimit is currently enabled or not.")
+
+	CreateRatelimit.Flags().StringVar(&Description, "description", "", "A note that you can use to describe the reason for a rate limit. This value is sanitized and all tags are removed max length: 1024")
+
+	CreateRatelimit.Flags().StringVar(&Bypass, "bypass", "", "Criteria that would allow the rate limit to be bypassed, for example to express that you shouldn't apply a rate limit to a given set of URLs '[{\"name\": \"url\",\"value\": \"api.example.com/*\"}]'")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1646,6 +1682,7 @@ func init() {
 		Short: "Commands for interacting with ratelimit api",
 		Long:  `  This is a meaty description of the ratelimit api.`,
 	}
+	Ratelimit.AddCommand(CreateRatelimit)
 	Ratelimit.AddCommand(DeleteRatelimit)
 	Ratelimit.AddCommand(DescribeRatelimit)
 	Ratelimit.AddCommand(ListRatelimits)
