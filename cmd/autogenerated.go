@@ -80,6 +80,9 @@ var (
 	Enabled             bool
 	Bypass              string
 	LimitId             string
+	Certificate         string
+	PrivateKey          string
+	BundleMethod        string
 )
 
 func init() {
@@ -1662,6 +1665,49 @@ func init() {
 
 	ListZoneAccessRules.Flags().IntVar(&Page, "page", 0, "Requested page within paginated list of results")
 
+	var UploadCustomCert = &cobra.Command{
+		Use:   "upload-custom-cert",
+		Short: "Upload a custom SSL cert",
+		Long:  `Upload a new SSL certificate for a zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateSSL")
+		},
+	}
+
+	UploadCustomCert.Flags().StringVar(&ZoneId, "zone-id", "", "The zone-id associated with the custom cert")
+	UploadCustomCert.MarkFlagRequired("zone-id")
+
+	UploadCustomCert.Flags().StringVar(&Certificate, "certificate", "", "The zone's SSL certificate or certificate and the intermediate(s)")
+	UploadCustomCert.MarkFlagRequired("certificate")
+
+	UploadCustomCert.Flags().StringVar(&PrivateKey, "private-key", "", "The zone's private key. Example -----BEGIN RSA PRIVATE KEY-----...-----END RSA PRIVATE KEY-----")
+	UploadCustomCert.MarkFlagRequired("private-key")
+
+	UploadCustomCert.Flags().StringVar(&BundleMethod, "bundle-method", "", "A ubiquitous bundle is a bundle that has a higher probability of being verified everywhere, even by clients using outdated or unusual trust stores. default value: ubiquitous; valid values: ubiquitous, optimal, force  required = false")
+
+	var UpdateCustomCert = &cobra.Command{
+		Use:   "update-custom-cert",
+		Short: "Upload a custom SSL cert",
+		Long:  `Update a new SSL certificate for a zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateSSL")
+		},
+	}
+
+	UpdateCustomCert.Flags().StringVar(&ZoneId, "zone-id", "", "The zone-id associated with the custom cert")
+	UpdateCustomCert.MarkFlagRequired("zone-id")
+
+	UpdateCustomCert.Flags().StringVar(&CertificateId, "certificate-id", "", "The certificate id associated with the custom cert")
+	UpdateCustomCert.MarkFlagRequired("certificate-id")
+
+	UpdateCustomCert.Flags().StringVar(&Certificate, "certificate", "", "The zone's SSL certificate or certificate and the intermediate(s)")
+	UpdateCustomCert.MarkFlagRequired("certificate")
+
+	UpdateCustomCert.Flags().StringVar(&PrivateKey, "private-key", "", "The zone's private key. Example -----BEGIN RSA PRIVATE KEY-----...-----END RSA PRIVATE KEY-----")
+	UpdateCustomCert.MarkFlagRequired("private-key")
+
+	UpdateCustomCert.Flags().StringVar(&BundleMethod, "bundle-method", "", "A ubiquitous bundle is a bundle that has a higher probability of being verified everywhere, even by clients using outdated or unusual trust stores. default value: ubiquitous; valid values: ubiquitous, optimal, force  required = false")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1738,6 +1784,8 @@ func init() {
 	Ssl.AddCommand(ListOriginCerts)
 	Ssl.AddCommand(ListZoneSslSettings)
 	Ssl.AddCommand(RevokeOriginCert)
+	Ssl.AddCommand(UpdateCustomCert)
+	Ssl.AddCommand(UploadCustomCert)
 
 	RootCmd.AddCommand(Ssl)
 

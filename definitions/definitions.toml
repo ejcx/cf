@@ -77,6 +77,8 @@
     "list-origin-certs",
     "list-zone-ssl-settings",
     "revoke-origin-cert",
+    "update-custom-cert",
+    "upload-custom-cert",
   ]
   toplevel = true
   shortdescription = "Commands for interacting with ssl configuration"
@@ -2043,3 +2045,58 @@
   type = "int"
   description = "Requested page within paginated list of results"
   required = false
+
+[[command]]
+  name = "upload-custom-cert"
+  description = """Upload a new SSL certificate for a zone"""
+  shortdescription = "Upload a custom SSL cert"
+  v4apiname = "CreateSSL"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone-id associated with the custom cert"
+  required = true
+  [[command.option]]
+  name = "certificate"
+  type = "string"
+  description = "The zone's SSL certificate or certificate and the intermediate(s)"
+  required = true
+  [[command.option]]
+  name = "private-key"
+  type = "string"
+  description = "The zone's private key. Example -----BEGIN RSA PRIVATE KEY-----...-----END RSA PRIVATE KEY-----"
+  required = true
+  [[command.option]]
+  name = "bundle-method"
+  type = "string"
+  description = "A ubiquitous bundle is a bundle that has a higher probability of being verified everywhere, even by clients using outdated or unusual trust stores. default value: ubiquitous; valid values: ubiquitous, optimal, force  required = false"
+
+[[command]]
+  name = "update-custom-cert"
+  description = """Update a new SSL certificate for a zone"""
+  shortdescription = "Upload a custom SSL cert"
+  v4apiname = "UpdateSSL"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone-id associated with the custom cert"
+  required = true
+  [[command.option]]
+  name = "certificate-id"
+  type = "string"
+  description = "The certificate id associated with the custom cert"
+  required = true
+  [[command.option]]
+  name = "certificate"
+  type = "string"
+  description = "The zone's SSL certificate or certificate and the intermediate(s)"
+  required = true
+  [[command.option]]
+  name = "private-key"
+  type = "string"
+  description = "The zone's private key. Example -----BEGIN RSA PRIVATE KEY-----...-----END RSA PRIVATE KEY-----"
+  required = true
+  [[command.option]]
+  name = "bundle-method"
+  type = "string"
+  description = "A ubiquitous bundle is a bundle that has a higher probability of being verified everywhere, even by clients using outdated or unusual trust stores. default value: ubiquitous; valid values: ubiquitous, optimal, force  required = false"

@@ -145,6 +145,24 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			rl.Description = Description
 		}
 		resp, err = api.CreateRateLimit(ZoneId, rl)
+	case "CreateSSL":
+		z := cloudflare.ZoneCustomSSLOptions{
+			Certificate: Certificate,
+			PrivateKey:  PrivateKey,
+		}
+		if BundleMethod != "" {
+			z.BundleMethod = BundleMethod
+		}
+		resp, err = api.CreateSSL(ZoneId, z)
+	case "UpdateSSL":
+		z := cloudflare.ZoneCustomSSLOptions{
+			Certificate: Certificate,
+			PrivateKey:  PrivateKey,
+		}
+		if BundleMethod != "" {
+			z.BundleMethod = BundleMethod
+		}
+		resp, err = api.UpdateSSL(ZoneId, CertificateId, z)
 	case "CreateRateLimit":
 		var (
 			rlkv []cloudflare.RateLimitKeyValue
