@@ -86,6 +86,7 @@ var (
 	Files               string
 	Tags                string
 	Hosts               string
+	PriorityList        string
 )
 
 func init() {
@@ -1811,6 +1812,88 @@ func init() {
 
 	ListCustomHostnames.Flags().IntVar(&Page, "page", 0, "API supports pagination. Up to 50 results per page. Default is page 1")
 
+	var ReprioritizeCerts = &cobra.Command{
+		Use:   "reprioritize-certs",
+		Short: "Reprioritize SSL certs",
+		Long:  `If a zone has multiple SSL certificates, you can set the order in which they should be used during a request. Higher priority numbers will be tried first.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ReprioritizeSSL")
+		},
+	}
+
+	ReprioritizeCerts.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the certs")
+	ReprioritizeCerts.MarkFlagRequired("zone-id")
+
+	ReprioritizeCerts.Flags().StringVar(&PriorityList, "priority-list", "", "Array of ordered certificates. [{\"id\": \"5a7805061c76ada191ed06f989cc3dac\",\"priority\": 2},{\"id\": \"9a7806061c88ada191ed06f989cc3dac\",\"priority\": 1}]")
+	ReprioritizeCerts.MarkFlagRequired("priority-list")
+
+	var UpdateLoadbalancerMonitor = &cobra.Command{
+		Use:   "update-loadbalancer-monitor",
+		Short: "Update a configured monitor",
+		Long:  `Update an existing monitor`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ModifyLoadBalancer")
+		},
+	}
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&MonitorId, "monitor-id", "", "The monitor id associated with the existing loadbalancer monitor")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("monitor-id")
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&ExpectedCodes, "expected-codes", "", "The expected http response code in the healthcheck")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("expected-codes")
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&Method, "method", "", "The HTTP method to use for the health check. default value: GET")
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&Header, "header", "", "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Example: {\"Host\": [\"example.com\"],\"X-App-ID\": [\"abc123\"]}")
+
+	UpdateLoadbalancerMonitor.Flags().IntVar(&Timeout, "timeout", 0, "The timeout (in seconds) before marking the health check as failed. default value: 5")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("timeout")
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&Path, "path", "", "The endpoint path to health check against. default value: /")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("path")
+
+	UpdateLoadbalancerMonitor.Flags().IntVar(&Interval, "interval", 0, "The interval between each health check. Shorter intervals may improve failover time, but will increase load. default value 60")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("interval")
+
+	UpdateLoadbalancerMonitor.Flags().IntVar(&Retries, "retries", 0, "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. default value 2")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("retries")
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&ExpectedBody, "expected-body", "", "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.")
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&Type, "type", "", "The protocol to use for the healthcheck. Currently supported protocols are 'HTTP' and 'HTTPS'. default value: http")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("type")
+
+	UpdateLoadbalancerMonitor.Flags().StringVar(&Description, "description", "", "Object description")
+	UpdateLoadbalancerMonitor.MarkFlagRequired("description")
+
+	var UpdateLoadbalancer = &cobra.Command{
+		Use:   "update-loadbalancer",
+		Short: "Update an existing loadbalancer",
+		Long:  `Update an existing loadbalancer`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ModifyLoadBalancer")
+		},
+	}
+
+	UpdateLoadbalancer.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the loadbalancer")
+	UpdateLoadbalancer.MarkFlagRequired("zone-id")
+
+	UpdateLoadbalancer.Flags().StringVar(&LoadbalancerId, "loadbalancer-id", "", "The loadbalancer id associated with the loadbalancer being modified")
+	UpdateLoadbalancer.MarkFlagRequired("loadbalancer-id")
+
+	UpdateLoadbalancer.Flags().StringVar(&Name, "name", "", "The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balancer will take precedence and the DNS record will not be used.")
+	UpdateLoadbalancer.MarkFlagRequired("name")
+
+	UpdateLoadbalancer.Flags().StringVar(&FallbackPool, "fallback-pool", "", "The pool ID to use when all other pools are detected as unhealthy. max length: 32")
+	UpdateLoadbalancer.MarkFlagRequired("fallback-pool")
+
+	UpdateLoadbalancer.Flags().StringVar(&DefaultPools, "default-pools", "", "A comma separated list of pool IDs ordered by their failover priority. Pools defined here are used by default, or when region_pools are not configured for a given region.")
+	UpdateLoadbalancer.MarkFlagRequired("default-pools")
+
+	UpdateLoadbalancer.Flags().BoolVar(&Proxied, "proxied", false, "Whether the hostname should be gray clouded (false) or orange clouded (true). default value: false")
+
+	UpdateLoadbalancer.Flags().IntVar(&Ttl, "ttl", 0, "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers.")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1888,6 +1971,7 @@ func init() {
 	Ssl.AddCommand(ListCustomCerts)
 	Ssl.AddCommand(ListOriginCerts)
 	Ssl.AddCommand(ListZoneSslSettings)
+	Ssl.AddCommand(ReprioritizeCerts)
 	Ssl.AddCommand(RevokeOriginCert)
 	Ssl.AddCommand(UpdateCustomCert)
 	Ssl.AddCommand(UploadCustomCert)
@@ -1995,6 +2079,8 @@ func init() {
 	Loadbalancer.AddCommand(ListLoadbalancerMonitors)
 	Loadbalancer.AddCommand(ListLoadbalancerPools)
 	Loadbalancer.AddCommand(ListLoadbalancers)
+	Loadbalancer.AddCommand(UpdateLoadbalancer)
+	Loadbalancer.AddCommand(UpdateLoadbalancerMonitor)
 	Loadbalancer.AddCommand(UpdateLoadbalancerPool)
 
 	RootCmd.AddCommand(Loadbalancer)

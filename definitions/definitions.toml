@@ -78,6 +78,7 @@
     "list-custom-certs",
     "list-origin-certs",
     "list-zone-ssl-settings",
+    "reprioritize-certs",
     "revoke-origin-cert",
     "update-custom-cert",
     "upload-custom-cert",
@@ -192,6 +193,8 @@
     "list-loadbalancer-monitors",
     "list-loadbalancer-pools",
     "list-loadbalancers",
+    "update-loadbalancer",
+    "update-loadbalancer-monitor",
     "update-loadbalancer-pool",
   ]
   toplevel = true
@@ -2240,5 +2243,123 @@
   name = "page"
   type = "int"
   description = "API supports pagination. Up to 50 results per page. Default is page 1"
+  required = false
+
+[[command]]
+  name = "reprioritize-certs"
+  description = """If a zone has multiple SSL certificates, you can set the order in which they should be used during a request. Higher priority numbers will be tried first."""
+  shortdescription = "Reprioritize SSL certs"
+  v4apiname = "ReprioritizeSSL"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone ID associated with the certs"
+  required = true
+  [[command.option]]
+  name = "priority-list"
+  description = "Array of ordered certificates. [{\\\"id\\\": \\\"5a7805061c76ada191ed06f989cc3dac\\\",\\\"priority\\\": 2},{\\\"id\\\": \\\"9a7806061c88ada191ed06f989cc3dac\\\",\\\"priority\\\": 1}]"
+  type = "string"
+  required = true
+
+[[command]]
+  name = "update-loadbalancer-monitor"
+  description = """Update an existing monitor"""
+  shortdescription = "Update a configured monitor"
+  v4apiname = "ModifyLoadBalancer"
+  [[command.option]]
+  name = "monitor-id"
+  type = "string"
+  description = "The monitor id associated with the existing loadbalancer monitor"
+  required = true
+  [[command.option]]
+  name = "expected-codes"
+  type = "string"
+  description = "The expected http response code in the healthcheck"
+  required = true
+  [[command.option]]
+  name = "method"
+  type = "string"
+  description = "The HTTP method to use for the health check. default value: GET"
+  required = false
+  [[command.option]]
+  name = "header"
+  type = "string"
+  description = "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Example: {\\\"Host\\\": [\\\"example.com\\\"],\\\"X-App-ID\\\": [\\\"abc123\\\"]}"
+  required = false
+  [[command.option]]
+  name = "timeout"
+  type = "int"
+  description = "The timeout (in seconds) before marking the health check as failed. default value: 5"
+  required = true
+  [[command.option]]
+  name = "path"
+  type = "string"
+  description = "The endpoint path to health check against. default value: /"
+  required = true
+  [[command.option]]
+  name = "interval"
+  type = "int"
+  description = "The interval between each health check. Shorter intervals may improve failover time, but will increase load. default value 60"
+  required = true
+  [[command.option]]
+  name = "retries"
+  type = "int"
+  description = "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. default value 2"
+  required = true
+  [[command.option]]
+  name = "expected-body"
+  type = "string"
+  description = "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy."
+  required = false
+  [[command.option]]
+  name = "type"
+  type = "string"
+  description = "The protocol to use for the healthcheck. Currently supported protocols are 'HTTP' and 'HTTPS'. default value: http"
+  required = true
+  [[command.option]]
+  name = "description"
+  type = "string"
+  description = "Object description"
+  required = true
+
+[[command]]
+  name = "update-loadbalancer"
+  description = """Update an existing loadbalancer"""
+  shortdescription = "Update an existing loadbalancer"
+  v4apiname = "ModifyLoadBalancer"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zoneID associated with the loadbalancer"
+  required = true
+  [[command.option]]
+  name = "loadbalancer-id"
+  type = "string"
+  description = "The loadbalancer id associated with the loadbalancer being modified"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balancer will take precedence and the DNS record will not be used."
+  required = true
+  [[command.option]]
+  name = "fallback-pool"
+  type = "string"
+  description = "The pool ID to use when all other pools are detected as unhealthy. max length: 32"
+  required = true
+  [[command.option]]
+  name = "default-pools"
+  type = "string"
+  description = "A comma separated list of pool IDs ordered by their failover priority. Pools defined here are used by default, or when region_pools are not configured for a given region."
+  required = true
+  [[command.option]]
+  name = "proxied"
+  type = "bool"
+  description = "Whether the hostname should be gray clouded (false) or orange clouded (true). default value: false"
+  required = false
+  [[command.option]]
+  name = "ttl"
+  type = "int"
+  description = "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers."
   required = false
 

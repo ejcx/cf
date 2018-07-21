@@ -438,6 +438,13 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			rec.Proxied = false
 		}
 		resp, err = api.CreateDNSRecord(ZoneId, rec)
+	case "ReprioritizeSSL":
+		var p []cloudflare.ZoneCustomSSLPriority
+		err = json.Unmarshal([]byte(PriorityList), &p)
+		if err != nil {
+			break
+		}
+		resp, err = api.ReprioritizeSSL(ZoneId, p)
 	case "CustomHostname":
 		resp, err = api.CustomHostname(ZoneId, CustomHostnameId)
 	case "CustomHostnames":
@@ -606,6 +613,54 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 			l.TTL = Ttl
 		}
 		api.CreateLoadBalancer(ZoneId, l)
+	case "ModifyLoadBalancer":
+		d := strings.Split(DefaultPools, ",")
+		l := cloudflare.LoadBalancer{
+			ID:           LoadbalancerId,
+			Name:         Name,
+			FallbackPool: FallbackPool,
+			DefaultPools: d,
+			Proxied:      Proxied,
+		}
+		if Ttl > 0 {
+			l.TTL = Ttl
+		}
+		resp, err = api.ModifyLoadBalancer(ZoneId, l)
+	case "ModifyLoadBalancerMonitor":
+		l := cloudflare.LoadBalancerMonitor{
+			ID:            MonitorId,
+			ExpectedCodes: ExpectedCodes,
+		}
+		if Method != "" {
+			l.Method = Method
+		}
+		if Timeout > 0 {
+			l.Timeout = Timeout
+		}
+		if Header != "" {
+			h := make(map[string][]string)
+			err = json.Unmarshal([]byte(Header), &h)
+			if err != nil {
+				return nil, err
+			}
+			l.Header = h
+		}
+		if Path != "" {
+			l.Path = Path
+		}
+		if Interval > 0 {
+			l.Interval = Interval
+		}
+		if Retries > 0 {
+			l.Retries = Retries
+		}
+		if Type != "" {
+			l.Type = Type
+		}
+		if Description != "" {
+			l.Description = Description
+		}
+		resp, err = api.ModifyLoadBalancerMonitor(l)
 	case "CreateLoadBalancerMonitor":
 		l := cloudflare.LoadBalancerMonitor{ExpectedCodes: ExpectedCodes}
 		if Method != "" {
