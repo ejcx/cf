@@ -1446,6 +1446,26 @@ func init() {
 	UpdatePagerule.Flags().StringVar(&Status, "status", "", "Status of the page rule. default value: disabled valid values: active, disabled required = false")
 	UpdatePagerule.MarkFlagRequired("status")
 
+	var CreateOrganizationAccessRule = &cobra.Command{
+		Use:   "create-organization-access-rule",
+		Short: "Create an organization access rule",
+		Long:  `Make a new IP, IP range, or country access rule for all zones owned by the organization. Note: If you would like to create an access rule that applies to a specific zone only, use the zone firewall endpoints.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateOrganizationAccessRule")
+		},
+	}
+
+	CreateOrganizationAccessRule.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with the new access rule")
+	CreateOrganizationAccessRule.MarkFlagRequired("organization-id")
+
+	CreateOrganizationAccessRule.Flags().StringVar(&Mode, "mode", "", "The action to apply to a matched request valid values: block, challenge, whitelist, js_challenge")
+	CreateOrganizationAccessRule.MarkFlagRequired("mode")
+
+	CreateOrganizationAccessRule.Flags().StringVar(&Configuration, "configuration", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
+	CreateOrganizationAccessRule.MarkFlagRequired("configuration")
+
+	CreateOrganizationAccessRule.Flags().StringVar(&Notes, "notes", "", "Rule configuration. Example {\"target\": \"ip\",\"value\": \"198.51.100.4\"}")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Commands for interacting with zones",
@@ -1575,6 +1595,7 @@ func init() {
 		Short: "Commands for interacting with organizations api",
 		Long:  `  This is a meaty description of the organizaiton api.`,
 	}
+	Organization.AddCommand(CreateOrganizationAccessRule)
 	Organization.AddCommand(DeleteOrganizationAccessRule)
 	Organization.AddCommand(DescribeOrganization)
 	Organization.AddCommand(GetOrganizationInvites)

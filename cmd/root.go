@@ -112,6 +112,20 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		r.Actions = pra
 		r.Targets = prt
 		err = api.ChangePageRule(ZoneId, PageruleId, r)
+	case "CreateOrganizationAccessRule":
+		var arc cloudflare.AccessRuleConfiguration
+		err = json.Unmarshal([]byte(Configuration), &arc)
+		if err != nil {
+			break
+		}
+		ar := cloudflare.AccessRule{
+			Configuration: arc,
+			Mode:          Mode,
+		}
+		if Notes != "" {
+			ar.Notes = Notes
+		}
+		resp, err = api.CreateOrganizationAccessRule(OrganizationId, ar)
 	case "CreatePageRule":
 		var (
 			prt []cloudflare.PageRuleTarget
