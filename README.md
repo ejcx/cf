@@ -2,7 +2,8 @@
   <img src="https://raw.githubusercontent.com/ejcx/cf/master/logo.png" alt="cf logo" width="300">
 </div>
 
-| A cloudflare command line interface
+A cloudflare command line interface
+
 # Installation
 ```
 go get -u github.com/ejcx/cf
