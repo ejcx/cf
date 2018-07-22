@@ -1,3 +1,8 @@
+<div align="center">
+  <br><br><br><br><br>
+  <img src="https://raw.githubusercontent.com/ejcx/cf/master/logo.png" alt="cf logo" width="400">
+  <br><br><br><br><br><br><br><br>
+</div>
 # cf
 | The cloudflare command line interface
 # Installation
