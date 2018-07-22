@@ -47,7 +47,29 @@ Flags:
 Use "cf [command] --help" for more information about a command.
 ```
 
-**Each command has a list of subcommands that will allow you to interact with that product area. Here I am viewing the optional flags to the `edit-user` command.**
+**Each command has a list of subcommands that will allow you to interact with that product area.**
+```e :) cf user
+  The User subcommand will help you interact with your Cloudflare account.
+
+Usage:
+  cf user [command]
+
+Available Commands:
+  billing-profile         Get the billing profile
+  create-user-access-rule Create a user access rule
+  delete-user-access-rule Delete a user access rule
+  details                 Get user specific settings
+  edit-user               Edit user account details
+  list-user-access-rules  List User Access Rules
+  update-user-access-rule Create a user access rule
+
+Flags:
+  -h, --help   help for user
+
+Use "cf user [command] --help" for more information about a command.
+```
+
+**Here I am viewing the optional flags to the `edit-user` command.**
 ```
 e :) cf user edit-user --help
 Edit user account details
