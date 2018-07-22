@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/ejcx/cf/master/logo.png" alt="cf logo" width="300">
 </div>
 
-A cloudflare command line interface
+A cloudflare command line interface. It makes heavy use of [cloudflare-go](https://github.com/cloudflare/cloudflare-go)
 
 # Installation
 ```
