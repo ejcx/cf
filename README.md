@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/ejcx/cf/master/logo.png" alt="cf logo">
+  <img src="https://raw.githubusercontent.com/ejcx/cf/master/logo.png" alt="cf logo" width="300">
 </div>
 
 # cf
