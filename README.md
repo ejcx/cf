@@ -48,7 +48,8 @@ Use "cf [command] --help" for more information about a command.
 ```
 
 **Each command has a list of subcommands that will allow you to interact with that product area.**
-```e :) cf user
+```
+e :) cf user
   The User subcommand will help you interact with your Cloudflare account.
 
 Usage:
