@@ -55,9 +55,11 @@ func TestRunSwitch(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Could not load configuration file: %s", err)
 	}
-	sw, err := ToSwitch(cmds)
-	if err != nil {
-		t.Fatalf("Could not convert command list to switch: %s", err)
-	}
-	fmt.Println(sw)
+	// sw, err := ToSwitch(cmds)
+	// if err != nil {
+	// 	t.Fatalf("Could not convert command list to switch: %s", err)
+	// }
+	// fmt.Println(sw)
+	s := ToFuncSigs(cmds)
+	fmt.Println(s)
 }

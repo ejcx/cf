@@ -53,7 +53,7 @@ func Main(cmd *cobra.Command, args []string, name string) {
 		api.APIUserServiceKey = serviceKey
 	}
 
-	r, err := root(cmd, args, name, api)
+	r, err := run(cmd, args, name, api)
 	if err != nil {
 		log.Fatalf("Could not make cloudflare request: %s", err)
 	}

@@ -6,6 +6,7 @@ package definitions
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"strings"
 	"text/template"
@@ -26,7 +27,7 @@ func init() {
 {{ .Commands }}
 }
 
-func run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (resp interface{}, err error) {
+func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (resp interface{}, err error) {
   {{ .SwitchList }}
   return
 }
@@ -350,6 +351,22 @@ func (c *Command) ToArgList() string {
 		} else {
 			s += ", " + hyphenDelimToCamel(opt.Name)
 		}
+	}
+	return s
+}
+
+func (c *Command) ToArgListWithTypes() string {
+	s := ""
+	for _, opt := range c.Option {
+		s += ", " + hyphenDelimToCamel(opt.Name) + " " + opt.Type
+	}
+	return s
+}
+
+func ToFuncSigs(cmds []*Command) string {
+	s := ""
+	for _, cmd := range cmds {
+		s += fmt.Sprintf("func %s(api *cloudflare.API%s) (resp interface{}, err error) {\nreturn}\n", hyphenDelimToCamel(cmd.Name), cmd.ToArgListWithTypes())
 	}
 	return s
 }
