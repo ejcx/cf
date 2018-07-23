@@ -1,6 +1,9 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	cloudflare "github.com/cloudflare/cloudflare-go"
+	"github.com/spf13/cobra"
+)
 
 var (
 	ZoneNameFilter      string
@@ -2085,4 +2088,255 @@ func init() {
 
 	RootCmd.AddCommand(Loadbalancer)
 
+}
+
+func run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (resp interface{}, err error) {
+	switch name {
+
+	case "Zone":
+		resp, err = Zone(api)
+	case "Dns":
+		resp, err = Dns(api)
+	case "User":
+		resp, err = User(api)
+	case "Ssl":
+		resp, err = Ssl(api)
+	case "Pagerule":
+		resp, err = Pagerule(api)
+	case "Cache":
+		resp, err = Cache(api)
+	case "Firewall":
+		resp, err = Firewall(api)
+	case "Organization":
+		resp, err = Organization(api)
+	case "Ratelimit":
+		resp, err = Ratelimit(api)
+	case "Loadbalancer":
+		resp, err = Loadbalancer(api)
+	case "ListZones":
+		resp, err = ListZones(api, ZoneNameFilter)
+	case "ListDnsRecords":
+		resp, err = ListDnsRecords(api, ZoneId, Type, Name, Content)
+	case "CreateDnsRecord":
+		resp, err = CreateDnsRecord(api, ZoneId, Type, Name, Content, Ttl, NotProxied, Priority)
+	case "DeleteDnsRecord":
+		resp, err = DeleteDnsRecord(api, ZoneId, RecordId)
+	case "DeleteZone":
+		resp, err = DeleteZone(api, ZoneId)
+	case "CreateZone":
+		resp, err = CreateZone(api, Name, Jumpstart, OrganizationId)
+	case "ShowDnsRecord":
+		resp, err = ShowDnsRecord(api, ZoneId, RecordId)
+	case "ListRatelimits":
+		resp, err = ListRatelimits(api, ZoneId)
+	case "ListLoadbalancers":
+		resp, err = ListLoadbalancers(api, ZoneId)
+	case "ListOrganizations":
+		resp, err = ListOrganizations(api)
+	case "ListPagerules":
+		resp, err = ListPagerules(api, ZoneId)
+	case "ListCustomCerts":
+		resp, err = ListCustomCerts(api, ZoneId)
+	case "ListUserAgentRules":
+		resp, err = ListUserAgentRules(api, ZoneId, Page)
+	case "ListWafPackages":
+		resp, err = ListWafPackages(api, ZoneId)
+	case "ListWafRules":
+		resp, err = ListWafRules(api, ZoneId, PackageId)
+	case "ListZoneLockdowns":
+		resp, err = ListZoneLockdowns(api, ZoneId, Page)
+	case "DescribeZoneLockdown":
+		resp, err = DescribeZoneLockdown(api, ZoneId, LockdownId)
+	case "EditZonePaused":
+		resp, err = EditZonePaused(api, ZoneId, Paused)
+	case "EditZoneVanityNs":
+		resp, err = EditZoneVanityNs(api, ZoneId, VanityNs)
+	case "SetVanityNs":
+		resp, err = SetVanityNs(api, ZoneId, VanityNs)
+	case "EditDnsRecord":
+		resp, err = EditDnsRecord(api, Proxied, ZoneId, RecordId, Type, Name, Content, Ttl)
+	case "ListLoadbalancerMonitors":
+		resp, err = ListLoadbalancerMonitors(api)
+	case "ListLoadbalancerPools":
+		resp, err = ListLoadbalancerPools(api)
+	case "ListOrganizationAccessRules":
+		resp, err = ListOrganizationAccessRules(api, OrganizationId, Notes, Mode, Page)
+	case "ListRailguns":
+		resp, err = ListRailguns(api)
+	case "ListZoneRailguns":
+		resp, err = ListZoneRailguns(api)
+	case "ListUserAccessRules":
+		resp, err = ListUserAccessRules(api, Notes, Mode, Page)
+	case "ListVirtualDns":
+		resp, err = ListVirtualDns(api)
+	case "ListAvailableRatePlans":
+		resp, err = ListAvailableRatePlans(api, ZoneId)
+	case "ConnectZoneRailgun":
+		resp, err = ConnectZoneRailgun(api, ZoneId, RailgunId)
+	case "CreateCustomHostname":
+		resp, err = CreateCustomHostname(api, ZoneId, Hostname, Method, Type)
+	case "CreateLoadbalancerMonitor":
+		resp, err = CreateLoadbalancerMonitor(api, ExpectedCodes, Method, Header, Timeout, Path, Interval, Retries, ExpectedBody, Type, Description)
+	case "CreateLoadbalancer":
+		resp, err = CreateLoadbalancer(api, ZoneId, Name, FallbackPool, DefaultPools, Proxied, Ttl)
+	case "PurgeEverything":
+		resp, err = PurgeEverything(api, ZoneId)
+	case "ActivationCheck":
+		resp, err = ActivationCheck(api, ZoneId)
+	case "DescribeZone":
+		resp, err = DescribeZone(api, ZoneId)
+	case "GetIdByName":
+		resp, err = GetIdByName(api, ZoneName)
+	case "ListZoneSslSettings":
+		resp, err = ListZoneSslSettings(api, ZoneId)
+	case "GetZoneSettings":
+		resp, err = GetZoneSettings(api, ZoneId)
+	case "Details":
+		resp, err = Details(api)
+	case "BillingProfile":
+		resp, err = BillingProfile(api)
+	case "DescribeVirtualDns":
+		resp, err = DescribeVirtualDns(api, VirtualDnsId)
+	case "DeleteVirtualDns":
+		resp, err = DeleteVirtualDns(api, VirtualDnsId)
+	case "DescribePagerule":
+		resp, err = DescribePagerule(api, ZoneId, PageruleId)
+	case "DescribeLoadbalancer":
+		resp, err = DescribeLoadbalancer(api, ZoneId, LoadbalancerId)
+	case "DescribeLoadbalancerMonitor":
+		resp, err = DescribeLoadbalancerMonitor(api, MonitorId)
+	case "DescribeLoadbalancerPool":
+		resp, err = DescribeLoadbalancerPool(api, PoolId)
+	case "DescribeOrganization":
+		resp, err = DescribeOrganization(api, OrganizationId)
+	case "GetOrganizationInvites":
+		resp, err = GetOrganizationInvites(api, OrganizationId)
+	case "GetOrganizationMembers":
+		resp, err = GetOrganizationMembers(api, OrganizationId)
+	case "GetOrganizationRoles":
+		resp, err = GetOrganizationRoles(api, OrganizationId)
+	case "ListOriginCerts":
+		resp, err = ListOriginCerts(api, ZoneId)
+	case "DescribeOriginCert":
+		resp, err = DescribeOriginCert(api, CertificateId)
+	case "DescribeZoneOriginCert":
+		resp, err = DescribeZoneOriginCert(api, CertificateId, ZoneId)
+	case "DescribeRailgun":
+		resp, err = DescribeRailgun(api, RailgunId)
+	case "GetRailgunZones":
+		resp, err = GetRailgunZones(api, RailgunId)
+	case "DescribeRatelimit":
+		resp, err = DescribeRatelimit(api, ZoneId, RatelimitId)
+	case "RevokeOriginCert":
+		resp, err = RevokeOriginCert(api, CertificateId)
+	case "TestRailgunConnection":
+		resp, err = TestRailgunConnection(api, ZoneId, RailgunId)
+	case "DescribeZoneRailgun":
+		resp, err = DescribeZoneRailgun(api, ZoneId, RailgunId)
+	case "DescribeCustomHostname":
+		resp, err = DescribeCustomHostname(api, ZoneId, CustomHostnameId)
+	case "DescribeCustomHostnameByName":
+		resp, err = DescribeCustomHostnameByName(api, ZoneId, Name)
+	case "SetPaused":
+		resp, err = SetPaused(api, ZoneId, Paused)
+	case "DeletePagerule":
+		resp, err = DeletePagerule(api, ZoneId, PageruleId)
+	case "DeleteRailgun":
+		resp, err = DeleteRailgun(api, RailgunId)
+	case "DisableRailgun":
+		resp, err = DisableRailgun(api, RailgunId)
+	case "DisconnectRailgun":
+		resp, err = DisconnectRailgun(api, RailgunId, ZoneId)
+	case "EnableRailgun":
+		resp, err = EnableRailgun(api, RailgunId)
+	case "DeleteRatelimit":
+		resp, err = DeleteRatelimit(api, ZoneId, RatelimitId)
+	case "DeleteCustomCert":
+		resp, err = DeleteCustomCert(api, ZoneId, CertificateId)
+	case "DeleteCustomHostname":
+		resp, err = DeleteCustomHostname(api, ZoneId, CustomHostnameId)
+	case "DeleteLoadbalancer":
+		resp, err = DeleteLoadbalancer(api, ZoneId, LoadbalancerId)
+	case "DeleteLoadbalancerMonitor":
+		resp, err = DeleteLoadbalancerMonitor(api, MonitorId)
+	case "DeleteLoadbalancerPool":
+		resp, err = DeleteLoadbalancerPool(api, PoolId)
+	case "DeleteOrganizationAccessRule":
+		resp, err = DeleteOrganizationAccessRule(api, OrganizationId, AccessRuleId)
+	case "CreateRailgun":
+		resp, err = CreateRailgun(api, Name)
+	case "DeleteUserAccessRule":
+		resp, err = DeleteUserAccessRule(api, AccessRuleId)
+	case "DeleteUserAgentRule":
+		resp, err = DeleteUserAgentRule(api, UserAgentId, ZoneId)
+	case "DeleteZoneAccessRule":
+		resp, err = DeleteZoneAccessRule(api, AccessRuleId, ZoneId)
+	case "DeleteZoneLockdown":
+		resp, err = DeleteZoneLockdown(api, ZoneId, LockdownId)
+	case "AnalyticsByColo":
+		resp, err = AnalyticsByColo(api, ZoneId, Since, Until, Continuous)
+	case "AnalyticsDashboard":
+		resp, err = AnalyticsDashboard(api, ZoneId, Since, Until, Continuous)
+	case "EditUser":
+		resp, err = EditUser(api, FirstName, LastName, Telephone, Country, Zipcode)
+	case "CreateLoadbalancerPool":
+		resp, err = CreateLoadbalancerPool(api, Name, Origins, Description, Disabled, MinimumOrigins, Monitor, NotificationEmail)
+	case "UpdateLoadbalancerPool":
+		resp, err = UpdateLoadbalancerPool(api, PoolId, Name, Origins, Description, Disabled, MinimumOrigins, Monitor, NotificationEmail)
+	case "UpdateZoneSettings":
+		resp, err = UpdateZoneSettings(api, ZoneId, ZoneSettings)
+	case "UpdateZoneLockdown":
+		resp, err = UpdateZoneLockdown(api, ZoneId, LockdownId, Configuration, Urls, Paused, Description)
+	case "CreateZoneLockdown":
+		resp, err = CreateZoneLockdown(api, ZoneId, Configuration, Urls, Paused, Description)
+	case "CreateVirtualDns":
+		resp, err = CreateVirtualDns(api, Name, OriginIps, MinimumCacheTtl, MaximumCacheTtl, DeprecateAnyRequest)
+	case "UpdateVirtualDns":
+		resp, err = UpdateVirtualDns(api, VirtualDnsId, OriginIps, MinimumCacheTtl, MaximumCacheTtl, DeprecateAnyRequest)
+	case "CreatePagerule":
+		resp, err = CreatePagerule(api, ZoneId, Targets, Actions, Priority, Status)
+	case "UpdatePagerule":
+		resp, err = UpdatePagerule(api, ZoneId, PageruleId, Targets, Actions, Priority, Status)
+	case "CreateOrganizationAccessRule":
+		resp, err = CreateOrganizationAccessRule(api, OrganizationId, Mode, Configuration, Notes)
+	case "CreateOriginCert":
+		resp, err = CreateOriginCert(api, Hostnames, RequestValidity, RequestType, Csr)
+	case "CreateRatelimit":
+		resp, err = CreateRatelimit(api, ZoneId, Match, Threshold, Period, Action, Enabled, Description, Bypass)
+	case "UpdateRatelimit":
+		resp, err = UpdateRatelimit(api, ZoneId, LimitId, Match, Threshold, Period, Action, Enabled, Description, Bypass)
+	case "CreateUserAccessRule":
+		resp, err = CreateUserAccessRule(api, Mode, Configuration, Notes)
+	case "UpdateUserAccessRule":
+		resp, err = UpdateUserAccessRule(api, AccessRuleId, Mode, Configuration, Notes)
+	case "UpdateZoneAccessRule":
+		resp, err = UpdateZoneAccessRule(api, ZoneId, AccessRuleId, Mode, Configuration, Notes)
+	case "UpdateOrganizationAccessRule":
+		resp, err = UpdateOrganizationAccessRule(api, OrganizationId, AccessRuleId, Mode, Configuration, Notes)
+	case "ListZoneAccessRules":
+		resp, err = ListZoneAccessRules(api, ZoneId, Notes, Mode, Page)
+	case "UploadCustomCert":
+		resp, err = UploadCustomCert(api, ZoneId, Certificate, PrivateKey, BundleMethod)
+	case "UpdateCustomCert":
+		resp, err = UpdateCustomCert(api, ZoneId, CertificateId, Certificate, PrivateKey, BundleMethod)
+	case "Purge":
+		resp, err = Purge(api, ZoneId, Files, Tags, Hosts)
+	case "CreateUserAgentRule":
+		resp, err = CreateUserAgentRule(api, ZoneId, Mode, Configuration, Description, Paused)
+	case "UpdateUserAgentRule":
+		resp, err = UpdateUserAgentRule(api, ZoneId, UserAgentId, Mode, Configuration, Description, Paused)
+	case "UpdateCustomHostname":
+		resp, err = UpdateCustomHostname(api, ZoneId, CustomHostnameId, Method, Type)
+	case "ListCustomHostnames":
+		resp, err = ListCustomHostnames(api, ZoneId, Page)
+	case "ReprioritizeCerts":
+		resp, err = ReprioritizeCerts(api, ZoneId, PriorityList)
+	case "UpdateLoadbalancerMonitor":
+		resp, err = UpdateLoadbalancerMonitor(api, MonitorId, ExpectedCodes, Method, Header, Timeout, Path, Interval, Retries, ExpectedBody, Type, Description)
+	case "UpdateLoadbalancer":
+		resp, err = UpdateLoadbalancer(api, ZoneId, LoadbalancerId, Name, FallbackPool, DefaultPools, Proxied, Ttl)
+	default:
+		break
+	}
+	return
 }
