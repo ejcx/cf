@@ -183,9 +183,12 @@ func ToSwitch(cmds []*Command) (string, error) {
 		buff       bytes.Buffer
 	)
 	for _, cmd := range cmds {
+		if cmd.V4APIName == "" {
+			continue
+		}
 		argList := cmd.ToArgList()
 		switchList = append(switchList, SwitchTemplateEntry{
-			Name:    hyphenDelimToCamel(cmd.Name),
+			Name:    cmd.V4APIName,
 			ArgList: argList,
 		})
 	}
@@ -366,7 +369,10 @@ func (c *Command) ToArgListWithTypes() string {
 func ToFuncSigs(cmds []*Command) string {
 	s := ""
 	for _, cmd := range cmds {
-		s += fmt.Sprintf("func %s(api *cloudflare.API%s) (resp interface{}, err error) {\nreturn}\n", hyphenDelimToCamel(cmd.Name), cmd.ToArgListWithTypes())
+		if cmd.TopLevel {
+			continue
+		}
+		s += fmt.Sprintf("func %s(api *cloudflare.API%s) (resp interface{}, err error) {\nreturn}\n", hyphenDelimToCamel(cmd.V4APIName), cmd.ToArgListWithTypes())
 	}
 	return s
 }

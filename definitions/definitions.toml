@@ -217,7 +217,7 @@
   description = """
   List DNS Records associated with a given zone-id"""
   shortdescription = "Command for listing dns-records"
-  v4apiname = "DNSRecords"
+  v4apiname = "ListDnsRecords"
 
   [[command.option]]
   name = "zone-id"
@@ -247,7 +247,7 @@
   name = "create-dns-record"
   description = """Create DNS record associated with a given zone."""
   shortdescription = "Command DNS Record"
-  v4apiname = "CreateDNSRecord"
+  v4apiname = "CreateDnsRecord"
 
   [[command.option]]
   name = "zone-id"
@@ -295,7 +295,7 @@
   name = "delete-dns-record"
   description = """Delete DNS record associated with a given zone."""
   shortdescription = "Delete DNS Record"
-  v4apiname = "DeleteDNSRecord"
+  v4apiname = "DeleteDnsRecord"
 
   [[command.option]]
   name = "zone-id"
@@ -1569,7 +1569,7 @@
   description = "The zone id associated with the settings being modified"
   required = true
   [[command.option]]
-  name = "zone-settings"
+  name = "zone-settings-object"
   type = "string"
   description = "One or more zone setting objects. Must contain an ID and a value. Example: [{\\\"id\\\": \\\"always_online\\\",\\\"value\\\": \\\"on\\\"}]"
   required = true
@@ -2265,7 +2265,7 @@
   name = "update-loadbalancer-monitor"
   description = """Update an existing monitor"""
   shortdescription = "Update a configured monitor"
-  v4apiname = "ModifyLoadBalancer"
+  v4apiname = "ModifyLoadBalancerMonitor"
   [[command.option]]
   name = "monitor-id"
   type = "string"

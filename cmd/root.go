@@ -53,7 +53,7 @@ func Main(cmd *cobra.Command, args []string, name string) {
 		api.APIUserServiceKey = serviceKey
 	}
 
-	r, err := run(cmd, args, name, api)
+	r, err := Run(cmd, args, name, api)
 	if err != nil {
 		log.Fatalf("Could not make cloudflare request: %s", err)
 	}
@@ -377,7 +377,7 @@ func root(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (
 		resp, err = api.UpdateZoneLockdown(ZoneId, LockdownId, zl)
 	case "UpdateZoneSettings":
 		var zs []cloudflare.ZoneSetting
-		err = json.Unmarshal([]byte(ZoneSettings), &zs)
+		err = json.Unmarshal([]byte(ZoneSettingsObject), &zs)
 		if err != nil {
 			break
 		}
