@@ -6,6 +6,7 @@ package definitions
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"strings"
 	"text/template"
@@ -25,7 +26,20 @@ var (
 func init() {
 {{ .Commands }}
 }
+
+func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (resp interface{}, err error) {
+  {{ .SwitchList }}
+  return
+}
 `
+
+	switchTemplate = `switch name {
+  {{ range . }}
+  case "{{.Name}}":
+    resp, err = {{.Name}}(api, {{.ArgList}}){{ end }}
+  default:
+    break
+}`
 	// varTemplate is the template used by each subcommand to declare
 	// their command line flags as Golang code.
 	varTemplate = `{{ range .}}{{ .Name }} {{ .Type }}
@@ -83,6 +97,11 @@ type OptionTemplateValue struct {
 	Required    bool
 }
 
+type SwitchTemplateEntry struct {
+	Name    string
+	ArgList string
+}
+
 // Command is a toplevel or subcommand.
 // They have a set of subcommands if they are toplevel
 // and V4APIName will be set to the name of the Switch
@@ -113,11 +132,12 @@ type CommandTemplateValues struct {
 }
 
 type FileTemplateValues struct {
-	Commands  string
-	Variables string
+	Commands   string
+	Variables  string
+	SwitchList string
 }
 
-func fileText(commands, variables string) (string, error) {
+func fileText(commands, variables, switchList string) (string, error) {
 	var (
 		buff bytes.Buffer
 	)
@@ -126,8 +146,9 @@ func fileText(commands, variables string) (string, error) {
 		return "", err
 	}
 	err = tmpl.Execute(&buff, &FileTemplateValues{
-		Commands:  commands,
-		Variables: variables,
+		Commands:   commands,
+		Variables:  variables,
+		SwitchList: switchList,
 	})
 	if err != nil {
 		return "", err
@@ -154,6 +175,32 @@ func (o Option) ToOptionTemplateValue() OptionTemplateValue {
 		Description: o.Description,
 		Required:    o.Required,
 	}
+}
+
+func ToSwitch(cmds []*Command) (string, error) {
+	var (
+		switchList []SwitchTemplateEntry
+		buff       bytes.Buffer
+	)
+	for _, cmd := range cmds {
+		if cmd.V4APIName == "" {
+			continue
+		}
+		argList := cmd.ToArgList()
+		switchList = append(switchList, SwitchTemplateEntry{
+			Name:    cmd.V4APIName,
+			ArgList: argList,
+		})
+	}
+	tmpl, err := template.New("switch").Parse(switchTemplate)
+	if err != nil {
+		return "", err
+	}
+	err = tmpl.Execute(&buff, switchList)
+	if err != nil {
+		return "", err
+	}
+	return buff.String(), nil
 }
 
 func (c *Command) ToVariables() (string, error) {
@@ -283,7 +330,12 @@ func GenerateFile(fname string, outfile string) error {
 		}
 	}
 
-	t, err := fileText(commandsGo, variablesGo)
+	switchList, err := ToSwitch(cmds)
+	if err != nil {
+		return err
+	}
+
+	t, err := fileText(commandsGo, variablesGo, switchList)
 	if err != nil {
 		return err
 	}
@@ -292,4 +344,35 @@ func GenerateFile(fname string, outfile string) error {
 		return err
 	}
 	return nil
+}
+
+func (c *Command) ToArgList() string {
+	s := ""
+	for _, opt := range c.Option {
+		if s == "" {
+			s = hyphenDelimToCamel(opt.Name)
+		} else {
+			s += ", " + hyphenDelimToCamel(opt.Name)
+		}
+	}
+	return s
+}
+
+func (c *Command) ToArgListWithTypes() string {
+	s := ""
+	for _, opt := range c.Option {
+		s += ", " + hyphenDelimToCamel(opt.Name) + " " + opt.Type
+	}
+	return s
+}
+
+func ToFuncSigs(cmds []*Command) string {
+	s := ""
+	for _, cmd := range cmds {
+		if cmd.TopLevel {
+			continue
+		}
+		s += fmt.Sprintf("func %s(api *cloudflare.API%s) (resp interface{}, err error) {\nreturn}\n", hyphenDelimToCamel(cmd.V4APIName), cmd.ToArgListWithTypes())
+	}
+	return s
 }
