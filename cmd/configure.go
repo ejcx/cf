@@ -73,17 +73,10 @@ func Configure(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	var allowedBackends []keyring.BackendType
-	kr, err := keyring.Open(keyring.Config{
-		AllowedBackends:          allowedBackends,
-		KeychainTrustApplication: true,
-		ServiceName:              "cloudflare-credentials",
-		LibSecretCollectionName:  "cloudflare",
-		FileDir:                  "~/.cf/",
-		FilePasswordFunc: func(prompt string) (string, error) {
-			return lib.Prompt("\n"+prompt, true)
-		},
-	})
+	kr, err := cflib.GetKeyring()
+	if err != nil {
+		return err
+	}
 	err = kr.Set(keyring.Item{
 		Key:   "cloudflare-creds",
 		Data:  encoded,

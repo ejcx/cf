@@ -25,6 +25,20 @@ type Credentials struct {
 	Keychain       bool   `json:"Keychain"`
 }
 
+func GetKeyring() (keyring.Keyring, error) {
+	var allowedBackends []keyring.BackendType
+	return keyring.Open(keyring.Config{
+		AllowedBackends:          allowedBackends,
+		KeychainTrustApplication: true,
+		ServiceName:              "cloudflare-credentials",
+		LibSecretCollectionName:  "cloudflare",
+		FileDir:                  "~/.cf/",
+		FilePasswordFunc: func(prompt string) (string, error) {
+			return lib.Prompt("\n"+prompt, true)
+		},
+	})
+}
+
 func GetHomeDir() (string, error) {
 	usr, err := user.Current()
 	if err != nil {
@@ -83,17 +97,10 @@ func (c *CredProvider) ConfigureEnvironment() error {
 	}
 
 	if creds.Keychain {
-		var allowedBackends []keyring.BackendType
-		kr, err := keyring.Open(keyring.Config{
-			AllowedBackends:          allowedBackends,
-			KeychainTrustApplication: true,
-			ServiceName:              "cloudflare-credentials",
-			LibSecretCollectionName:  "cloudflare",
-			FileDir:                  "~/.cf/",
-			FilePasswordFunc: func(prompt string) (string, error) {
-				return lib.Prompt("\n"+prompt, true)
-			},
-		})
+		kr, err := GetKeyring()
+		if err != nil {
+			return err
+		}
 		keychainCreds, err := kr.Get("cloudflare-creds")
 		if err != nil {
 			return err
