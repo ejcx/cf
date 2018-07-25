@@ -96,7 +96,8 @@ func Configure(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	// Write a dumby creds file that points to the keychain.
+	// Write a creds file. It can either be a dumby creds file that only
+	// says to look in the keychain, or the real keychain file.
 	buf, err := json.Marshal(creds)
 	if err != nil {
 		return err
