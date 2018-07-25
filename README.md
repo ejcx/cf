@@ -9,16 +9,44 @@ A cloudflare command line interface. It makes heavy use of [cloudflare-go](https
 go get -u github.com/ejcx/cf
 ```
 # Credentials
-Your cloudflare api credentials can be stored in `~/.cf/credentials` or as environment variables.
-### ~/.cf/credentials
-The format of the file should be like so:
+Your cloudflare api credentials can be stored in `~/.cf/credentials` as
+environment variables or in your keychain.
+
+### Keychain
+To store your credentials in your keychain run `cf configure` and enter your
+email, apikey, and user service apikey.
 ```
-{
-  "Email": "your@email.com",
-  "UserServiceKey": "v1.0-...aaa",
-  "Key": "20...973"
-}
+e :) cf configure
+Cloudflare Email: evan@cloudflare.com
+Cloudflare APIKey: 
+Service APIKey: 
+
+e :)
 ```
+### Ignore Keychain
+To avoid storing your credentials in the keychain, specify the `--no-keychain`
+flag when calling `cf configure` to store your api credentials in plaintext.
+
+```
+e :) cf configure --help
+A command for configuring your cloudflare api credentials
+
+Usage:
+  cf configure [flags]
+
+Flags:
+  -h, --help          help for configure
+      --no-keychain   Do not attempt to store cloudflare api credentials in the keychain. Just use plaintext file.
+
+e :) cf configure --no-keychain
+Cloudflare Email: evan@cloudflare.com
+Cloudflare APIKey: 
+Service APIKey: 
+
+e :) cat ~/.cf/credentials
+{"Email":"evan@cloudflare","Key":"xxx","UserServiceKey":"yyy","Keychain":false}% 
+```
+
 ### Environment Variables
 The three environment variables that should be set are `CF_API_KEY`, `CF_API_EMAIL`, and `CF_USER_SERVICE_KEY`. If any of the environment variables are set then the credentials file is ignored
 ### Keychain
