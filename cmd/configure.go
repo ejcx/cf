@@ -14,18 +14,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var ConfigureCmd = &cobra.Command{
-	Use:   "configure",
-	Short: "A command for configuring your cloudflare api credentials",
-	Run: func(cmd *cobra.Command, args []string) {
-		err := Configure(cmd, args)
-		if err != nil {
-			log.Fatalf("Could not configure cf cli: %s", err)
-		}
-	},
-}
+var (
+	ConfigureCmd = &cobra.Command{
+		Use:   "configure",
+		Short: "A command for configuring your cloudflare api credentials",
+		Run: func(cmd *cobra.Command, args []string) {
+			err := Configure(cmd, args)
+			if err != nil {
+				log.Fatalf("Could not configure cf cli: %s", err)
+			}
+		},
+	}
+	noKeychain bool
+)
 
 func init() {
+	ConfigureCmd.Flags().BoolVar(&noKeychain, "no-keychain", false, "Do not attempt to store cloudflare api credentials in the keychain. Just use plaintext file.")
 	RootCmd.AddCommand(ConfigureCmd)
 }
 
@@ -67,30 +71,33 @@ func Configure(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("Invalid user credentials: %s", err)
 	}
 
-	// Now marshal the data to store in the keychain and set a cloudflare creds
-	// file that has keychain set to true and nothing else
-	encoded, err := json.Marshal(creds)
-	if err != nil {
-		return err
-	}
-	kr, err := cflib.GetKeyring()
-	if err != nil {
-		return err
-	}
-	err = kr.Set(keyring.Item{
-		Key:   "cloudflare-creds",
-		Data:  encoded,
-		Label: "cloudflare credentials",
-		KeychainNotTrustApplication: false,
-	})
-	if err != nil {
-		return err
+	if !noKeychain {
+		// Now marshal the data to store in the keychain and set a cloudflare creds
+		// file that has keychain set to true and nothing else
+		encoded, err := json.Marshal(creds)
+		if err != nil {
+			return err
+		}
+		kr, err := cflib.GetKeyring()
+		if err != nil {
+			return err
+		}
+		err = kr.Set(keyring.Item{
+			Key:   "cloudflare-creds",
+			Data:  encoded,
+			Label: "cloudflare credentials",
+			KeychainNotTrustApplication: false,
+		})
+		if err != nil {
+			return err
+		}
+		creds = &cflib.Credentials{
+			Keychain: true,
+		}
 	}
 
 	// Write a dumby creds file that points to the keychain.
-	buf, err := json.Marshal(cflib.Credentials{
-		Keychain: true,
-	})
+	buf, err := json.Marshal(creds)
 	if err != nil {
 		return err
 	}
