@@ -49,10 +49,8 @@ e :) cat ~/.cf/credentials
 
 ### Environment Variables
 The three environment variables that should be set are `CF_API_KEY`, `CF_API_EMAIL`, and `CF_USER_SERVICE_KEY`. If any of the environment variables are set then the credentials file is ignored
-### Keychain
-Coming soon...
-# Usage
-**The cf is a full feature cli. All product areas are divided in to commands**
+
+**The cf is a full featured cli. All product areas are divided in to commands**
 ```
 e :) ./cf            
 A CLI for interacting with Cloudflare's V4 API
