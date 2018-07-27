@@ -45,7 +45,7 @@ func Main(cmd *cobra.Command, args []string, name string) {
 
 	api, err := cloudflare.New(os.Getenv("CF_API_KEY"), os.Getenv("CF_API_EMAIL"))
 	if err != nil {
-		log.Fatal("Could not initialize api object: %s", err)
+		log.Fatalf("Could not initialize api object: %s", err)
 	}
 	if serviceKey, ok := os.LookupEnv("CF_USER_SERVICE_KEY"); ok {
 		api.APIUserServiceKey = serviceKey
@@ -57,7 +57,7 @@ func Main(cmd *cobra.Command, args []string, name string) {
 	}
 	buf, err := json.MarshalIndent(r, " ", "    ")
 	if err != nil {
-		log.Fatal("Could not make print resp: %s", err)
+		log.Fatalf("Could not make print resp: %s", err)
 	}
 	if string(buf) != "null" {
 		fmt.Println(string(buf))
