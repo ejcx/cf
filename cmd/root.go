@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	cloudflare "github.com/cloudflare/cloudflare-go"
 	"github.com/ejcx/cf/lib"
+	cloudflare "github.com/ejcx/cloudflare-go"
 	"github.com/spf13/cobra"
 )
 

@@ -61,6 +61,7 @@
     "details",
     "edit-user",
     "list-user-access-rules",
+    "list-user-audit-logs",
     "update-user-access-rule",
   ]
   toplevel = true
@@ -2363,3 +2364,58 @@
   description = "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers."
   required = false
 
+[[command]]
+  name = "list-user-audit-logs"
+  description = """List audit logs associated with your user account"""
+  shortdescription = "List audit logs associated with your user account"
+  v4apiname = "ListUserAuditLogs"
+  [[command.option]]
+  name = "audit-log-id"
+  type = "string"
+  description = "Find a specific log by its ID."
+  required = false
+  [[command.option]]
+  name = "actor-ip"
+  type = "string"
+  description = "Filter by the IP address of the request that made the change by specific IP address or valid CIDR Range"
+  required = false
+  [[command.option]]
+  name = "actor-email"
+  type = "string"
+  description = "Filter by the email address of the actor that made the change"
+  required = false
+  [[command.option]]
+  name = "zone-name"
+  type = "string"
+  description = "Filter by the name of the zone associated to the change."
+  required = false
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "Which page of results to return. default value: 1, min value:1."
+  required = false
+  [[command.option]]
+  name = "per-page"
+  type = "int"
+  description = "How many results to return per page. default value: 100, min value:1, max value:1000"
+  required = false
+  [[command.option]]
+  name = "action-type"
+  type = "string"
+  description = "Filter by the action type"
+  required = false
+  [[command.option]]
+  name = "since"
+  type = "string"
+  description = "Limit the returned results to logs newer than the specified date. 2017-04-28"
+  required = false
+  [[command.option]]
+  name = "before"
+  type = "string"
+  description = "Limit the returned results to logs before than the specified date. 2017-04-28"
+  required = false
+  [[command.option]]
+  name = "direction"
+  type = "string"
+  description = "Change the direction of the chronological sorting."
+  required = false

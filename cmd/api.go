@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	cloudflare "github.com/cloudflare/cloudflare-go"
+	cloudflare "github.com/ejcx/cloudflare-go"
 )
 
 func ListZones(api *cloudflare.API, ZoneNameFilter string) (resp interface{}, err error) {
@@ -1125,5 +1125,41 @@ func ModifyLoadBalancer(api *cloudflare.API, ZoneId string, LoadbalancerId strin
 		l.TTL = Ttl
 	}
 	resp, err = api.ModifyLoadBalancer(ZoneId, l)
+	return
+}
+
+func ListUserAuditLogs(api *cloudflare.API, AuditLogId string, ActorIp string, ActorEmail string, ZoneName string, Page int, PerPage int, ActionType string, Since string, Before string, Direction string) (resp interface{}, err error) {
+	u := cloudflare.UserAuditLogFilter{}
+	if AuditLogId != "" {
+		u.ID = AuditLogId
+	}
+	if ZoneName != "" {
+		u.ZoneName = ZoneName
+	}
+	if ActorIp != "" {
+		u.ActorIP = ActorIp
+	}
+	if ActorEmail != "" {
+		u.ActorEmail = ActorEmail
+	}
+	if ActionType != "" {
+		u.ActionType = ActionType
+	}
+	if Since != "" {
+		u.Since = Since
+	}
+	if Before != "" {
+		u.Before = Before
+	}
+	if Direction != "" {
+		u.Direction = Direction
+	}
+	if Page > 0 {
+		u.Page = Page
+	}
+	if PerPage > 0 {
+		u.PerPage = PerPage
+	}
+	resp, err = api.ListUserAuditLogs(u)
 	return
 }

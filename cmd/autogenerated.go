@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	cloudflare "github.com/cloudflare/cloudflare-go"
+	cloudflare "github.com/ejcx/cloudflare-go"
 	"github.com/spf13/cobra"
 )
 
@@ -90,6 +90,13 @@ var (
 	Tags                string
 	Hosts               string
 	PriorityList        string
+	AuditLogId          string
+	ActorIp             string
+	ActorEmail          string
+	PerPage             int
+	ActionType          string
+	Before              string
+	Direction           string
 )
 
 func init() {
@@ -1897,6 +1904,35 @@ func init() {
 
 	UpdateLoadbalancer.Flags().IntVar(&Ttl, "ttl", 0, "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers.")
 
+	var ListUserAuditLogs = &cobra.Command{
+		Use:   "list-user-audit-logs",
+		Short: "List audit logs associated with your user account",
+		Long:  `List audit logs associated with your user account`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListUserAuditLogs")
+		},
+	}
+
+	ListUserAuditLogs.Flags().StringVar(&AuditLogId, "audit-log-id", "", "Find a specific log by its ID.")
+
+	ListUserAuditLogs.Flags().StringVar(&ActorIp, "actor-ip", "", "Filter by the IP address of the request that made the change by specific IP address or valid CIDR Range")
+
+	ListUserAuditLogs.Flags().StringVar(&ActorEmail, "actor-email", "", "Filter by the email address of the actor that made the change")
+
+	ListUserAuditLogs.Flags().StringVar(&ZoneName, "zone-name", "", "Filter by the name of the zone associated to the change.")
+
+	ListUserAuditLogs.Flags().IntVar(&Page, "page", 0, "Which page of results to return. default value: 1, min value:1.")
+
+	ListUserAuditLogs.Flags().IntVar(&PerPage, "per-page", 0, "How many results to return per page. default value: 100, min value:1, max value:1000")
+
+	ListUserAuditLogs.Flags().StringVar(&ActionType, "action-type", "", "Filter by the action type")
+
+	ListUserAuditLogs.Flags().StringVar(&Since, "since", "", "Limit the returned results to logs newer than the specified date. 2017-04-28")
+
+	ListUserAuditLogs.Flags().StringVar(&Before, "before", "", "Limit the returned results to logs before than the specified date. 2017-04-28")
+
+	ListUserAuditLogs.Flags().StringVar(&Direction, "direction", "", "Change the direction of the chronological sorting.")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Interact with cloudflare zones",
@@ -1958,6 +1994,7 @@ func init() {
 	User.AddCommand(Details)
 	User.AddCommand(EditUser)
 	User.AddCommand(ListUserAccessRules)
+	User.AddCommand(ListUserAuditLogs)
 	User.AddCommand(UpdateUserAccessRule)
 
 	RootCmd.AddCommand(User)
@@ -2315,6 +2352,8 @@ func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (r
 		resp, err = ModifyLoadBalancerMonitor(api, MonitorId, ExpectedCodes, Method, Header, Timeout, Path, Interval, Retries, ExpectedBody, Type, Description)
 	case "ModifyLoadBalancer":
 		resp, err = ModifyLoadBalancer(api, ZoneId, LoadbalancerId, Name, FallbackPool, DefaultPools, Proxied, Ttl)
+	case "ListUserAuditLogs":
+		resp, err = ListUserAuditLogs(api, AuditLogId, ActorIp, ActorEmail, ZoneName, Page, PerPage, ActionType, Since, Before, Direction)
 	default:
 		break
 	}
