@@ -106,6 +106,8 @@ func Configure(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
+	// Ignore the error. If it worked or didn't, both cases are already handled.
+	os.Mkdir(home+"/.cf", 0644)
 	outfile := home + "/.cf/credentials"
 	err = ioutil.WriteFile(outfile, buf, 0600)
 
