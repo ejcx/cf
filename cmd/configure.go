@@ -46,7 +46,7 @@ func Configure(cmd *cobra.Command, args []string) error {
 
 	// Add a newline at the beginning and end because sensitive
 	// prompts all end up on one line.
-	serviceKey, err := lib.Prompt("\nService APIKey", true)
+	serviceKey, err := lib.Prompt("\nOrigin CA APIKey", true)
 	if err != nil {
 		return err
 	}
