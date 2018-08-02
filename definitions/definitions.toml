@@ -360,7 +360,7 @@
   [[command.option]]
   name = "record-id"
   type = "string"
-  description = "*Reqiured:* The recordID associated with the DNS Record"
+  description = "*Required:* The recordID associated with the DNS Record"
   required = true
 
 [[command]]

@@ -204,7 +204,7 @@ func init() {
 	ShowDnsRecord.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the DNS Record")
 	ShowDnsRecord.MarkFlagRequired("zone-id")
 
-	ShowDnsRecord.Flags().StringVar(&RecordId, "record-id", "", "*Reqiured:* The recordID associated with the DNS Record")
+	ShowDnsRecord.Flags().StringVar(&RecordId, "record-id", "", "*Required:* The recordID associated with the DNS Record")
 	ShowDnsRecord.MarkFlagRequired("record-id")
 
 	var ListRatelimits = &cobra.Command{
