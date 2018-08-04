@@ -90,6 +90,10 @@ var (
 	Tags                string
 	Hosts               string
 	PriorityList        string
+	Pattern             string
+	Disable             bool
+	RouteId             string
+	Script              string
 )
 
 func init() {
@@ -1897,6 +1901,157 @@ func init() {
 
 	UpdateLoadbalancer.Flags().IntVar(&Ttl, "ttl", 0, "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers.")
 
+	var CreateWorkerRoute = &cobra.Command{
+		Use:   "create-worker-route",
+		Short: "Create Worker Router",
+		Long:  `Create a new Edge Worker Route Filter`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateWorkerRoute")
+		},
+	}
+
+	CreateWorkerRoute.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the worker route")
+	CreateWorkerRoute.MarkFlagRequired("zone-id")
+
+	CreateWorkerRoute.Flags().StringVar(&Pattern, "pattern", "", "The url pattern for the route, example: example.net/*")
+	CreateWorkerRoute.MarkFlagRequired("pattern")
+
+	CreateWorkerRoute.Flags().BoolVar(&Disable, "disable", false, "Set this flag to disable the worker on a given route")
+
+	var UpdateWorkerRoute = &cobra.Command{
+		Use:   "update-worker-route",
+		Short: "Update Worker Route Filter",
+		Long:  `Create a new Edge Worker Route Filter`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateWorkerRoute")
+		},
+	}
+
+	UpdateWorkerRoute.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the worker route")
+	UpdateWorkerRoute.MarkFlagRequired("zone-id")
+
+	UpdateWorkerRoute.Flags().StringVar(&RouteId, "route-id", "", "The routeId associated with the worker route")
+	UpdateWorkerRoute.MarkFlagRequired("route-id")
+
+	UpdateWorkerRoute.Flags().StringVar(&Pattern, "pattern", "", "The url pattern for the route, example: example.net/*")
+	UpdateWorkerRoute.MarkFlagRequired("pattern")
+
+	UpdateWorkerRoute.Flags().BoolVar(&Disable, "disable", false, "Set this flag to disable the worker on a given route")
+
+	var ListWorkerRoutes = &cobra.Command{
+		Use:   "list-worker-routes",
+		Short: "List Worker Route Filters",
+		Long:  `List all a new Edge Worker Route Filter`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListWorkerRoutes")
+		},
+	}
+
+	ListWorkerRoutes.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the worker route filters")
+	ListWorkerRoutes.MarkFlagRequired("zone-id")
+
+	var UploadWorker = &cobra.Command{
+		Use:   "upload-worker",
+		Short: "Upload a Cloudflare Worker for your zone",
+		Long:  `Upload a cloudflare worker for your zone`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UploadWorker")
+		},
+	}
+
+	UploadWorker.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the worker")
+	UploadWorker.MarkFlagRequired("zone-id")
+
+	UploadWorker.Flags().StringVar(&Script, "script", "", "The raw worker code to run at the edge. @ to read code from a file. - to read from stdin")
+	UploadWorker.MarkFlagRequired("script")
+
+	var UploadOrganizationWorker = &cobra.Command{
+		Use:   "upload-organization-worker",
+		Short: "Upload a Cloudflare Worker associated with your Organization",
+		Long:  `Upload an organization's cloudflare worker`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UploadOrganizationWorker")
+		},
+	}
+
+	UploadOrganizationWorker.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the worker")
+	UploadOrganizationWorker.MarkFlagRequired("zone-id")
+
+	UploadOrganizationWorker.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with the worker")
+	UploadOrganizationWorker.MarkFlagRequired("organization-id")
+
+	UploadOrganizationWorker.Flags().StringVar(&Name, "name", "", "The worker's name")
+	UploadOrganizationWorker.MarkFlagRequired("name")
+
+	UploadOrganizationWorker.Flags().StringVar(&Script, "script", "", "The raw worker code to run at the edge. @ to read code from a file. - to read from stdin")
+	UploadOrganizationWorker.MarkFlagRequired("script")
+
+	var DeleteWorker = &cobra.Command{
+		Use:   "delete-worker",
+		Short: "Delete Worker",
+		Long:  `Delete a cloudflare worker`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteWorker")
+		},
+	}
+
+	DeleteWorker.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the worker")
+	DeleteWorker.MarkFlagRequired("zone-id")
+
+	var DeleteOrganizationWorker = &cobra.Command{
+		Use:   "delete-organization-worker",
+		Short: "Delete Organization Worker",
+		Long:  `Delete an organization's cloudflare worker`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteOrganizationWorker")
+		},
+	}
+
+	DeleteOrganizationWorker.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with the worker")
+	DeleteOrganizationWorker.MarkFlagRequired("organization-id")
+
+	DeleteOrganizationWorker.Flags().StringVar(&Name, "name", "", "The worker's name")
+	DeleteOrganizationWorker.MarkFlagRequired("name")
+
+	var ListWorkerScripts = &cobra.Command{
+		Use:   "list-worker-scripts",
+		Short: "List your worker scripts",
+		Long:  `List your cloudflare worker scripts`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListWorkerScripts")
+		},
+	}
+
+	ListWorkerScripts.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with the workers")
+	ListWorkerScripts.MarkFlagRequired("organization-id")
+
+	var DownloadWorker = &cobra.Command{
+		Use:   "download-worker",
+		Short: "Download your worker script",
+		Long:  `Download your cloudflare worker script`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DownloadWorker")
+		},
+	}
+
+	DownloadWorker.Flags().StringVar(&ZoneId, "zone-id", "", "The zone id associated with the workers")
+	DownloadWorker.MarkFlagRequired("zone-id")
+
+	var DownloadOrganizationWorker = &cobra.Command{
+		Use:   "download-organization-worker",
+		Short: "Download your worker script",
+		Long:  `Download a worker associated with your organization`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DownloadOrganizationWorker")
+		},
+	}
+
+	DownloadOrganizationWorker.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with the workers")
+	DownloadOrganizationWorker.MarkFlagRequired("organization-id")
+
+	DownloadOrganizationWorker.Flags().StringVar(&Name, "name", "", "The worker's name")
+	DownloadOrganizationWorker.MarkFlagRequired("name")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Interact with cloudflare zones",
@@ -1928,6 +2083,25 @@ func init() {
 	Zone.AddCommand(UpdateZoneSettings)
 
 	RootCmd.AddCommand(Zone)
+
+	var Worker = &cobra.Command{
+		Use:   "worker",
+		Short: "Interact with cloudflare workers api",
+		Long: `  Manage your edge workers deployed to your account.
+`,
+	}
+	Worker.AddCommand(CreateWorkerRoute)
+	Worker.AddCommand(DeleteOrganizationWorker)
+	Worker.AddCommand(DeleteWorker)
+	Worker.AddCommand(DownloadOrganizationWorker)
+	Worker.AddCommand(DownloadWorker)
+	Worker.AddCommand(ListWorkerRoutes)
+	Worker.AddCommand(ListWorkerScripts)
+	Worker.AddCommand(UpdateWorkerRoute)
+	Worker.AddCommand(UploadOrganizationWorker)
+	Worker.AddCommand(UploadWorker)
+
+	RootCmd.AddCommand(Worker)
 
 	var Dns = &cobra.Command{
 		Use:   "dns",
@@ -2315,6 +2489,26 @@ func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (r
 		resp, err = ModifyLoadBalancerMonitor(api, MonitorId, ExpectedCodes, Method, Header, Timeout, Path, Interval, Retries, ExpectedBody, Type, Description)
 	case "ModifyLoadBalancer":
 		resp, err = ModifyLoadBalancer(api, ZoneId, LoadbalancerId, Name, FallbackPool, DefaultPools, Proxied, Ttl)
+	case "CreateWorkerRoute":
+		resp, err = CreateWorkerRoute(api, ZoneId, Pattern, Disable)
+	case "UpdateWorkerRoute":
+		resp, err = UpdateWorkerRoute(api, ZoneId, RouteId, Pattern, Disable)
+	case "ListWorkerRoutes":
+		resp, err = ListWorkerRoutes(api, ZoneId)
+	case "UploadWorker":
+		resp, err = UploadWorker(api, ZoneId, Script)
+	case "UploadOrganizationWorker":
+		resp, err = UploadOrganizationWorker(api, ZoneId, OrganizationId, Name, Script)
+	case "DeleteWorker":
+		resp, err = DeleteWorker(api, ZoneId)
+	case "DeleteOrganizationWorker":
+		resp, err = DeleteOrganizationWorker(api, OrganizationId, Name)
+	case "ListWorkerScripts":
+		resp, err = ListWorkerScripts(api, OrganizationId)
+	case "DownloadWorker":
+		resp, err = DownloadWorker(api, ZoneId)
+	case "DownloadOrganizationWorker":
+		resp, err = DownloadOrganizationWorker(api, OrganizationId, Name)
 	default:
 		break
 	}

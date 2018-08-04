@@ -43,7 +43,13 @@ func Main(cmd *cobra.Command, args []string, name string) {
 		log.Fatalf("No set of credentials to use: %s", err)
 	}
 
-	api, err := cloudflare.New(os.Getenv("CF_API_KEY"), os.Getenv("CF_API_EMAIL"))
+	var (
+		opts []cloudflare.Option
+	)
+	if OrganizationId != "" {
+		opts = append(opts, cloudflare.UsingOrganization(OrganizationId))
+	}
+	api, err := cloudflare.New(os.Getenv("CF_API_KEY"), os.Getenv("CF_API_EMAIL"), opts...)
 	if err != nil {
 		log.Fatalf("Could not initialize api object: %s", err)
 	}
