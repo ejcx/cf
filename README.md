@@ -9,6 +9,10 @@ A cloudflare command line interface. It makes heavy use of [cloudflare-go](https
 go get -u github.com/ejcx/cf
 ```
 
+# Demo
+<div align="left">
+  <img src="https://i.imgur.com/Js5rwCC.gif" alt="cf logo" width="600">
+</div>
 
 # Usage
 **The cf is a full featured cli. All product areas are divided in to subcommands. All commands and subcommands will describe themselves and list options, required arguments, and information about what the command does.**
