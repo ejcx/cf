@@ -32,6 +32,27 @@
   shortdescription = "Interact with cloudflare zones"
 
 [[command]]
+  name = "worker"
+  description = """
+  Manage your edge workers deployed to your account.
+"""
+  subcommands = [
+    "create-worker-route",
+    "delete-organization-worker",
+    "delete-worker",
+    "download-organization-worker",
+    "download-worker",
+    "list-worker-routes",
+    "list-worker-scripts",
+    "update-worker-route",
+    "upload-organization-worker",
+    "upload-worker",
+  ]
+  toplevel = true
+  shortdescription = "Interact with cloudflare workers api"
+
+
+[[command]]
   name = "dns"
   description = """
   Create, read, update, and delete cloudflare dns and virtual dns."""
@@ -2363,3 +2384,167 @@
   description = "Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load balancers."
   required = false
 
+[[command]]
+  name = "create-worker-route"
+  description = """Create a new Edge Worker Route Filter"""
+  shortdescription = "Create Worker Router"
+  v4apiname = "CreateWorkerRoute"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zoneID associated with the worker route"
+  required = true
+  [[command.option]]
+  name = "pattern"
+  type = "string"
+  description = "The url pattern for the route, example: example.net/*"
+  required = true
+  [[command.option]]
+  name = "disable"
+  type = "bool"
+  description = "Set this flag to disable the worker on a given route"
+  required = false
+
+[[command]]
+  name = "update-worker-route"
+  description = """Create a new Edge Worker Route Filter"""
+  shortdescription = "Update Worker Route Filter"
+  v4apiname = "UpdateWorkerRoute"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zoneID associated with the worker route"
+  required = true
+  [[command.option]]
+  name = "route-id"
+  type = "string"
+  description = "The routeId associated with the worker route"
+  required = true
+  [[command.option]]
+  name = "pattern"
+  type = "string"
+  description = "The url pattern for the route, example: example.net/*"
+  required = true
+  [[command.option]]
+  name = "disable"
+  type = "bool"
+  description = "Set this flag to disable the worker on a given route"
+  required = false
+
+[[command]]
+  name = "list-worker-routes"
+  description = """List all a new Edge Worker Route Filter"""
+  shortdescription = "List Worker Route Filters"
+  v4apiname = "ListWorkerRoutes"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zoneID associated with the worker route filters"
+  required = true
+
+[[command]]
+  name = "upload-worker"
+  description = """Upload a cloudflare worker for your zone"""
+  shortdescription = "Upload a Cloudflare Worker for your zone"
+  v4apiname = "UploadWorker"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zoneID associated with the worker"
+  required = true
+  [[command.option]]
+  name = "script"
+  type = "string"
+  description = "The raw worker code to run at the edge. @ to read code from a file. - to read from stdin"
+  required = true
+
+[[command]]
+  name = "upload-organization-worker"
+  description = """Upload an organization's cloudflare worker"""
+  shortdescription = "Upload a Cloudflare Worker associated with your Organization"
+  v4apiname = "UploadOrganizationWorker"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zoneID associated with the worker"
+  required = true
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id associated with the worker"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The worker's name"
+  required = true
+  [[command.option]]
+  name = "script"
+  type = "string"
+  description = "The raw worker code to run at the edge. @ to read code from a file. - to read from stdin"
+  required = true
+
+[[command]]
+  name = "delete-worker"
+  description = """Delete a cloudflare worker"""
+  shortdescription = "Delete Worker"
+  v4apiname = "DeleteWorker"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zoneID associated with the worker"
+  required = true
+
+[[command]]
+  name = "delete-organization-worker"
+  description = """Delete an organization's cloudflare worker"""
+  shortdescription = "Delete Organization Worker"
+  v4apiname = "DeleteOrganizationWorker"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id associated with the worker"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The worker's name"
+  required = true
+
+[[command]]
+  name = "list-worker-scripts"
+  description = """List your cloudflare worker scripts"""
+  shortdescription = "List your worker scripts"
+  v4apiname = "ListWorkerScripts"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id associated with the workers"
+  required = true
+
+[[command]]
+  name = "download-worker"
+  description = """Download your cloudflare worker script"""
+  shortdescription = "Download your worker script"
+  v4apiname = "DownloadWorker"
+  [[command.option]]
+  name = "zone-id"
+  type = "string"
+  description = "The zone id associated with the workers"
+  required = true
+
+[[command]]
+  name = "download-organization-worker"
+  description = """Download a worker associated with your organization"""
+  shortdescription = "Download your worker script"
+  v4apiname = "DownloadOrganizationWorker"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id associated with the workers"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The worker's name"
+  required = true

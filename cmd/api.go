@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 	"time"
 
@@ -1125,5 +1127,107 @@ func ModifyLoadBalancer(api *cloudflare.API, ZoneId string, LoadbalancerId strin
 		l.TTL = Ttl
 	}
 	resp, err = api.ModifyLoadBalancer(ZoneId, l)
+	return
+}
+
+func CreateWorkerRoute(api *cloudflare.API, ZoneId string, Pattern string, Disabled bool) (resp interface{}, err error) {
+	resp, err = api.CreateWorkerRoute(ZoneId, cloudflare.WorkerRoute{
+		Pattern: Pattern,
+		Enabled: !Disabled,
+	})
+	return
+}
+
+func UpdateWorkerRoute(api *cloudflare.API, ZoneId string, RouteId string, Pattern string, Disabled bool) (resp interface{}, err error) {
+	resp, err = api.UpdateWorkerRoute(ZoneId, RouteId, cloudflare.WorkerRoute{
+		Pattern: Pattern,
+		Enabled: !Disabled,
+	})
+	return
+}
+
+func ListWorkerRoutes(api *cloudflare.API, ZoneId string) (resp interface{}, err error) {
+	resp, err = api.ListWorkerRoutes(ZoneId)
+	return
+}
+
+func UploadWorker(api *cloudflare.API, ZoneId string, Script string) (resp interface{}, err error) {
+	s := Script
+	if len(Script) != 0 {
+		if Script[0] == '@' {
+			scriptFile := Script[1:]
+			fileScript, err := ioutil.ReadFile(scriptFile)
+			if err != nil {
+				return resp, err
+			}
+			s = string(fileScript)
+		} else if Script == "-" {
+			fileScript, err := ioutil.ReadAll(os.Stdin)
+			if err != nil {
+				return resp, err
+			}
+			s = string(fileScript)
+		}
+	}
+	resp, err = api.UploadWorker(&cloudflare.WorkerRequestParams{
+		ZoneID: ZoneId,
+	}, s)
+	return
+}
+
+func DeleteWorker(api *cloudflare.API, ZoneId string) (resp interface{}, err error) {
+	resp, err = api.DeleteWorker(&cloudflare.WorkerRequestParams{
+		ZoneID: ZoneId,
+	})
+	return
+}
+
+func ListWorkerScripts(api *cloudflare.API, OrganizationId string) (resp interface{}, err error) {
+	resp, err = api.ListWorkerScripts()
+	return
+}
+
+func DownloadWorker(api *cloudflare.API, ZoneId string) (resp interface{}, err error) {
+	resp, err = api.DownloadWorker(&cloudflare.WorkerRequestParams{
+		ZoneID: ZoneId,
+	})
+	return
+}
+
+func DownloadOrganizationWorker(api *cloudflare.API, OrganizationId string, Name string) (resp interface{}, err error) {
+	resp, err = api.DownloadWorker(&cloudflare.WorkerRequestParams{
+		ScriptName: Name,
+	})
+	return
+}
+
+func DeleteOrganizationWorker(api *cloudflare.API, OrganizationId string, Name string) (resp interface{}, err error) {
+	resp, err = api.DeleteWorker(&cloudflare.WorkerRequestParams{
+		ScriptName: Name,
+	})
+	return
+}
+
+func UploadOrganizationWorker(api *cloudflare.API, ZoneId string, OrganizationId, Name string, Script string) (resp interface{}, err error) {
+	s := Script
+	if len(Script) != 0 {
+		if Script[0] == '@' {
+			scriptFile := Script[1:]
+			fileScript, err := ioutil.ReadFile(scriptFile)
+			if err != nil {
+				return resp, err
+			}
+			s = string(fileScript)
+		} else if Script == "-" {
+			fileScript, err := ioutil.ReadAll(os.Stdin)
+			if err != nil {
+				return resp, err
+			}
+			s = string(fileScript)
+		}
+	}
+	resp, err = api.UploadWorker(&cloudflare.WorkerRequestParams{
+		ScriptName: Name,
+	}, s)
 	return
 }
