@@ -2264,7 +2264,7 @@
   name = "hostname"
   type = "string"
   description = "The custom hostname that you wish to filter by"
-  required = true
+  required = false
   [[command.option]]
   name = "page"
   type = "int"
