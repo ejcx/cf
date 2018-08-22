@@ -1060,12 +1060,16 @@ func UpdateCustomHostnameSSL(api *cloudflare.API, ZoneId string, CustomHostnameI
 	return
 }
 
-func CustomHostnames(api *cloudflare.API, ZoneId string, Page int) (resp interface{}, err error) {
+func CustomHostnames(api *cloudflare.API, ZoneId string, Hostname string, Page int) (resp interface{}, err error) {
 	page := 1
 	if Page > 0 {
 		page = Page
 	}
-	resp, _, err = api.CustomHostnames(ZoneId, page, cloudflare.CustomHostname{})
+	filter := cloudflare.CustomHostname{}
+	if Hostname != "" {
+		filter.Hostname = Hostname
+	}
+	resp, _, err = api.CustomHostnames(ZoneId, page, filter)
 	return
 }
 

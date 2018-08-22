@@ -2261,6 +2261,11 @@
   description = "The zone ID associated with the custom hostname"
   required = true
   [[command.option]]
+  name = "hostname"
+  type = "string"
+  description = "The custom hostname that you wish to filter by"
+  required = true
+  [[command.option]]
   name = "page"
   type = "int"
   description = "API supports pagination. Up to 50 results per page. Default is page 1"

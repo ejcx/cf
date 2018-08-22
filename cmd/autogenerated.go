@@ -1817,6 +1817,9 @@ func init() {
 	ListCustomHostnames.Flags().StringVar(&ZoneId, "zone-id", "", "The zone ID associated with the custom hostname")
 	ListCustomHostnames.MarkFlagRequired("zone-id")
 
+	ListCustomHostnames.Flags().StringVar(&Hostname, "hostname", "", "The custom hostname that you wish to filter by")
+	ListCustomHostnames.MarkFlagRequired("hostname")
+
 	ListCustomHostnames.Flags().IntVar(&Page, "page", 0, "API supports pagination. Up to 50 results per page. Default is page 1")
 
 	var ReprioritizeCerts = &cobra.Command{
@@ -2482,7 +2485,7 @@ func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (r
 	case "UpdateCustomHostnameSSL":
 		resp, err = UpdateCustomHostnameSSL(api, ZoneId, CustomHostnameId, Method, Type)
 	case "CustomHostnames":
-		resp, err = CustomHostnames(api, ZoneId, Page)
+		resp, err = CustomHostnames(api, ZoneId, Hostname, Page)
 	case "ReprioritizeSSL":
 		resp, err = ReprioritizeSSL(api, ZoneId, PriorityList)
 	case "ModifyLoadBalancerMonitor":
