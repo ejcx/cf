@@ -1,4 +1,7 @@
 
+depends:
+	dep ensure
+
 generate:
 	go run cmd/autogenerate/autogenerate.go
 
@@ -9,7 +12,7 @@ clean:
 cf: generate
 	go build
 
-all: clean cf
+all: depends clean cf
 
 dist-linux:
 	GOOS=linux go build -o dist/cf-linux

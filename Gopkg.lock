@@ -3,29 +3,38 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:3cabbc710321c38791c277a984c9f8709469b1bbff1abf600e76f8960bfabd9c"
   name = "github.com/99designs/keyring"
   packages = ["."]
-  revision = "ccd0779e6f10beb398c339c6fe4557e709dbf40c"
+  pruneopts = "UT"
+  revision = "ff690aee77e9b2c9631d43885d805f9b22817b82"
 
 [[projects]]
+  digest = "1:9f3b30d9f8e0d7040f729b82dcbc8f0dead820a133b3147ce355fc451f32d761"
   name = "github.com/BurntSushi/toml"
   packages = ["."]
-  revision = "b26d9c308763d68093482582cea63d69be07a0f0"
-  version = "v0.3.0"
+  pruneopts = "UT"
+  revision = "3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005"
+  version = "v0.3.1"
 
 [[projects]]
+  digest = "1:69b1cc331fca23d702bd72f860c6a647afd0aa9fcbc1d0659b1365e26546dd70"
   name = "github.com/Sirupsen/logrus"
   packages = ["."]
-  revision = "3e01752db0189b9157070a0e1668a620f9a85da2"
-  version = "v1.0.6"
+  pruneopts = "UT"
+  revision = "bcd833dfe83d3cebad139e4a29ed79cb2318bf95"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:d73d422b7f34d8e930d6d9c3ae6ce5c8f4a2c77e1ea43f7f127a5cd084e32ccb"
   name = "github.com/aulanov/go.dbus"
   packages = ["."]
+  pruneopts = "UT"
   revision = "25c3068a42a0b50b877953fb249dbcffc6bd1bca"
 
 [[projects]]
+  digest = "1:4dda7ea926a1739b5f670d092aa8c76a3eb796d044073282d4ed3f17caedaecd"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -45,6 +54,7 @@
     "aws/request",
     "aws/session",
     "aws/signer/v4",
+    "internal/ini",
     "internal/sdkio",
     "internal/sdkrand",
     "internal/sdkuri",
@@ -54,24 +64,30 @@
     "private/protocol/query/queryutil",
     "private/protocol/rest",
     "private/protocol/xml/xmlutil",
-    "service/sts"
+    "service/sts",
   ]
-  revision = "96313df4b1ba47ade3de7b2b90d69c02a81ddaa4"
-  version = "v1.14.33"
+  pruneopts = "UT"
+  revision = "5021928b560f2919fa37e159720a45ea13b18d8f"
+  version = "v1.15.76"
 
 [[projects]]
+  digest = "1:79f18b9707167d723e76df739173f7021661626c4dd0032c7f071c245aa65882"
   name = "github.com/cloudflare/cloudflare-go"
   packages = ["."]
-  revision = "1f9007fbecae20711133c60519338c41cef1ffb4"
+  pruneopts = "UT"
+  revision = "129166671c6ecb20c071c24004aa98f9aa0cdb8a"
   version = "v0.8.5"
 
 [[projects]]
+  digest = "1:586992e81213a853bfe5c102709c0c92020d21b386907ceae783f13bbe899ad7"
   name = "github.com/danieljoos/wincred"
   packages = ["."]
+  pruneopts = "UT"
   revision = "412b574fb496839b312a75fba146bd32a89001cf"
   version = "v1.0.1"
 
 [[projects]]
+  digest = "1:92dfb1cad60fdfecac5def0f398e05b2b92d2422ac6ad2d7d8e4bdb6057a3d83"
   name = "github.com/dvsekhvalnov/jose2go"
   packages = [
     ".",
@@ -81,113 +97,144 @@
     "compact",
     "kdf",
     "keys/ecc",
-    "padding"
+    "padding",
   ]
+  pruneopts = "UT"
   revision = "f21a8cedbbae609f623613ec8f81125c243212e6"
   version = "v1.3"
 
 [[projects]]
-  name = "github.com/go-ini/ini"
-  packages = ["."]
-  revision = "358ee7663966325963d4e8b2e1fbd570c5195153"
-  version = "v1.38.1"
-
-[[projects]]
+  digest = "1:dae52e85e2f3d0a734799e74ec0711d3ddd673b21a9e83be6c899af64c3a98f6"
   name = "github.com/godbus/dbus"
   packages = ["."]
-  revision = "a389bdde4dd695d414e47b755e95e72b7826432c"
-  version = "v4.1.0"
+  pruneopts = "UT"
+  revision = "66d97aec3384421e393c2a76b770a1b5c31d07a8"
+  version = "v5.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:36f5bd9b89fcd728488eee3a0cf8787448579ac381fded60edd6e3ac01fe1a38"
   name = "github.com/gsterjov/go-libsecret"
   packages = ["."]
+  pruneopts = "UT"
   revision = "a6f4afe4910cad8688db3e0e9b9ac92ad22d54e1"
 
 [[projects]]
+  digest = "1:870d441fe217b8e689d7949fef6e43efbc787e50f200cb1e70dbca9204a1d6be"
   name = "github.com/inconshreveable/mousetrap"
   packages = ["."]
+  pruneopts = "UT"
   revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
   version = "v1.0"
 
 [[projects]]
+  digest = "1:e22af8c7518e1eab6f2eab2b7d7558927f816262586cd6ed9f349c97a6c285c4"
   name = "github.com/jmespath/go-jmespath"
   packages = ["."]
+  pruneopts = "UT"
   revision = "0b12d6b5"
 
 [[projects]]
   branch = "master"
+  digest = "1:00e5d2ab594acd9a96265e8e6a46bbf07f0cfcbe20f0e8e415eb80536b1b7ccf"
   name = "github.com/keybase/go-keychain"
   packages = ["."]
-  revision = "70b98e9c8d754db775c5bd3b2de3670cc76f1825"
+  pruneopts = "UT"
+  revision = "f1daa725cce4049b1715f1e97d6a51880e401e70"
 
 [[projects]]
-  branch = "master"
+  digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
+  name = "github.com/konsorten/go-windows-terminal-sequences"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242"
+  version = "v1.0.1"
+
+[[projects]]
+  digest = "1:78bbb1ba5b7c3f2ed0ea1eab57bdd3859aec7e177811563edc41198a760b06af"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
-  revision = "3864e76763d94a6df2f9960b16a20a33da9f9a66"
+  pruneopts = "UT"
+  revision = "ae18d6b8b3205b561c79e8e5f69bff09736185f4"
+  version = "v1.0.0"
 
 [[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
   name = "github.com/pkg/errors"
   packages = ["."]
+  pruneopts = "UT"
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
 
 [[projects]]
+  digest = "1:f8820a68eded92ed270fb2f360b2bd93d98100793a25b2d59aebe1ac6f70cb4b"
   name = "github.com/segmentio/aws-okta"
   packages = [
     "lib",
-    "lib/saml"
+    "lib/saml",
   ]
-  revision = "1d21ea05dcb02b65620771b53397aa0eb185a172"
-  version = "v0.19.0"
+  pruneopts = "UT"
+  revision = "b450f651fc565eb9c359085a68fe4dc75a88fdd9"
+  version = "v0.19.4"
 
 [[projects]]
+  digest = "1:645cabccbb4fa8aab25a956cbcbdf6a6845ca736b2c64e197ca7cbb9d210b939"
   name = "github.com/spf13/cobra"
   packages = ["."]
+  pruneopts = "UT"
   revision = "ef82de70bb3f60c65fb8eebacbb2d122ef517385"
   version = "v0.0.3"
 
 [[projects]]
+  digest = "1:c1b1102241e7f645bc8e0c22ae352e8f0dc6484b6cb4d132fa9f24174e0119e2"
   name = "github.com/spf13/pflag"
   packages = ["."]
-  revision = "583c0c0531f06d5278b7d917446061adc344b5cd"
-  version = "v1.0.1"
+  pruneopts = "UT"
+  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
+  version = "v1.0.3"
 
 [[projects]]
   branch = "master"
+  digest = "1:8f70510b21fd07eba5bd4e0f84d49d932ea74c8b0ea20a5807e9492cc819928c"
   name = "github.com/vaughan0/go-ini"
   packages = ["."]
+  pruneopts = "UT"
   revision = "a98ad7ee00ec53921f08832bc06ecf7fd600e6a1"
 
 [[projects]]
   branch = "master"
+  digest = "1:3f3a05ae0b95893d90b9b3b5afdb79a9b3d96e4e36e099d841ae602e4aca0da8"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
-  revision = "c126467f60eb25f8f27e5a981f32a87e3965053f"
+  pruneopts = "UT"
+  revision = "3d3f9f413869b949e48070b5bc593aa22cc2b8f2"
 
 [[projects]]
   branch = "master"
+  digest = "1:c054f06f4d9c70e11b956a72a1172caeca3167bd37a6301547bc6d1c63479a84"
   name = "golang.org/x/net"
   packages = [
-    "context",
     "html",
     "html/atom",
     "idna",
-    "publicsuffix"
+    "publicsuffix",
   ]
-  revision = "3673e40ba22529d22c3fd7c93e97b0ce50fa7bdd"
+  pruneopts = "UT"
+  revision = "adae6a3d119ae4890b46832a2e88a95adc62b8e7"
 
 [[projects]]
   branch = "master"
+  digest = "1:6a875550c3b582f6c2d7e2ce44aba792511f00016d7c46b0a4fb26f730ef3058"
   name = "golang.org/x/sys"
   packages = [
     "unix",
-    "windows"
+    "windows",
   ]
-  revision = "e072cadbbdc8dd3d3ffa82b8b4b9304c261d9311"
+  pruneopts = "UT"
+  revision = "66b7b1311ac80bbafcd2daeef9a5e6e2cd1e2399"
 
 [[projects]]
+  digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
   name = "golang.org/x/text"
   packages = [
     "collate",
@@ -203,20 +250,29 @@
     "unicode/bidi",
     "unicode/cldr",
     "unicode/norm",
-    "unicode/rangetable"
+    "unicode/rangetable",
   ]
+  pruneopts = "UT"
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:9fdc2b55e8e0fafe4b41884091e51e77344f7dc511c5acedcfd98200003bff90"
   name = "golang.org/x/time"
   packages = ["rate"]
-  revision = "fbb02b2291d28baffd63558aa44b4b56f178d650"
+  pruneopts = "UT"
+  revision = "85acf8d2951cb2a3bde7632f9ff273ef0379bcbd"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "60aad408fce71bbd823fc09bd3a5f57d00a081f1d89d423c65acf4a7eb448d0e"
+  input-imports = [
+    "github.com/99designs/keyring",
+    "github.com/BurntSushi/toml",
+    "github.com/cloudflare/cloudflare-go",
+    "github.com/segmentio/aws-okta/lib",
+    "github.com/spf13/cobra",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
