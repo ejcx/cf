@@ -81,6 +81,7 @@
     "delete-user-access-rule",
     "details",
     "edit-user",
+    "get-user-audit-logs",
     "list-user-access-rules",
     "update-user-access-rule",
   ]
@@ -179,6 +180,7 @@
     "list-organization-access-rules",
     "list-organizations",
     "update-organization-access-rule",
+    "get-organization-audit-logs"
   ]
   toplevel = true
   shortdescription = "Interact with the organizations you own and have access to"
@@ -2553,3 +2555,65 @@
   type = "string"
   description = "The worker's name"
   required = true
+
+[[command]]
+  name = "get-organization-audit-logs"
+  description = """Get an organization's audit logs"""
+  shortdescription = "Get Organization audit logs"
+  v4apiname = "GetOrganizationAuditLogs"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The organization id associated with audit logs you wish to read"
+  required = true
+
+[[command]]
+  name = "get-user-audit-logs"
+  description = """Get a user's audit logs"""
+  shortdescription = "Get audit logs associated with a user"
+  v4apiname = "GetUserAuditLogs"
+  [[command.option]]
+  name = "actor-ip"
+  type = "string"
+  description = "Filter to search by a specific actor ip"
+  required = false
+  [[command.option]]
+  name = "actor-email"
+  type = "string"
+  description = "Filter by the email address of the actor that made the change 'alice@example.com'"
+  required = false
+  [[command.option]]
+  name = "zone-name"
+  type = "string"
+  description = "Filter by the name of the zone associated to the change"
+  required = false
+  [[command.option]]
+  name = "since"
+  type = "string"
+  description = "Limit the returned results to logs newer than the specified date '2017-04-28'"
+  required = false
+  [[command.option]]
+  name = "id"
+  type = "string"
+  description = "Find a specific log by its ID. Example: 'f174be97-19b1-40d6-954d-70cd5fbd52db'"
+  required = false
+  [[command.option]]
+  name = "direction"
+  type = "string"
+  description = "Change the direction of the chronological sorting. Must be: 'asc' or 'desc'"
+  required = false
+  [[command.option]]
+  name = "before"
+  type = "string"
+  description = "Limit the returned results to logs older than the specified date"
+  required = false
+  [[command.option]]
+  name = "page"
+  type = "int"
+  description = "Which page of results to return"
+  required = false
+  [[command.option]]
+  name = "per_page"
+  type = "int"
+  description = "How many results to return per page"
+  required = false

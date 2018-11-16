@@ -1216,6 +1216,26 @@ func DeleteOrganizationWorker(api *cloudflare.API, OrganizationId string, Name s
 	return
 }
 
+func GetOrganizationAuditLogs(api *cloudflare.API, OrganizationId string) (resp interface{}, err error) {
+	// api.GetOrganizationAuditLogs(OrganizationId)
+	// return
+	return
+}
+func GetUserAuditLogs(api *cloudflare.API, ActorIP string, ActorEmail string, ZoneName string, Since string, ID string, Direction string, Before string, Page int, PerPage int) (resp interface{}, err error) {
+	resp, err = api.GetUserAuditLogs(cloudflare.AuditLogFilter{
+		ID:         ID,
+		ActorIP:    ActorIP,
+		ActorEmail: ActorEmail,
+		Direction:  Direction,
+		ZoneName:   ZoneName,
+		Since:      Since,
+		Before:     Before,
+		PerPage:    PerPage,
+		Page:       Page,
+	})
+	return
+}
+
 func UploadOrganizationWorker(api *cloudflare.API, ZoneId string, OrganizationId, Name string, Script string) (resp interface{}, err error) {
 	s := Script
 	if len(Script) != 0 {

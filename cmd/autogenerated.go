@@ -94,6 +94,12 @@ var (
 	Disable             bool
 	RouteId             string
 	Script              string
+	ActorIp             string
+	ActorEmail          string
+	Id                  string
+	Direction           string
+	Before              string
+	Per_page            int
 )
 
 func init() {
@@ -2054,6 +2060,45 @@ func init() {
 	DownloadOrganizationWorker.Flags().StringVar(&Name, "name", "", "The worker's name")
 	DownloadOrganizationWorker.MarkFlagRequired("name")
 
+	var GetOrganizationAuditLogs = &cobra.Command{
+		Use:   "get-organization-audit-logs",
+		Short: "Get Organization audit logs",
+		Long:  `Get an organization's audit logs`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "GetOrganizationAuditLogs")
+		},
+	}
+
+	GetOrganizationAuditLogs.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with audit logs you wish to read")
+	GetOrganizationAuditLogs.MarkFlagRequired("organization-id")
+
+	var GetUserAuditLogs = &cobra.Command{
+		Use:   "get-user-audit-logs",
+		Short: "Get audit logs associated with a user",
+		Long:  `Get a user's audit logs`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "GetUserAuditLogs")
+		},
+	}
+
+	GetUserAuditLogs.Flags().StringVar(&ActorIp, "actor-ip", "", "Filter to search by a specific actor ip")
+
+	GetUserAuditLogs.Flags().StringVar(&ActorEmail, "actor-email", "", "Filter by the email address of the actor that made the change 'alice@example.com'")
+
+	GetUserAuditLogs.Flags().StringVar(&ZoneName, "zone-name", "", "Filter by the name of the zone associated to the change")
+
+	GetUserAuditLogs.Flags().StringVar(&Since, "since", "", "Limit the returned results to logs newer than the specified date '2017-04-28'")
+
+	GetUserAuditLogs.Flags().StringVar(&Id, "id", "", "Find a specific log by its ID. Example: 'f174be97-19b1-40d6-954d-70cd5fbd52db'")
+
+	GetUserAuditLogs.Flags().StringVar(&Direction, "direction", "", "Change the direction of the chronological sorting. Must be: 'asc' or 'desc'")
+
+	GetUserAuditLogs.Flags().StringVar(&Before, "before", "", "Limit the returned results to logs older than the specified date")
+
+	GetUserAuditLogs.Flags().IntVar(&Page, "page", 0, "Which page of results to return")
+
+	GetUserAuditLogs.Flags().IntVar(&Per_page, "per_page", 0, "How many results to return per page")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Interact with cloudflare zones",
@@ -2133,6 +2178,7 @@ func init() {
 	User.AddCommand(DeleteUserAccessRule)
 	User.AddCommand(Details)
 	User.AddCommand(EditUser)
+	User.AddCommand(GetUserAuditLogs)
 	User.AddCommand(ListUserAccessRules)
 	User.AddCommand(UpdateUserAccessRule)
 
@@ -2225,6 +2271,7 @@ func init() {
 	Organization.AddCommand(ListOrganizationAccessRules)
 	Organization.AddCommand(ListOrganizations)
 	Organization.AddCommand(UpdateOrganizationAccessRule)
+	Organization.AddCommand(GetOrganizationAuditLogs)
 
 	RootCmd.AddCommand(Organization)
 
@@ -2511,6 +2558,10 @@ func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (r
 		resp, err = DownloadWorker(api, ZoneId)
 	case "DownloadOrganizationWorker":
 		resp, err = DownloadOrganizationWorker(api, OrganizationId, Name)
+	case "GetOrganizationAuditLogs":
+		resp, err = GetOrganizationAuditLogs(api, OrganizationId)
+	case "GetUserAuditLogs":
+		resp, err = GetUserAuditLogs(api, ActorIp, ActorEmail, ZoneName, Since, Id, Direction, Before, Page, Per_page)
 	default:
 		break
 	}
