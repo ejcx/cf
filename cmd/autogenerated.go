@@ -1818,7 +1818,6 @@ func init() {
 	ListCustomHostnames.MarkFlagRequired("zone-id")
 
 	ListCustomHostnames.Flags().StringVar(&Hostname, "hostname", "", "The custom hostname that you wish to filter by")
-	ListCustomHostnames.MarkFlagRequired("hostname")
 
 	ListCustomHostnames.Flags().IntVar(&Page, "page", 0, "API supports pagination. Up to 50 results per page. Default is page 1")
 
