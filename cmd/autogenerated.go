@@ -94,6 +94,7 @@ var (
 	Disable             bool
 	RouteId             string
 	Script              string
+	ScriptName          string
 	ActorIp             string
 	ActorEmail          string
 	Id                  string
@@ -1973,6 +1974,8 @@ func init() {
 	UploadWorker.Flags().StringVar(&Script, "script", "", "The raw worker code to run at the edge. @ to read code from a file. - to read from stdin")
 	UploadWorker.MarkFlagRequired("script")
 
+	UploadWorker.Flags().StringVar(&ScriptName, "script-name", "", "The worker script name associated with the worker")
+
 	var UploadOrganizationWorker = &cobra.Command{
 		Use:   "upload-organization-worker",
 		Short: "Upload a Cloudflare Worker associated with your Organization",
@@ -2545,7 +2548,7 @@ func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (r
 	case "ListWorkerRoutes":
 		resp, err = ListWorkerRoutes(api, ZoneId)
 	case "UploadWorker":
-		resp, err = UploadWorker(api, ZoneId, Script)
+		resp, err = UploadWorker(api, ZoneId, Script, ScriptName)
 	case "UploadOrganizationWorker":
 		resp, err = UploadOrganizationWorker(api, ZoneId, OrganizationId, Name, Script)
 	case "DeleteWorker":
