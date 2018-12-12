@@ -1159,7 +1159,7 @@ func ListWorkerRoutes(api *cloudflare.API, ZoneId string) (resp interface{}, err
 	return
 }
 
-func UploadWorker(api *cloudflare.API, ZoneId string, Script string) (resp interface{}, err error) {
+func UploadWorker(api *cloudflare.API, ZoneId, Script, ScriptName string) (resp interface{}, err error) {
 	s := Script
 	if len(Script) != 0 {
 		if Script[0] == '@' {
@@ -1177,9 +1177,13 @@ func UploadWorker(api *cloudflare.API, ZoneId string, Script string) (resp inter
 			s = string(fileScript)
 		}
 	}
-	resp, err = api.UploadWorker(&cloudflare.WorkerRequestParams{
+	wrp := &cloudflare.WorkerRequestParams{
 		ZoneID: ZoneId,
-	}, s)
+	}
+	if ScriptName != "" {
+		wrp.ScriptName = ScriptName
+	}
+	resp, err = api.UploadWorker(wrp, s)
 	return
 }
 

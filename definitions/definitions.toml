@@ -2464,6 +2464,11 @@
   type = "string"
   description = "The raw worker code to run at the edge. @ to read code from a file. - to read from stdin"
   required = true
+  [[command.option]]
+  name = "script-name"
+  type = "string"
+  description = "The worker script name associated with the worker"
+  required = false
 
 [[command]]
   name = "upload-organization-worker"
