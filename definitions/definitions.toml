@@ -2479,7 +2479,7 @@
   name = "zone-id"
   type = "string"
   description = "The zoneID associated with the worker"
-  required = true
+  required = false
   [[command.option]]
   name = "organization-id"
   type = "string"
