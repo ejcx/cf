@@ -1986,7 +1986,6 @@ func init() {
 	}
 
 	UploadOrganizationWorker.Flags().StringVar(&ZoneId, "zone-id", "", "The zoneID associated with the worker")
-	UploadOrganizationWorker.MarkFlagRequired("zone-id")
 
 	UploadOrganizationWorker.Flags().StringVar(&OrganizationId, "organization-id", "", "The organization id associated with the worker")
 	UploadOrganizationWorker.MarkFlagRequired("organization-id")
