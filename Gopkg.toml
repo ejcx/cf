@@ -31,15 +31,15 @@
 
 [[constraint]]
   name = "github.com/BurntSushi/toml"
-  version = "0.3.0"
+  version = "0.3.1"
 
 [[constraint]]
   name = "github.com/cloudflare/cloudflare-go"
-  version = "0.8.5"
+  revision="9837a599c0ba49ff8208dd679b4500e8ece407a5"
 
 [[constraint]]
   name = "github.com/segmentio/aws-okta"
-  version = "0.19.0"
+  version = "0.19.5"
 
 [[constraint]]
   name = "github.com/spf13/cobra"
