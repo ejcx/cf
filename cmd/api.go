@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -1237,6 +1238,63 @@ func GetUserAuditLogs(api *cloudflare.API, ActorIP string, ActorEmail string, Zo
 		PerPage:    PerPage,
 		Page:       Page,
 	})
+	return
+}
+
+func ListWorkersKVNamespaces(api *cloudflare.API, OrganizationId string) (resp interface{}, err error) {
+	resp, err = api.ListWorkersKVNamespaces(context.TODO())
+	return
+}
+
+func DeleteWorkersKVNamespace(api *cloudflare.API, OrganizationId string, NamespaceId string) (resp interface{}, err error) {
+	resp, err = api.DeleteWorkersKVNamespace(context.TODO(), NamespaceId)
+	return
+}
+
+func ListWorkersKVs(api *cloudflare.API, OrganizationId string, NamespaceId string) (resp interface{}, err error) {
+	resp, err = api.ListWorkersKVs(context.TODO(), NamespaceId)
+	return
+}
+
+func ReadWorkersKV(api *cloudflare.API, OrganizationId string, NamespaceId string, Key string) (resp interface{}, err error) {
+	resp, err = api.ReadWorkersKV(context.TODO(), NamespaceId, Key)
+	return
+}
+
+func DeleteWorkersKV(api *cloudflare.API, OrganizationId string, NamespaceId string, Key string) (resp interface{}, err error) {
+	resp, err = api.DeleteWorkersKV(context.TODO(), NamespaceId, Key)
+	return
+}
+
+func UpdateWorkersKVNamespace(api *cloudflare.API, OrganizationId string, NamespaceId string, Name string) (resp interface{}, err error) {
+	resp, err = api.UpdateWorkersKVNamespace(context.TODO(), NamespaceId, &cloudflare.WorkersKVNamespaceRequest{Title: Name})
+	return
+}
+
+func CreateWorkersKVNamespace(api *cloudflare.API, OrganizationId string, Name string) (resp interface{}, err error) {
+	resp, err = api.CreateWorkersKVNamespace(context.TODO(), &cloudflare.WorkersKVNamespaceRequest{Title: Name})
+	return
+}
+
+func WriteWorkersKV(api *cloudflare.API, OrganizationId string, NamespaceId string, Key string, Value string) (resp interface{}, err error) {
+	v := Value
+	if len(Value) != 0 {
+		if Value[0] == '@' {
+			valueFile := Value[1:]
+			fileValue, err := ioutil.ReadFile(valueFile)
+			if err != nil {
+				return resp, err
+			}
+			v = string(fileValue)
+		} else if Value == "-" {
+			fileValue, err := ioutil.ReadAll(os.Stdin)
+			if err != nil {
+				return resp, err
+			}
+			v = string(fileValue)
+		}
+	}
+	resp, err = api.WriteWorkersKV(context.TODO(), NamespaceId, Key, []byte(v))
 	return
 }
 

@@ -38,15 +38,23 @@
 """
   subcommands = [
     "create-worker-route",
+    "create-kv-namespace",
+    "delete-kv",
+    "delete-kv-namespace",
     "delete-organization-worker",
     "delete-worker",
     "download-organization-worker",
     "download-worker",
+    "get-kv",
+    "list-kvs",
+    "list-kv-namespaces",
     "list-worker-routes",
     "list-worker-scripts",
+    "rename-kv-namespace",
     "update-worker-route",
     "upload-organization-worker",
     "upload-worker",
+    "write-kv",
   ]
   toplevel = true
   shortdescription = "Interact with cloudflare workers api"
@@ -2622,3 +2630,151 @@
   type = "int"
   description = "How many results to return per page"
   required = false
+
+[[command]]
+  name = "list-kv-namespaces"
+  description = """Get your account's kv namespaces"""
+  shortdescription = "Get account's kv namespaces"
+  v4apiname = "ListWorkersKVNamespaces"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+
+[[command]]
+  name = "delete-kv-namespace"
+  description = """Get your account's kv namespaces"""
+  shortdescription = "Get account's kv namespaces"
+  v4apiname = "DeleteWorkersKVNamespace"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+  [[command.option]]
+  name = "namespace-id"
+  type = "string"
+  description = "The namespace id associated with the kv store"
+  required = true
+
+[[command]]
+  name = "list-kvs"
+  description = """List a specific namespaces keys"""
+  shortdescription = "List a specific namespaces keys"
+  v4apiname = "ListWorkersKVs"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+  [[command.option]]
+  name = "namespace-id"
+  type = "string"
+  description = "The namespace id associated with the kv store"
+  required = true
+
+[[command]]
+  name = "get-kv"
+  description = """Get a specific value given a key"""
+  shortdescription = "Get a specific value given a key"
+  v4apiname = "ReadWorkersKV"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+  [[command.option]]
+  name = "namespace-id"
+  type = "string"
+  description = "The namespace id associated with the kv store"
+  required = true
+  [[command.option]]
+  name = "key"
+  type = "string"
+  description = "The key associated with the value you want returned"
+  required = true
+
+[[command]]
+  name = "delete-kv"
+  description = """Delete a specific key value pair"""
+  shortdescription = "Delete a specific key value pair"
+  v4apiname = "DeleteWorkersKV"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+  [[command.option]]
+  name = "namespace-id"
+  type = "string"
+  description = "The namespace id associated with the kv store"
+  required = true
+  [[command.option]]
+  name = "key"
+  type = "string"
+  description = "The key associated with the value you to deleted"
+  required = true
+
+[[command]]
+  name = "write-kv"
+  description = """Write a key value pair"""
+  shortdescription = "Write a key value pair"
+  v4apiname = "WriteWorkersKV"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+  [[command.option]]
+  name = "namespace-id"
+  type = "string"
+  description = "The namespace id associated with the kv store"
+  required = true
+  [[command.option]]
+  name = "key"
+  type = "string"
+  description = "The key associated with the kv pair"
+  required = true
+  [[command.option]]
+  name = "value"
+  type = "string"
+  description = "The value associated with the kv pair"
+  required = true
+
+[[command]]
+  name = "rename-kv-namespace"
+  description = """Rename kv namespace"""
+  shortdescription = "Rename a kv namespace"
+  v4apiname = "UpdateWorkersKVNamespace"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+  [[command.option]]
+  name = "namespace-id"
+  type = "string"
+  description = "The namespace id associated with the kv store"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The namespace's new name"
+  required = true
+
+[[command]]
+  name = "create-kv-namespace"
+  description = """Create a kv namespace"""
+  shortdescription = "Create a kv namespace"
+  v4apiname = "CreateWorkersKVNamespace"
+  [[command.option]]
+  name = "organization-id"
+  type = "string"
+  description = "The user's organization id"
+  required = true
+  [[command.option]]
+  name = "name"
+  type = "string"
+  description = "The namespace's name"
+  required = true

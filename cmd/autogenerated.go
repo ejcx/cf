@@ -101,6 +101,9 @@ var (
 	Direction           string
 	Before              string
 	Per_page            int
+	NamespaceId         string
+	Key                 string
+	Value               string
 )
 
 func init() {
@@ -2101,6 +2104,138 @@ func init() {
 
 	GetUserAuditLogs.Flags().IntVar(&Per_page, "per_page", 0, "How many results to return per page")
 
+	var ListKvNamespaces = &cobra.Command{
+		Use:   "list-kv-namespaces",
+		Short: "Get account's kv namespaces",
+		Long:  `Get your account's kv namespaces`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListWorkersKVNamespaces")
+		},
+	}
+
+	ListKvNamespaces.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	ListKvNamespaces.MarkFlagRequired("organization-id")
+
+	var DeleteKvNamespace = &cobra.Command{
+		Use:   "delete-kv-namespace",
+		Short: "Get account's kv namespaces",
+		Long:  `Get your account's kv namespaces`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteWorkersKVNamespace")
+		},
+	}
+
+	DeleteKvNamespace.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	DeleteKvNamespace.MarkFlagRequired("organization-id")
+
+	DeleteKvNamespace.Flags().StringVar(&NamespaceId, "namespace-id", "", "The namespace id associated with the kv store")
+	DeleteKvNamespace.MarkFlagRequired("namespace-id")
+
+	var ListKvs = &cobra.Command{
+		Use:   "list-kvs",
+		Short: "List a specific namespaces keys",
+		Long:  `List a specific namespaces keys`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ListWorkersKVs")
+		},
+	}
+
+	ListKvs.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	ListKvs.MarkFlagRequired("organization-id")
+
+	ListKvs.Flags().StringVar(&NamespaceId, "namespace-id", "", "The namespace id associated with the kv store")
+	ListKvs.MarkFlagRequired("namespace-id")
+
+	var GetKv = &cobra.Command{
+		Use:   "get-kv",
+		Short: "Get a specific value given a key",
+		Long:  `Get a specific value given a key`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "ReadWorkersKV")
+		},
+	}
+
+	GetKv.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	GetKv.MarkFlagRequired("organization-id")
+
+	GetKv.Flags().StringVar(&NamespaceId, "namespace-id", "", "The namespace id associated with the kv store")
+	GetKv.MarkFlagRequired("namespace-id")
+
+	GetKv.Flags().StringVar(&Key, "key", "", "The key associated with the value you want returned")
+	GetKv.MarkFlagRequired("key")
+
+	var DeleteKv = &cobra.Command{
+		Use:   "delete-kv",
+		Short: "Delete a specific key value pair",
+		Long:  `Delete a specific key value pair`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "DeleteWorkersKV")
+		},
+	}
+
+	DeleteKv.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	DeleteKv.MarkFlagRequired("organization-id")
+
+	DeleteKv.Flags().StringVar(&NamespaceId, "namespace-id", "", "The namespace id associated with the kv store")
+	DeleteKv.MarkFlagRequired("namespace-id")
+
+	DeleteKv.Flags().StringVar(&Key, "key", "", "The key associated with the value you to deleted")
+	DeleteKv.MarkFlagRequired("key")
+
+	var WriteKv = &cobra.Command{
+		Use:   "write-kv",
+		Short: "Write a key value pair",
+		Long:  `Write a key value pair`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "WriteWorkersKV")
+		},
+	}
+
+	WriteKv.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	WriteKv.MarkFlagRequired("organization-id")
+
+	WriteKv.Flags().StringVar(&NamespaceId, "namespace-id", "", "The namespace id associated with the kv store")
+	WriteKv.MarkFlagRequired("namespace-id")
+
+	WriteKv.Flags().StringVar(&Key, "key", "", "The key associated with the kv pair")
+	WriteKv.MarkFlagRequired("key")
+
+	WriteKv.Flags().StringVar(&Value, "value", "", "The value associated with the kv pair")
+	WriteKv.MarkFlagRequired("value")
+
+	var RenameKvNamespace = &cobra.Command{
+		Use:   "rename-kv-namespace",
+		Short: "Rename a kv namespace",
+		Long:  `Rename kv namespace`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "UpdateWorkersKVNamespace")
+		},
+	}
+
+	RenameKvNamespace.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	RenameKvNamespace.MarkFlagRequired("organization-id")
+
+	RenameKvNamespace.Flags().StringVar(&NamespaceId, "namespace-id", "", "The namespace id associated with the kv store")
+	RenameKvNamespace.MarkFlagRequired("namespace-id")
+
+	RenameKvNamespace.Flags().StringVar(&Name, "name", "", "The namespace's new name")
+	RenameKvNamespace.MarkFlagRequired("name")
+
+	var CreateKvNamespace = &cobra.Command{
+		Use:   "create-kv-namespace",
+		Short: "Create a kv namespace",
+		Long:  `Create a kv namespace`,
+		Run: func(cmd *cobra.Command, args []string) {
+			Main(cmd, args, "CreateWorkersKVNamespace")
+		},
+	}
+
+	CreateKvNamespace.Flags().StringVar(&OrganizationId, "organization-id", "", "The user's organization id")
+	CreateKvNamespace.MarkFlagRequired("organization-id")
+
+	CreateKvNamespace.Flags().StringVar(&Name, "name", "", "The namespace's name")
+	CreateKvNamespace.MarkFlagRequired("name")
+
 	var Zone = &cobra.Command{
 		Use:   "zone",
 		Short: "Interact with cloudflare zones",
@@ -2140,15 +2275,23 @@ func init() {
 `,
 	}
 	Worker.AddCommand(CreateWorkerRoute)
+	Worker.AddCommand(CreateKvNamespace)
+	Worker.AddCommand(DeleteKv)
+	Worker.AddCommand(DeleteKvNamespace)
 	Worker.AddCommand(DeleteOrganizationWorker)
 	Worker.AddCommand(DeleteWorker)
 	Worker.AddCommand(DownloadOrganizationWorker)
 	Worker.AddCommand(DownloadWorker)
+	Worker.AddCommand(GetKv)
+	Worker.AddCommand(ListKvs)
+	Worker.AddCommand(ListKvNamespaces)
 	Worker.AddCommand(ListWorkerRoutes)
 	Worker.AddCommand(ListWorkerScripts)
+	Worker.AddCommand(RenameKvNamespace)
 	Worker.AddCommand(UpdateWorkerRoute)
 	Worker.AddCommand(UploadOrganizationWorker)
 	Worker.AddCommand(UploadWorker)
+	Worker.AddCommand(WriteKv)
 
 	RootCmd.AddCommand(Worker)
 
@@ -2564,6 +2707,22 @@ func Run(cmd *cobra.Command, args []string, name string, api *cloudflare.API) (r
 		resp, err = GetOrganizationAuditLogs(api, OrganizationId)
 	case "GetUserAuditLogs":
 		resp, err = GetUserAuditLogs(api, ActorIp, ActorEmail, ZoneName, Since, Id, Direction, Before, Page, Per_page)
+	case "ListWorkersKVNamespaces":
+		resp, err = ListWorkersKVNamespaces(api, OrganizationId)
+	case "DeleteWorkersKVNamespace":
+		resp, err = DeleteWorkersKVNamespace(api, OrganizationId, NamespaceId)
+	case "ListWorkersKVs":
+		resp, err = ListWorkersKVs(api, OrganizationId, NamespaceId)
+	case "ReadWorkersKV":
+		resp, err = ReadWorkersKV(api, OrganizationId, NamespaceId, Key)
+	case "DeleteWorkersKV":
+		resp, err = DeleteWorkersKV(api, OrganizationId, NamespaceId, Key)
+	case "WriteWorkersKV":
+		resp, err = WriteWorkersKV(api, OrganizationId, NamespaceId, Key, Value)
+	case "UpdateWorkersKVNamespace":
+		resp, err = UpdateWorkersKVNamespace(api, OrganizationId, NamespaceId, Name)
+	case "CreateWorkersKVNamespace":
+		resp, err = CreateWorkersKVNamespace(api, OrganizationId, Name)
 	default:
 		break
 	}
